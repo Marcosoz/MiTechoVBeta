@@ -1,0 +1,278 @@
+<ew-language date="2025/8/10" id="en-US" author="e.World Technology Limited">
+  <project>
+    <phrase id="footertext" value="FloridabIT. All rights reserved." />
+    <menu id="1">
+      <phrase id="menutext" value="aportes legales" />
+    </menu>
+    <menu id="2">
+      <phrase id="menutext" value="stock" />
+    </menu>
+    <menu id="3">
+      <phrase id="menutext" value="socios" />
+    </menu>
+    <menu id="4">
+      <phrase id="menutext" value="proveedores" />
+    </menu>
+    <menu id="5">
+      <phrase id="menutext" value="pagos socios" />
+    </menu>
+    <menu id="6">
+      <phrase id="menutext" value="movimientos stock" />
+    </menu>
+    <menu id="7">
+      <phrase id="menutext" value="horas trabajadas" />
+    </menu>
+    <menu id="8">
+      <phrase id="menutext" value="cooperativas" />
+    </menu>
+    <menu id="9">
+      <phrase id="menutext" value="compras" />
+    </menu>
+    <menu id="10">
+      <phrase id="menutext" value="ingresos" />
+    </menu>
+    <table id="aportes_legales">
+      <phrase id="tblcaption" value="aportes legales" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
+      <field id="concepto">
+        <phrase id="fldcaption" value="concepto" />
+      </field>
+      <field id="monto">
+        <phrase id="fldcaption" value="monto" />
+      </field>
+      <field id="fecha">
+        <phrase id="fldcaption" value="fecha" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="compras">
+      <phrase id="tblcaption" value="compras" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="proveedor_id">
+        <phrase id="fldcaption" value="proveedor id" />
+      </field>
+      <field id="fecha">
+        <phrase id="fldcaption" value="fecha" />
+      </field>
+      <field id="descripcion">
+        <phrase id="fldcaption" value="descripcion" />
+      </field>
+      <field id="monto">
+        <phrase id="fldcaption" value="monto" />
+      </field>
+      <field id="saldo_pendiente">
+        <phrase id="fldcaption" value="saldo pendiente" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="cooperativas">
+      <phrase id="tblcaption" value="cooperativas" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="nombre">
+        <phrase id="fldcaption" value="nombre" />
+      </field>
+      <field id="direccion">
+        <phrase id="fldcaption" value="direccion" />
+      </field>
+      <field id="telefono">
+        <phrase id="fldcaption" value="telefono" />
+      </field>
+      <field id="email">
+        <phrase id="fldcaption" value="email" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="horas_trabajadas">
+      <phrase id="tblcaption" value="horas trabajadas" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="socio_id">
+        <phrase id="fldcaption" value="socio id" />
+      </field>
+      <field id="fecha">
+        <phrase id="fldcaption" value="fecha" />
+      </field>
+      <field id="horas">
+        <phrase id="fldcaption" value="horas" />
+      </field>
+      <field id="tarea">
+        <phrase id="fldcaption" value="tarea" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="ingresos">
+      <phrase id="tblcaption" value="ingresos" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="socio_id">
+        <phrase id="fldcaption" value="socio id" />
+      </field>
+      <field id="tipo_ingreso">
+        <phrase id="fldcaption" value="tipo ingreso" />
+        <phrase id="fldtagvalue1" value="rifa" />
+        <phrase id="fldtagcaption1" value="rifa" />
+        <phrase id="fldtagvalue2" value="beneficio" />
+        <phrase id="fldtagcaption2" value="beneficio" />
+        <phrase id="fldtagvalue3" value="trabajo" />
+        <phrase id="fldtagcaption3" value="trabajo" />
+        <phrase id="fldtagvalue4" value="cuota" />
+        <phrase id="fldtagcaption4" value="cuota" />
+        <phrase id="fldtagvalue5" value="otros" />
+        <phrase id="fldtagcaption5" value="otros" />
+      </field>
+      <field id="descripcion">
+        <phrase id="fldcaption" value="descripcion" />
+      </field>
+      <field id="monto">
+        <phrase id="fldcaption" value="monto" />
+      </field>
+      <field id="fecha">
+        <phrase id="fldcaption" value="fecha" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="movimientos_stock">
+      <phrase id="tblcaption" value="movimientos stock" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="stock_id">
+        <phrase id="fldcaption" value="stock id" />
+      </field>
+      <field id="tipo_movimiento">
+        <phrase id="fldcaption" value="tipo movimiento" />
+        <phrase id="fldtagvalue1" value="entrada" />
+        <phrase id="fldtagcaption1" value="entrada" />
+        <phrase id="fldtagvalue2" value="salida" />
+        <phrase id="fldtagcaption2" value="salida" />
+      </field>
+      <field id="cantidad">
+        <phrase id="fldcaption" value="cantidad" />
+      </field>
+      <field id="motivo">
+        <phrase id="fldcaption" value="motivo" />
+      </field>
+      <field id="fecha">
+        <phrase id="fldcaption" value="fecha" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="pagos_socios">
+      <phrase id="tblcaption" value="pagos socios" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="socio_id">
+        <phrase id="fldcaption" value="socio id" />
+      </field>
+      <field id="monto">
+        <phrase id="fldcaption" value="monto" />
+      </field>
+      <field id="concepto">
+        <phrase id="fldcaption" value="concepto" />
+      </field>
+      <field id="fecha">
+        <phrase id="fldcaption" value="fecha" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="proveedores">
+      <phrase id="tblcaption" value="proveedores" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="nombre">
+        <phrase id="fldcaption" value="nombre" />
+      </field>
+      <field id="contacto">
+        <phrase id="fldcaption" value="contacto" />
+      </field>
+      <field id="telefono">
+        <phrase id="fldcaption" value="telefono" />
+      </field>
+      <field id="email">
+        <phrase id="fldcaption" value="email" />
+      </field>
+      <field id="direccion">
+        <phrase id="fldcaption" value="direccion" />
+      </field>
+    </table>
+    <table id="socios">
+      <phrase id="tblcaption" value="socios" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
+      <field id="nombre_completo">
+        <phrase id="fldcaption" value="nombre completo" />
+      </field>
+      <field id="cedula">
+        <phrase id="fldcaption" value="cedula" />
+      </field>
+      <field id="telefono">
+        <phrase id="fldcaption" value="telefono" />
+      </field>
+      <field id="email">
+        <phrase id="fldcaption" value="email" />
+      </field>
+      <field id="fecha_ingreso">
+        <phrase id="fldcaption" value="fecha ingreso" />
+      </field>
+      <field id="activo">
+        <phrase id="fldcaption" value="activo" />
+        <phrase id="fldtagvalue1" value="1" />
+        <phrase id="fldtagcaption1" value="Yes" />
+        <phrase id="fldtagvalue2" value="0" />
+        <phrase id="fldtagcaption2" value="No" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="stock">
+      <phrase id="tblcaption" value="stock" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="nombre_material">
+        <phrase id="fldcaption" value="nombre material" />
+      </field>
+      <field id="unidad">
+        <phrase id="fldcaption" value="unidad" />
+      </field>
+      <field id="cantidad">
+        <phrase id="fldcaption" value="cantidad" />
+      </field>
+      <field id="descripcion">
+        <phrase id="fldcaption" value="descripcion" />
+      </field>
+    </table>
+  </project>
+</ew-language>
