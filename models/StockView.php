@@ -156,6 +156,7 @@ class StockView extends Stock
         $this->unidad->setVisibility();
         $this->cantidad->setVisibility();
         $this->descripcion->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -710,6 +711,7 @@ class StockView extends Stock
         $this->unidad->setDbValue($row['unidad']);
         $this->cantidad->setDbValue($row['cantidad']);
         $this->descripcion->setDbValue($row['descripcion']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -721,6 +723,7 @@ class StockView extends Stock
         $row['unidad'] = $this->unidad->DefaultValue;
         $row['cantidad'] = $this->cantidad->DefaultValue;
         $row['descripcion'] = $this->descripcion->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -752,6 +755,8 @@ class StockView extends Stock
 
         // descripcion
 
+        // cooperativa_id
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -769,6 +774,10 @@ class StockView extends Stock
 
             // descripcion
             $this->descripcion->ViewValue = $this->descripcion->CurrentValue;
+
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
             // id
             $this->id->HrefValue = "";
@@ -789,6 +798,10 @@ class StockView extends Stock
             // descripcion
             $this->descripcion->HrefValue = "";
             $this->descripcion->TooltipValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
+            $this->cooperativa_id->TooltipValue = "";
         }
 
         // Call Row Rendered event

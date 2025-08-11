@@ -254,4 +254,6 @@ return [
     "proveedores" => \DI\autowire(Proveedores::class),
     "socios" => \DI\autowire(Socios::class),
     "stock" => \DI\autowire(Stock::class),
+    "actividad_log" => \DI\autowire(ActividadLog::class),
+    "usuarios" => \DI\autowire(Usuarios::class),
 ] + $definitions;

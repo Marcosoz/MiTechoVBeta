@@ -161,6 +161,7 @@ class ProveedoresList extends Proveedores
         $this->telefono->setVisibility();
         $this->email->setVisibility();
         $this->direccion->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -1000,6 +1001,7 @@ class ProveedoresList extends Proveedores
         $filterList = Concat($filterList, $this->telefono->AdvancedSearch->toJson(), ","); // Field telefono
         $filterList = Concat($filterList, $this->email->AdvancedSearch->toJson(), ","); // Field email
         $filterList = Concat($filterList, $this->direccion->AdvancedSearch->toJson(), ","); // Field direccion
+        $filterList = Concat($filterList, $this->cooperativa_id->AdvancedSearch->toJson(), ","); // Field cooperativa_id
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
             $filterList = Concat($filterList, $wrk, ",");
@@ -1086,6 +1088,14 @@ class ProveedoresList extends Proveedores
         $this->direccion->AdvancedSearch->SearchValue2 = $filter["y_direccion"] ?? "";
         $this->direccion->AdvancedSearch->SearchOperator2 = $filter["w_direccion"] ?? "";
         $this->direccion->AdvancedSearch->save();
+
+        // Field cooperativa_id
+        $this->cooperativa_id->AdvancedSearch->SearchValue = $filter["x_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchOperator = $filter["z_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchCondition = $filter["v_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchValue2 = $filter["y_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchOperator2 = $filter["w_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->save();
         $this->BasicSearch->setKeyword($filter[Config("TABLE_BASIC_SEARCH")] ?? "");
         $this->BasicSearch->setType($filter[Config("TABLE_BASIC_SEARCH_TYPE")] ?? "");
     }
@@ -1205,6 +1215,7 @@ class ProveedoresList extends Proveedores
             $this->updateSort($this->telefono); // telefono
             $this->updateSort($this->email); // email
             $this->updateSort($this->direccion); // direccion
+            $this->updateSort($this->cooperativa_id); // cooperativa_id
             $this->setStartRecordNumber(1); // Reset start position
         }
 
@@ -1235,6 +1246,7 @@ class ProveedoresList extends Proveedores
                 $this->telefono->setSort("");
                 $this->email->setSort("");
                 $this->direccion->setSort("");
+                $this->cooperativa_id->setSort("");
             }
 
             // Reset start position
@@ -1458,6 +1470,7 @@ class ProveedoresList extends Proveedores
             $this->createColumnOption($option, "telefono");
             $this->createColumnOption($option, "email");
             $this->createColumnOption($option, "direccion");
+            $this->createColumnOption($option, "cooperativa_id");
         }
 
         // Set up custom actions
@@ -1895,6 +1908,7 @@ class ProveedoresList extends Proveedores
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
         $this->direccion->setDbValue($row['direccion']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -1907,6 +1921,7 @@ class ProveedoresList extends Proveedores
         $row['telefono'] = $this->telefono->DefaultValue;
         $row['email'] = $this->email->DefaultValue;
         $row['direccion'] = $this->direccion->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -1959,6 +1974,8 @@ class ProveedoresList extends Proveedores
 
         // direccion
 
+        // cooperativa_id
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -1978,6 +1995,10 @@ class ProveedoresList extends Proveedores
 
             // direccion
             $this->direccion->ViewValue = $this->direccion->CurrentValue;
+
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
             // id
             $this->id->HrefValue = "";
@@ -2002,6 +2023,10 @@ class ProveedoresList extends Proveedores
             // direccion
             $this->direccion->HrefValue = "";
             $this->direccion->TooltipValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
+            $this->cooperativa_id->TooltipValue = "";
         }
 
         // Call Row Rendered event

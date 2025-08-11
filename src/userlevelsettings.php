@@ -39,7 +39,9 @@ $USER_LEVEL_PRIVS = [["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}aportes_legales","-
     ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}pagos_socios","-2","0"],
     ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}proveedores","-2","0"],
     ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}socios","-2","0"],
-    ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}stock","-2","0"]];
+    ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}stock","-2","0"],
+    ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}actividad_log","-2","0"],
+    ["{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}usuarios","-2","0"]];
 
 /**
  * Tables
@@ -61,4 +63,6 @@ $USER_LEVEL_TABLES = [["aportes_legales","aportes_legales","aportes legales",tru
     ["pagos_socios","pagos_socios","pagos socios",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","PagosSociosList"],
     ["proveedores","proveedores","proveedores",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","ProveedoresList"],
     ["socios","socios","socios",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","SociosList"],
-    ["stock","stock","stock",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","StockList"]];
+    ["stock","stock","stock",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","StockList"],
+    ["actividad_log","actividad_log","actividad log",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","ActividadLogList"],
+    ["usuarios","usuarios","usuarios",true,"{DE8D5E86-44E5-4B2C-9D69-3206442E37A6}","UsuariosList"]];

@@ -163,6 +163,9 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->direccion->Visible) { // direccion ?>
         <th data-name="direccion" class="<?= $Page->direccion->headerCellClass() ?>"><div id="elh_proveedores_direccion" class="proveedores_direccion"><?= $Page->renderFieldHeader($Page->direccion) ?></div></th>
 <?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <th data-name="cooperativa_id" class="<?= $Page->cooperativa_id->headerCellClass() ?>"><div id="elh_proveedores_cooperativa_id" class="proveedores_cooperativa_id"><?= $Page->renderFieldHeader($Page->cooperativa_id) ?></div></th>
+<?php } ?>
 <?php
 // Render list options (header, right)
 $Page->ListOptions->render("header", "right");
@@ -236,6 +239,14 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_proveedores_direccion" class="el_proveedores_direccion">
 <span<?= $Page->direccion->viewAttributes() ?>>
 <?= $Page->direccion->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <td data-name="cooperativa_id"<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_proveedores_cooperativa_id" class="el_proveedores_cooperativa_id">
+<span<?= $Page->cooperativa_id->viewAttributes() ?>>
+<?= $Page->cooperativa_id->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

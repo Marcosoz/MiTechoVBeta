@@ -52,6 +52,9 @@ class Proveedore extends AbstractEntity
     #[Column(name: "direccion", type: "text", nullable: true)]
     private ?string $Direccion;
 
+    #[Column(name: "cooperativa_id", type: "integer", nullable: true)]
+    private ?int $CooperativaId;
+
     public function getId(): int
     {
         return $this->Id;
@@ -115,6 +118,17 @@ class Proveedore extends AbstractEntity
     public function setDireccion(?string $value): static
     {
         $this->Direccion = RemoveXss($value);
+        return $this;
+    }
+
+    public function getCooperativaId(): ?int
+    {
+        return $this->CooperativaId;
+    }
+
+    public function setCooperativaId(?int $value): static
+    {
+        $this->CooperativaId = $value;
         return $this;
     }
 }

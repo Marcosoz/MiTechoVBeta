@@ -139,6 +139,7 @@ class ProveedoresDelete extends Proveedores
         $this->telefono->setVisibility();
         $this->email->setVisibility();
         $this->direccion->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -569,6 +570,7 @@ class ProveedoresDelete extends Proveedores
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
         $this->direccion->setDbValue($row['direccion']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -581,6 +583,7 @@ class ProveedoresDelete extends Proveedores
         $row['telefono'] = $this->telefono->DefaultValue;
         $row['email'] = $this->email->DefaultValue;
         $row['direccion'] = $this->direccion->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -608,6 +611,8 @@ class ProveedoresDelete extends Proveedores
 
         // direccion
 
+        // cooperativa_id
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -627,6 +632,10 @@ class ProveedoresDelete extends Proveedores
 
             // direccion
             $this->direccion->ViewValue = $this->direccion->CurrentValue;
+
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
             // id
             $this->id->HrefValue = "";
@@ -651,6 +660,10 @@ class ProveedoresDelete extends Proveedores
             // direccion
             $this->direccion->HrefValue = "";
             $this->direccion->TooltipValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
+            $this->cooperativa_id->TooltipValue = "";
         }
 
         // Call Row Rendered event

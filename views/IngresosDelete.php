@@ -71,6 +71,9 @@ $Page->showMessage();
 <?php if ($Page->created_at->Visible) { // created_at ?>
         <th class="<?= $Page->created_at->headerCellClass() ?>"><span id="elh_ingresos_created_at" class="ingresos_created_at"><?= $Page->created_at->caption() ?></span></th>
 <?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <th class="<?= $Page->cooperativa_id->headerCellClass() ?>"><span id="elh_ingresos_cooperativa_id" class="ingresos_cooperativa_id"><?= $Page->cooperativa_id->caption() ?></span></th>
+<?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -145,6 +148,14 @@ while ($Page->fetch()) {
 <span id="">
 <span<?= $Page->created_at->viewAttributes() ?>>
 <?= $Page->created_at->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <td<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="">
+<span<?= $Page->cooperativa_id->viewAttributes() ?>>
+<?= $Page->cooperativa_id->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

@@ -52,6 +52,9 @@ class HorasTrabajada extends AbstractEntity
     #[Column(name: "created_at", type: "datetime", nullable: true)]
     private ?DateTime $CreatedAt;
 
+    #[Column(name: "cooperativa_id", type: "integer", nullable: true)]
+    private ?int $CooperativaId;
+
     public function getId(): int
     {
         return $this->Id;
@@ -115,6 +118,17 @@ class HorasTrabajada extends AbstractEntity
     public function setCreatedAt(?DateTime $value): static
     {
         $this->CreatedAt = $value;
+        return $this;
+    }
+
+    public function getCooperativaId(): ?int
+    {
+        return $this->CooperativaId;
+    }
+
+    public function setCooperativaId(?int $value): static
+    {
+        $this->CooperativaId = $value;
         return $this;
     }
 }

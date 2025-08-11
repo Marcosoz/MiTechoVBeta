@@ -160,6 +160,9 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->descripcion->Visible) { // descripcion ?>
         <th data-name="descripcion" class="<?= $Page->descripcion->headerCellClass() ?>"><div id="elh_stock_descripcion" class="stock_descripcion"><?= $Page->renderFieldHeader($Page->descripcion) ?></div></th>
 <?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <th data-name="cooperativa_id" class="<?= $Page->cooperativa_id->headerCellClass() ?>"><div id="elh_stock_cooperativa_id" class="stock_cooperativa_id"><?= $Page->renderFieldHeader($Page->cooperativa_id) ?></div></th>
+<?php } ?>
 <?php
 // Render list options (header, right)
 $Page->ListOptions->render("header", "right");
@@ -225,6 +228,14 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_stock_descripcion" class="el_stock_descripcion">
 <span<?= $Page->descripcion->viewAttributes() ?>>
 <?= $Page->descripcion->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <td data-name="cooperativa_id"<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_stock_cooperativa_id" class="el_stock_cooperativa_id">
+<span<?= $Page->cooperativa_id->viewAttributes() ?>>
+<?= $Page->cooperativa_id->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

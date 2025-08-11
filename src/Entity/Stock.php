@@ -49,6 +49,9 @@ class Stock extends AbstractEntity
     #[Column(name: "descripcion", type: "text", nullable: true)]
     private ?string $Descripcion;
 
+    #[Column(name: "cooperativa_id", type: "integer", nullable: true)]
+    private ?int $CooperativaId;
+
     public function __construct()
     {
         $this->Cantidad = "0.00";
@@ -106,6 +109,17 @@ class Stock extends AbstractEntity
     public function setDescripcion(?string $value): static
     {
         $this->Descripcion = RemoveXss($value);
+        return $this;
+    }
+
+    public function getCooperativaId(): ?int
+    {
+        return $this->CooperativaId;
+    }
+
+    public function setCooperativaId(?int $value): static
+    {
+        $this->CooperativaId = $value;
         return $this;
     }
 }

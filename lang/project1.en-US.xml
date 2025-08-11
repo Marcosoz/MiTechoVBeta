@@ -31,6 +31,12 @@
     <menu id="10">
       <phrase id="menutext" value="ingresos" />
     </menu>
+    <menu id="11">
+      <phrase id="menutext" value="actividad log" />
+    </menu>
+    <menu id="12">
+      <phrase id="menutext" value="usuarios" />
+    </menu>
     <table id="aportes_legales">
       <phrase id="tblcaption" value="aportes legales" />
       <field id="id">
@@ -77,6 +83,9 @@
       </field>
       <field id="created_at">
         <phrase id="fldcaption" value="created at" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
       </field>
     </table>
     <table id="cooperativas">
@@ -126,6 +135,9 @@
       <field id="created_at">
         <phrase id="fldcaption" value="created at" />
       </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
     </table>
     <table id="ingresos">
       <phrase id="tblcaption" value="ingresos" />
@@ -159,6 +171,9 @@
       </field>
       <field id="created_at">
         <phrase id="fldcaption" value="created at" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
       </field>
     </table>
     <table id="movimientos_stock">
@@ -209,6 +224,9 @@
       <field id="created_at">
         <phrase id="fldcaption" value="created at" />
       </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
     </table>
     <table id="proveedores">
       <phrase id="tblcaption" value="proveedores" />
@@ -229,6 +247,9 @@
       </field>
       <field id="direccion">
         <phrase id="fldcaption" value="direccion" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
       </field>
     </table>
     <table id="socios">
@@ -281,6 +302,60 @@
       </field>
       <field id="descripcion">
         <phrase id="fldcaption" value="descripcion" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
+    </table>
+    <table id="actividad_log">
+      <phrase id="tblcaption" value="actividad log" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="usuario_id">
+        <phrase id="fldcaption" value="usuario id" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
+      <field id="accion">
+        <phrase id="fldcaption" value="accion" />
+      </field>
+      <field id="detalles">
+        <phrase id="fldcaption" value="detalles" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
+      </field>
+    </table>
+    <table id="usuarios">
+      <phrase id="tblcaption" value="usuarios" />
+      <field id="id">
+        <phrase id="fldcaption" value="id" />
+      </field>
+      <field id="username">
+        <phrase id="fldcaption" value="username" />
+      </field>
+      <field id="password">
+        <phrase id="fldcaption" value="password" />
+      </field>
+      <field id="nombre_completo">
+        <phrase id="fldcaption" value="nombre completo" />
+      </field>
+      <field id="email">
+        <phrase id="fldcaption" value="email" />
+      </field>
+      <field id="telefono">
+        <phrase id="fldcaption" value="telefono" />
+      </field>
+      <field id="_userlevel">
+        <phrase id="fldcaption" value="userlevel" />
+      </field>
+      <field id="cooperativa_id">
+        <phrase id="fldcaption" value="cooperativa id" />
+      </field>
+      <field id="created_at">
+        <phrase id="fldcaption" value="created at" />
       </field>
     </table>
   </project>

@@ -1,5 +1,6 @@
 C:\xampp\htdocs\proyect1\.htaccess
 C:\xampp\htdocs\proyect1\composer.json
+C:\xampp\htdocs\proyect1\controllers\ActividadLogController.php
 C:\xampp\htdocs\proyect1\controllers\ApiController.php
 C:\xampp\htdocs\proyect1\controllers\AportesLegalesController.php
 C:\xampp\htdocs\proyect1\controllers\ComprasController.php
@@ -13,6 +14,7 @@ C:\xampp\htdocs\proyect1\controllers\PagosSociosController.php
 C:\xampp\htdocs\proyect1\controllers\ProveedoresController.php
 C:\xampp\htdocs\proyect1\controllers\SociosController.php
 C:\xampp\htdocs\proyect1\controllers\StockController.php
+C:\xampp\htdocs\proyect1\controllers\UsuariosController.php
 C:\xampp\htdocs\proyect1\css\ewpdf.scss
 C:\xampp\htdocs\proyect1\css\project1.scss
 C:\xampp\htdocs\proyect1\css\query-builder.scss
@@ -23,6 +25,12 @@ C:\xampp\htdocs\proyect1\index.php
 C:\xampp\htdocs\proyect1\js\userevent.js
 C:\xampp\htdocs\proyect1\js\userfn.js
 C:\xampp\htdocs\proyect1\log\index.html
+C:\xampp\htdocs\proyect1\models\ActividadLog.php
+C:\xampp\htdocs\proyect1\models\ActividadLogAdd.php
+C:\xampp\htdocs\proyect1\models\ActividadLogDelete.php
+C:\xampp\htdocs\proyect1\models\ActividadLogEdit.php
+C:\xampp\htdocs\proyect1\models\ActividadLogList.php
+C:\xampp\htdocs\proyect1\models\ActividadLogView.php
 C:\xampp\htdocs\proyect1\models\AportesLegales.php
 C:\xampp\htdocs\proyect1\models\AportesLegalesAdd.php
 C:\xampp\htdocs\proyect1\models\AportesLegalesDelete.php
@@ -83,6 +91,12 @@ C:\xampp\htdocs\proyect1\models\StockDelete.php
 C:\xampp\htdocs\proyect1\models\StockEdit.php
 C:\xampp\htdocs\proyect1\models\StockList.php
 C:\xampp\htdocs\proyect1\models\StockView.php
+C:\xampp\htdocs\proyect1\models\Usuarios.php
+C:\xampp\htdocs\proyect1\models\UsuariosAdd.php
+C:\xampp\htdocs\proyect1\models\UsuariosDelete.php
+C:\xampp\htdocs\proyect1\models\UsuariosEdit.php
+C:\xampp\htdocs\proyect1\models\UsuariosList.php
+C:\xampp\htdocs\proyect1\models\UsuariosView.php
 C:\xampp\htdocs\proyect1\package.json
 C:\xampp\htdocs\proyect1\src\AbstractCheckCredentialsListener.php
 C:\xampp\htdocs\proyect1\src\AbstractController.php
@@ -145,6 +159,7 @@ C:\xampp\htdocs\proyect1\src\EmailTwoFactorAuthentication.php
 C:\xampp\htdocs\proyect1\src\EntityDescriptor.php
 C:\xampp\htdocs\proyect1\src\EntityManagerFactory.php
 C:\xampp\htdocs\proyect1\src\EntityUserProvider.php
+C:\xampp\htdocs\proyect1\src\Entity\ActividadLog.php
 C:\xampp\htdocs\proyect1\src\Entity\AportesLegale.php
 C:\xampp\htdocs\proyect1\src\Entity\Compra.php
 C:\xampp\htdocs\proyect1\src\Entity\Cooperativa.php
@@ -155,6 +170,7 @@ C:\xampp\htdocs\proyect1\src\Entity\PagosSocio.php
 C:\xampp\htdocs\proyect1\src\Entity\Proveedore.php
 C:\xampp\htdocs\proyect1\src\Entity\Socio.php
 C:\xampp\htdocs\proyect1\src\Entity\Stock.php
+C:\xampp\htdocs\proyect1\src\Entity\Usuario.php
 C:\xampp\htdocs\proyect1\src\ExportCsv.php
 C:\xampp\htdocs\proyect1\src\ExportEmail.php
 C:\xampp\htdocs\proyect1\src\ExportExcel.php
@@ -280,6 +296,11 @@ C:\xampp\htdocs\proyect1\src\security.php
 C:\xampp\htdocs\proyect1\src\services.php
 C:\xampp\htdocs\proyect1\src\userfn.php
 C:\xampp\htdocs\proyect1\src\userlevelsettings.php
+C:\xampp\htdocs\proyect1\views\ActividadLogAdd.php
+C:\xampp\htdocs\proyect1\views\ActividadLogDelete.php
+C:\xampp\htdocs\proyect1\views\ActividadLogEdit.php
+C:\xampp\htdocs\proyect1\views\ActividadLogList.php
+C:\xampp\htdocs\proyect1\views\ActividadLogView.php
 C:\xampp\htdocs\proyect1\views\AportesLegalesAdd.php
 C:\xampp\htdocs\proyect1\views\AportesLegalesDelete.php
 C:\xampp\htdocs\proyect1\views\AportesLegalesEdit.php
@@ -331,6 +352,11 @@ C:\xampp\htdocs\proyect1\views\StockDelete.php
 C:\xampp\htdocs\proyect1\views\StockEdit.php
 C:\xampp\htdocs\proyect1\views\StockList.php
 C:\xampp\htdocs\proyect1\views\StockView.php
+C:\xampp\htdocs\proyect1\views\UsuariosAdd.php
+C:\xampp\htdocs\proyect1\views\UsuariosDelete.php
+C:\xampp\htdocs\proyect1\views\UsuariosEdit.php
+C:\xampp\htdocs\proyect1\views\UsuariosList.php
+C:\xampp\htdocs\proyect1\views\UsuariosView.php
 C:\xampp\htdocs\proyect1\views\email.php
 C:\xampp\htdocs\proyect1\views\layout.php
 C:\xampp\htdocs\proyect1\views\menu.php

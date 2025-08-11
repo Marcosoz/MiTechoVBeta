@@ -68,6 +68,9 @@ $Page->showMessage();
 <?php if ($Page->direccion->Visible) { // direccion ?>
         <th class="<?= $Page->direccion->headerCellClass() ?>"><span id="elh_proveedores_direccion" class="proveedores_direccion"><?= $Page->direccion->caption() ?></span></th>
 <?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <th class="<?= $Page->cooperativa_id->headerCellClass() ?>"><span id="elh_proveedores_cooperativa_id" class="proveedores_cooperativa_id"><?= $Page->cooperativa_id->caption() ?></span></th>
+<?php } ?>
     </tr>
     </thead>
     <tbody>
@@ -134,6 +137,14 @@ while ($Page->fetch()) {
 <span id="">
 <span<?= $Page->direccion->viewAttributes() ?>>
 <?= $Page->direccion->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <td<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="">
+<span<?= $Page->cooperativa_id->viewAttributes() ?>>
+<?= $Page->cooperativa_id->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

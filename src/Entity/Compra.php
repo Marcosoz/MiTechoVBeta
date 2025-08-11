@@ -55,6 +55,9 @@ class Compra extends AbstractEntity
     #[Column(name: "created_at", type: "datetime", nullable: true)]
     private ?DateTime $CreatedAt;
 
+    #[Column(name: "cooperativa_id", type: "integer", nullable: true)]
+    private ?int $CooperativaId;
+
     public function __construct()
     {
         $this->SaldoPendiente = "0.00";
@@ -134,6 +137,17 @@ class Compra extends AbstractEntity
     public function setCreatedAt(?DateTime $value): static
     {
         $this->CreatedAt = $value;
+        return $this;
+    }
+
+    public function getCooperativaId(): ?int
+    {
+        return $this->CooperativaId;
+    }
+
+    public function setCooperativaId(?int $value): static
+    {
+        $this->CooperativaId = $value;
         return $this;
     }
 }

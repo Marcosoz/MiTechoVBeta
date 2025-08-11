@@ -53,7 +53,27 @@
         clone $p['Symfony\\Component\\Routing\\Route'],
         clone $p['Symfony\\Component\\Routing\\Route'],
         clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
+        clone $p['Symfony\\Component\\Routing\\Route'],
         clone ($p['Symfony\\Component\\Routing\\Alias'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Alias')),
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
+        clone $p['Symfony\\Component\\Routing\\Alias'],
         clone $p['Symfony\\Component\\Routing\\Alias'],
         clone $p['Symfony\\Component\\Routing\\Alias'],
         clone $p['Symfony\\Component\\Routing\\Alias'],
@@ -119,144 +139,173 @@
         clone $p['Symfony\\Component\\Config\\Resource\\FileResource'],
         clone $p['Symfony\\Component\\Config\\Resource\\FileResource'],
         clone $p['Symfony\\Component\\Config\\Resource\\FileResource'],
+        clone $p['Symfony\\Component\\Config\\Resource\\FileResource'],
+        clone $p['Symfony\\Component\\Config\\Resource\\FileResource'],
     ],
     null,
     [
         'Symfony\\Component\\Routing\\RouteCollection' => [
             'routes' => [
                 [
-                    'list.aportes_legales' => $o[1],
-                    'add.aportes_legales' => $o[2],
-                    'view.aportes_legales' => $o[3],
-                    'edit.aportes_legales' => $o[4],
-                    'delete.aportes_legales' => $o[5],
-                    'list.compras' => $o[6],
-                    'add.compras' => $o[7],
-                    'view.compras' => $o[8],
-                    'edit.compras' => $o[9],
-                    'delete.compras' => $o[10],
-                    'list.cooperativas' => $o[11],
-                    'add.cooperativas' => $o[12],
-                    'view.cooperativas' => $o[13],
-                    'edit.cooperativas' => $o[14],
-                    'delete.cooperativas' => $o[15],
-                    'list.horas_trabajadas' => $o[16],
-                    'add.horas_trabajadas' => $o[17],
-                    'view.horas_trabajadas' => $o[18],
-                    'edit.horas_trabajadas' => $o[19],
-                    'delete.horas_trabajadas' => $o[20],
-                    'list.ingresos' => $o[21],
-                    'add.ingresos' => $o[22],
-                    'view.ingresos' => $o[23],
-                    'edit.ingresos' => $o[24],
-                    'delete.ingresos' => $o[25],
-                    'list.movimientos_stock' => $o[26],
-                    'add.movimientos_stock' => $o[27],
-                    'view.movimientos_stock' => $o[28],
-                    'edit.movimientos_stock' => $o[29],
-                    'delete.movimientos_stock' => $o[30],
-                    'swagger' => $o[31],
-                    'index' => $o[32],
-                    'list.pagos_socios' => $o[33],
-                    'add.pagos_socios' => $o[34],
-                    'view.pagos_socios' => $o[35],
-                    'edit.pagos_socios' => $o[36],
-                    'delete.pagos_socios' => $o[37],
-                    'list.proveedores' => $o[38],
-                    'add.proveedores' => $o[39],
-                    'view.proveedores' => $o[40],
-                    'edit.proveedores' => $o[41],
-                    'delete.proveedores' => $o[42],
-                    'list.socios' => $o[43],
-                    'add.socios' => $o[44],
-                    'view.socios' => $o[45],
-                    'edit.socios' => $o[46],
-                    'delete.socios' => $o[47],
-                    'list.stock' => $o[48],
-                    'add.stock' => $o[49],
-                    'view.stock' => $o[50],
-                    'edit.stock' => $o[51],
-                    'delete.stock' => $o[52],
+                    'list.actividad_log' => $o[1],
+                    'add.actividad_log' => $o[2],
+                    'view.actividad_log' => $o[3],
+                    'edit.actividad_log' => $o[4],
+                    'delete.actividad_log' => $o[5],
+                    'list.aportes_legales' => $o[6],
+                    'add.aportes_legales' => $o[7],
+                    'view.aportes_legales' => $o[8],
+                    'edit.aportes_legales' => $o[9],
+                    'delete.aportes_legales' => $o[10],
+                    'list.compras' => $o[11],
+                    'add.compras' => $o[12],
+                    'view.compras' => $o[13],
+                    'edit.compras' => $o[14],
+                    'delete.compras' => $o[15],
+                    'list.cooperativas' => $o[16],
+                    'add.cooperativas' => $o[17],
+                    'view.cooperativas' => $o[18],
+                    'edit.cooperativas' => $o[19],
+                    'delete.cooperativas' => $o[20],
+                    'list.horas_trabajadas' => $o[21],
+                    'add.horas_trabajadas' => $o[22],
+                    'view.horas_trabajadas' => $o[23],
+                    'edit.horas_trabajadas' => $o[24],
+                    'delete.horas_trabajadas' => $o[25],
+                    'list.ingresos' => $o[26],
+                    'add.ingresos' => $o[27],
+                    'view.ingresos' => $o[28],
+                    'edit.ingresos' => $o[29],
+                    'delete.ingresos' => $o[30],
+                    'list.movimientos_stock' => $o[31],
+                    'add.movimientos_stock' => $o[32],
+                    'view.movimientos_stock' => $o[33],
+                    'edit.movimientos_stock' => $o[34],
+                    'delete.movimientos_stock' => $o[35],
+                    'swagger' => $o[36],
+                    'index' => $o[37],
+                    'list.pagos_socios' => $o[38],
+                    'add.pagos_socios' => $o[39],
+                    'view.pagos_socios' => $o[40],
+                    'edit.pagos_socios' => $o[41],
+                    'delete.pagos_socios' => $o[42],
+                    'list.proveedores' => $o[43],
+                    'add.proveedores' => $o[44],
+                    'view.proveedores' => $o[45],
+                    'edit.proveedores' => $o[46],
+                    'delete.proveedores' => $o[47],
+                    'list.socios' => $o[48],
+                    'add.socios' => $o[49],
+                    'view.socios' => $o[50],
+                    'edit.socios' => $o[51],
+                    'delete.socios' => $o[52],
+                    'list.stock' => $o[53],
+                    'add.stock' => $o[54],
+                    'view.stock' => $o[55],
+                    'edit.stock' => $o[56],
+                    'delete.stock' => $o[57],
+                    'list.usuarios' => $o[58],
+                    'add.usuarios' => $o[59],
+                    'view.usuarios' => $o[60],
+                    'edit.usuarios' => $o[61],
+                    'delete.usuarios' => $o[62],
                 ],
             ],
             'aliases' => [
                 [
-                    'PHPMaker2025\\project1\\AportesLegalesController::list' => $o[53],
-                    'PHPMaker2025\\project1\\AportesLegalesController::add' => $o[54],
-                    'PHPMaker2025\\project1\\AportesLegalesController::view' => $o[55],
-                    'PHPMaker2025\\project1\\AportesLegalesController::edit' => $o[56],
-                    'PHPMaker2025\\project1\\AportesLegalesController::delete' => $o[57],
-                    'PHPMaker2025\\project1\\ComprasController::list' => $o[58],
-                    'PHPMaker2025\\project1\\ComprasController::add' => $o[59],
-                    'PHPMaker2025\\project1\\ComprasController::view' => $o[60],
-                    'PHPMaker2025\\project1\\ComprasController::edit' => $o[61],
-                    'PHPMaker2025\\project1\\ComprasController::delete' => $o[62],
-                    'PHPMaker2025\\project1\\CooperativasController::list' => $o[63],
-                    'PHPMaker2025\\project1\\CooperativasController::add' => $o[64],
-                    'PHPMaker2025\\project1\\CooperativasController::view' => $o[65],
-                    'PHPMaker2025\\project1\\CooperativasController::edit' => $o[66],
-                    'PHPMaker2025\\project1\\CooperativasController::delete' => $o[67],
-                    'PHPMaker2025\\project1\\HorasTrabajadasController::list' => $o[68],
-                    'PHPMaker2025\\project1\\HorasTrabajadasController::add' => $o[69],
-                    'PHPMaker2025\\project1\\HorasTrabajadasController::view' => $o[70],
-                    'PHPMaker2025\\project1\\HorasTrabajadasController::edit' => $o[71],
-                    'PHPMaker2025\\project1\\HorasTrabajadasController::delete' => $o[72],
-                    'PHPMaker2025\\project1\\IngresosController::list' => $o[73],
-                    'PHPMaker2025\\project1\\IngresosController::add' => $o[74],
-                    'PHPMaker2025\\project1\\IngresosController::view' => $o[75],
-                    'PHPMaker2025\\project1\\IngresosController::edit' => $o[76],
-                    'PHPMaker2025\\project1\\IngresosController::delete' => $o[77],
-                    'PHPMaker2025\\project1\\MovimientosStockController::list' => $o[78],
-                    'PHPMaker2025\\project1\\MovimientosStockController::add' => $o[79],
-                    'PHPMaker2025\\project1\\MovimientosStockController::view' => $o[80],
-                    'PHPMaker2025\\project1\\MovimientosStockController::edit' => $o[81],
-                    'PHPMaker2025\\project1\\MovimientosStockController::delete' => $o[82],
-                    'PHPMaker2025\\project1\\OthersController::swagger' => $o[83],
-                    'PHPMaker2025\\project1\\OthersController::index' => $o[84],
-                    'PHPMaker2025\\project1\\PagosSociosController::list' => $o[85],
-                    'PHPMaker2025\\project1\\PagosSociosController::add' => $o[86],
-                    'PHPMaker2025\\project1\\PagosSociosController::view' => $o[87],
-                    'PHPMaker2025\\project1\\PagosSociosController::edit' => $o[88],
-                    'PHPMaker2025\\project1\\PagosSociosController::delete' => $o[89],
-                    'PHPMaker2025\\project1\\ProveedoresController::list' => $o[90],
-                    'PHPMaker2025\\project1\\ProveedoresController::add' => $o[91],
-                    'PHPMaker2025\\project1\\ProveedoresController::view' => $o[92],
-                    'PHPMaker2025\\project1\\ProveedoresController::edit' => $o[93],
-                    'PHPMaker2025\\project1\\ProveedoresController::delete' => $o[94],
-                    'PHPMaker2025\\project1\\SociosController::list' => $o[95],
-                    'PHPMaker2025\\project1\\SociosController::add' => $o[96],
-                    'PHPMaker2025\\project1\\SociosController::view' => $o[97],
-                    'PHPMaker2025\\project1\\SociosController::edit' => $o[98],
-                    'PHPMaker2025\\project1\\SociosController::delete' => $o[99],
-                    'PHPMaker2025\\project1\\StockController::list' => $o[100],
-                    'PHPMaker2025\\project1\\StockController::add' => $o[101],
-                    'PHPMaker2025\\project1\\StockController::view' => $o[102],
-                    'PHPMaker2025\\project1\\StockController::edit' => $o[103],
-                    'PHPMaker2025\\project1\\StockController::delete' => $o[104],
+                    'PHPMaker2025\\project1\\ActividadLogController::list' => $o[63],
+                    'PHPMaker2025\\project1\\ActividadLogController::add' => $o[64],
+                    'PHPMaker2025\\project1\\ActividadLogController::view' => $o[65],
+                    'PHPMaker2025\\project1\\ActividadLogController::edit' => $o[66],
+                    'PHPMaker2025\\project1\\ActividadLogController::delete' => $o[67],
+                    'PHPMaker2025\\project1\\AportesLegalesController::list' => $o[68],
+                    'PHPMaker2025\\project1\\AportesLegalesController::add' => $o[69],
+                    'PHPMaker2025\\project1\\AportesLegalesController::view' => $o[70],
+                    'PHPMaker2025\\project1\\AportesLegalesController::edit' => $o[71],
+                    'PHPMaker2025\\project1\\AportesLegalesController::delete' => $o[72],
+                    'PHPMaker2025\\project1\\ComprasController::list' => $o[73],
+                    'PHPMaker2025\\project1\\ComprasController::add' => $o[74],
+                    'PHPMaker2025\\project1\\ComprasController::view' => $o[75],
+                    'PHPMaker2025\\project1\\ComprasController::edit' => $o[76],
+                    'PHPMaker2025\\project1\\ComprasController::delete' => $o[77],
+                    'PHPMaker2025\\project1\\CooperativasController::list' => $o[78],
+                    'PHPMaker2025\\project1\\CooperativasController::add' => $o[79],
+                    'PHPMaker2025\\project1\\CooperativasController::view' => $o[80],
+                    'PHPMaker2025\\project1\\CooperativasController::edit' => $o[81],
+                    'PHPMaker2025\\project1\\CooperativasController::delete' => $o[82],
+                    'PHPMaker2025\\project1\\HorasTrabajadasController::list' => $o[83],
+                    'PHPMaker2025\\project1\\HorasTrabajadasController::add' => $o[84],
+                    'PHPMaker2025\\project1\\HorasTrabajadasController::view' => $o[85],
+                    'PHPMaker2025\\project1\\HorasTrabajadasController::edit' => $o[86],
+                    'PHPMaker2025\\project1\\HorasTrabajadasController::delete' => $o[87],
+                    'PHPMaker2025\\project1\\IngresosController::list' => $o[88],
+                    'PHPMaker2025\\project1\\IngresosController::add' => $o[89],
+                    'PHPMaker2025\\project1\\IngresosController::view' => $o[90],
+                    'PHPMaker2025\\project1\\IngresosController::edit' => $o[91],
+                    'PHPMaker2025\\project1\\IngresosController::delete' => $o[92],
+                    'PHPMaker2025\\project1\\MovimientosStockController::list' => $o[93],
+                    'PHPMaker2025\\project1\\MovimientosStockController::add' => $o[94],
+                    'PHPMaker2025\\project1\\MovimientosStockController::view' => $o[95],
+                    'PHPMaker2025\\project1\\MovimientosStockController::edit' => $o[96],
+                    'PHPMaker2025\\project1\\MovimientosStockController::delete' => $o[97],
+                    'PHPMaker2025\\project1\\OthersController::swagger' => $o[98],
+                    'PHPMaker2025\\project1\\OthersController::index' => $o[99],
+                    'PHPMaker2025\\project1\\PagosSociosController::list' => $o[100],
+                    'PHPMaker2025\\project1\\PagosSociosController::add' => $o[101],
+                    'PHPMaker2025\\project1\\PagosSociosController::view' => $o[102],
+                    'PHPMaker2025\\project1\\PagosSociosController::edit' => $o[103],
+                    'PHPMaker2025\\project1\\PagosSociosController::delete' => $o[104],
+                    'PHPMaker2025\\project1\\ProveedoresController::list' => $o[105],
+                    'PHPMaker2025\\project1\\ProveedoresController::add' => $o[106],
+                    'PHPMaker2025\\project1\\ProveedoresController::view' => $o[107],
+                    'PHPMaker2025\\project1\\ProveedoresController::edit' => $o[108],
+                    'PHPMaker2025\\project1\\ProveedoresController::delete' => $o[109],
+                    'PHPMaker2025\\project1\\SociosController::list' => $o[110],
+                    'PHPMaker2025\\project1\\SociosController::add' => $o[111],
+                    'PHPMaker2025\\project1\\SociosController::view' => $o[112],
+                    'PHPMaker2025\\project1\\SociosController::edit' => $o[113],
+                    'PHPMaker2025\\project1\\SociosController::delete' => $o[114],
+                    'PHPMaker2025\\project1\\StockController::list' => $o[115],
+                    'PHPMaker2025\\project1\\StockController::add' => $o[116],
+                    'PHPMaker2025\\project1\\StockController::view' => $o[117],
+                    'PHPMaker2025\\project1\\StockController::edit' => $o[118],
+                    'PHPMaker2025\\project1\\StockController::delete' => $o[119],
+                    'PHPMaker2025\\project1\\UsuariosController::list' => $o[120],
+                    'PHPMaker2025\\project1\\UsuariosController::add' => $o[121],
+                    'PHPMaker2025\\project1\\UsuariosController::view' => $o[122],
+                    'PHPMaker2025\\project1\\UsuariosController::edit' => $o[123],
+                    'PHPMaker2025\\project1\\UsuariosController::delete' => $o[124],
                 ],
             ],
             'resources' => [
                 [
-                    '6af8e13768a608018af0274ce0fc4c43' => $o[105],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ApiController.php' => $o[106],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\AportesLegalesController.php' => $o[107],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ComprasController.php' => $o[108],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ControllerBase.php' => $o[109],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\CooperativasController.php' => $o[110],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\HorasTrabajadasController.php' => $o[111],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\IngresosController.php' => $o[112],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\MovimientosStockController.php' => $o[113],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\OthersController.php' => $o[114],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\PagosSociosController.php' => $o[115],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ProveedoresController.php' => $o[116],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\SociosController.php' => $o[117],
-                    'C:\\xampp\\htdocs\\proyect1\\controllers\\StockController.php' => $o[118],
+                    '6af8e13768a608018af0274ce0fc4c43' => $o[125],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ActividadLogController.php' => $o[126],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ApiController.php' => $o[127],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\AportesLegalesController.php' => $o[128],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ComprasController.php' => $o[129],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ControllerBase.php' => $o[130],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\CooperativasController.php' => $o[131],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\HorasTrabajadasController.php' => $o[132],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\IngresosController.php' => $o[133],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\MovimientosStockController.php' => $o[134],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\OthersController.php' => $o[135],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\PagosSociosController.php' => $o[136],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\ProveedoresController.php' => $o[137],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\SociosController.php' => $o[138],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\StockController.php' => $o[139],
+                    'C:\\xampp\\htdocs\\proyect1\\controllers\\UsuariosController.php' => $o[140],
                 ],
             ],
         ],
         'Symfony\\Component\\Routing\\Alias' => [
             'id' => [
-                53 => 'list.aportes_legales',
+                63 => 'list.actividad_log',
+                'add.actividad_log',
+                'view.actividad_log',
+                'edit.actividad_log',
+                'delete.actividad_log',
+                'list.aportes_legales',
                 'add.aportes_legales',
                 'view.aportes_legales',
                 'edit.aportes_legales',
@@ -308,19 +357,25 @@
                 'view.stock',
                 'edit.stock',
                 'delete.stock',
+                'list.usuarios',
+                'add.usuarios',
+                'view.usuarios',
+                'edit.usuarios',
+                'delete.usuarios',
             ],
         ],
         'Symfony\\Component\\Config\\Resource\\DirectoryResource' => [
             'resource' => [
-                105 => 'C:\\xampp\\htdocs\\proyect1\\controllers',
+                125 => 'C:\\xampp\\htdocs\\proyect1\\controllers',
             ],
             'pattern' => [
-                105 => '/\\.php$/',
+                125 => '/\\.php$/',
             ],
         ],
         'Symfony\\Component\\Config\\Resource\\FileResource' => [
             'resource' => [
-                106 => 'C:\\xampp\\htdocs\\proyect1\\controllers\\ApiController.php',
+                126 => 'C:\\xampp\\htdocs\\proyect1\\controllers\\ActividadLogController.php',
+                'C:\\xampp\\htdocs\\proyect1\\controllers\\ApiController.php',
                 'C:\\xampp\\htdocs\\proyect1\\controllers\\AportesLegalesController.php',
                 'C:\\xampp\\htdocs\\proyect1\\controllers\\ComprasController.php',
                 'C:\\xampp\\htdocs\\proyect1\\controllers\\ControllerBase.php',
@@ -333,12 +388,128 @@
                 'C:\\xampp\\htdocs\\proyect1\\controllers\\ProveedoresController.php',
                 'C:\\xampp\\htdocs\\proyect1\\controllers\\SociosController.php',
                 'C:\\xampp\\htdocs\\proyect1\\controllers\\StockController.php',
+                'C:\\xampp\\htdocs\\proyect1\\controllers\\UsuariosController.php',
             ],
         ],
     ],
     $o[0],
     [
         -1 => [
+            'path' => '/ActividadLogList[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\ActividadLogController:list',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -2 => [
+            'path' => '/ActividadLogAdd[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\ActividadLogController:add',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -3 => [
+            'path' => '/ActividadLogView[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\ActividadLogController:view',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -4 => [
+            'path' => '/ActividadLogEdit[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\ActividadLogController:edit',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -5 => [
+            'path' => '/ActividadLogDelete[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\ActividadLogController:delete',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -6 => [
             'path' => '/AportesLegalesList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -361,7 +532,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -2 => [
+        -7 => [
             'path' => '/AportesLegalesAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -384,7 +555,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -3 => [
+        -8 => [
             'path' => '/AportesLegalesView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -407,7 +578,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -4 => [
+        -9 => [
             'path' => '/AportesLegalesEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -430,7 +601,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -5 => [
+        -10 => [
             'path' => '/AportesLegalesDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -453,7 +624,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -6 => [
+        -11 => [
             'path' => '/ComprasList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -476,7 +647,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -7 => [
+        -12 => [
             'path' => '/ComprasAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -499,7 +670,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -8 => [
+        -13 => [
             'path' => '/ComprasView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -522,7 +693,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -9 => [
+        -14 => [
             'path' => '/ComprasEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -545,7 +716,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -10 => [
+        -15 => [
             'path' => '/ComprasDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -568,7 +739,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -11 => [
+        -16 => [
             'path' => '/CooperativasList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -591,7 +762,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -12 => [
+        -17 => [
             'path' => '/CooperativasAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -614,7 +785,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -13 => [
+        -18 => [
             'path' => '/CooperativasView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -637,7 +808,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -14 => [
+        -19 => [
             'path' => '/CooperativasEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -660,7 +831,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -15 => [
+        -20 => [
             'path' => '/CooperativasDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -683,7 +854,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -16 => [
+        -21 => [
             'path' => '/HorasTrabajadasList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -706,7 +877,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -17 => [
+        -22 => [
             'path' => '/HorasTrabajadasAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -729,7 +900,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -18 => [
+        -23 => [
             'path' => '/HorasTrabajadasView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -752,7 +923,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -19 => [
+        -24 => [
             'path' => '/HorasTrabajadasEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -775,7 +946,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -20 => [
+        -25 => [
             'path' => '/HorasTrabajadasDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -798,7 +969,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -21 => [
+        -26 => [
             'path' => '/IngresosList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -821,7 +992,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -22 => [
+        -27 => [
             'path' => '/IngresosAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -844,7 +1015,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -23 => [
+        -28 => [
             'path' => '/IngresosView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -867,7 +1038,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -24 => [
+        -29 => [
             'path' => '/IngresosEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -890,7 +1061,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -25 => [
+        -30 => [
             'path' => '/IngresosDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -913,7 +1084,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -26 => [
+        -31 => [
             'path' => '/MovimientosStockList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -936,7 +1107,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -27 => [
+        -32 => [
             'path' => '/MovimientosStockAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -959,7 +1130,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -28 => [
+        -33 => [
             'path' => '/MovimientosStockView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -982,7 +1153,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -29 => [
+        -34 => [
             'path' => '/MovimientosStockEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1005,7 +1176,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -30 => [
+        -35 => [
             'path' => '/MovimientosStockDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1028,7 +1199,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -31 => [
+        -36 => [
             'path' => '/swagger/swagger',
             'host' => '',
             'defaults' => [
@@ -1045,7 +1216,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -32 => [
+        -37 => [
             'path' => '/[index]',
             'host' => '',
             'defaults' => [
@@ -1066,7 +1237,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -33 => [
+        -38 => [
             'path' => '/PagosSociosList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1089,7 +1260,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -34 => [
+        -39 => [
             'path' => '/PagosSociosAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1112,7 +1283,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -35 => [
+        -40 => [
             'path' => '/PagosSociosView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1135,7 +1306,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -36 => [
+        -41 => [
             'path' => '/PagosSociosEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1158,7 +1329,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -37 => [
+        -42 => [
             'path' => '/PagosSociosDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1181,7 +1352,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -38 => [
+        -43 => [
             'path' => '/ProveedoresList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1204,7 +1375,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -39 => [
+        -44 => [
             'path' => '/ProveedoresAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1227,7 +1398,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -40 => [
+        -45 => [
             'path' => '/ProveedoresView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1250,7 +1421,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -41 => [
+        -46 => [
             'path' => '/ProveedoresEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1273,7 +1444,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -42 => [
+        -47 => [
             'path' => '/ProveedoresDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1296,7 +1467,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -43 => [
+        -48 => [
             'path' => '/SociosList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1319,7 +1490,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -44 => [
+        -49 => [
             'path' => '/SociosAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1342,7 +1513,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -45 => [
+        -50 => [
             'path' => '/SociosView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1365,7 +1536,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -46 => [
+        -51 => [
             'path' => '/SociosEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1388,7 +1559,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -47 => [
+        -52 => [
             'path' => '/SociosDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1411,7 +1582,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -48 => [
+        -53 => [
             'path' => '/StockList[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1434,7 +1605,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -49 => [
+        -54 => [
             'path' => '/StockAdd[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1457,7 +1628,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -50 => [
+        -55 => [
             'path' => '/StockView[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1480,7 +1651,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -51 => [
+        -56 => [
             'path' => '/StockEdit[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1503,7 +1674,7 @@
             'condition' => '',
             'compiled' => null,
         ],
-        -52 => [
+        -57 => [
             'path' => '/StockDelete[/{id}]',
             'host' => '',
             'defaults' => [
@@ -1512,6 +1683,121 @@
                     'PHPMaker2025\\project1\\AuthenticationMiddleware',
                 ],
                 '_controller' => 'PHPMaker2025\\project1\\StockController:delete',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -58 => [
+            'path' => '/UsuariosList[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\UsuariosController:list',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -59 => [
+            'path' => '/UsuariosAdd[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\UsuariosController:add',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -60 => [
+            'path' => '/UsuariosView[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\UsuariosController:view',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -61 => [
+            'path' => '/UsuariosEdit[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\UsuariosController:edit',
+            ],
+            'requirements' => [],
+            'options' => [
+                'compiler_class' => 'Symfony\\Component\\Routing\\RouteCompiler',
+            ],
+            'schemes' => [],
+            'methods' => [
+                'GET',
+                'POST',
+                'OPTIONS',
+            ],
+            'condition' => '',
+            'compiled' => null,
+        ],
+        -62 => [
+            'path' => '/UsuariosDelete[/{id}]',
+            'host' => '',
+            'defaults' => [
+                'middlewares' => [
+                    'PHPMaker2025\\project1\\PermissionMiddleware',
+                    'PHPMaker2025\\project1\\AuthenticationMiddleware',
+                ],
+                '_controller' => 'PHPMaker2025\\project1\\UsuariosController:delete',
             ],
             'requirements' => [],
             'options' => [

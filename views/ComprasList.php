@@ -166,6 +166,9 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->created_at->Visible) { // created_at ?>
         <th data-name="created_at" class="<?= $Page->created_at->headerCellClass() ?>"><div id="elh_compras_created_at" class="compras_created_at"><?= $Page->renderFieldHeader($Page->created_at) ?></div></th>
 <?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <th data-name="cooperativa_id" class="<?= $Page->cooperativa_id->headerCellClass() ?>"><div id="elh_compras_cooperativa_id" class="compras_cooperativa_id"><?= $Page->renderFieldHeader($Page->cooperativa_id) ?></div></th>
+<?php } ?>
 <?php
 // Render list options (header, right)
 $Page->ListOptions->render("header", "right");
@@ -247,6 +250,14 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_compras_created_at" class="el_compras_created_at">
 <span<?= $Page->created_at->viewAttributes() ?>>
 <?= $Page->created_at->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+        <td data-name="cooperativa_id"<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_compras_cooperativa_id" class="el_compras_cooperativa_id">
+<span<?= $Page->cooperativa_id->viewAttributes() ?>>
+<?= $Page->cooperativa_id->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

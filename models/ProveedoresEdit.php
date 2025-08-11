@@ -140,6 +140,7 @@ class ProveedoresEdit extends Proveedores
         $this->telefono->setVisibility();
         $this->email->setVisibility();
         $this->direccion->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -722,6 +723,16 @@ class ProveedoresEdit extends Proveedores
                 $this->direccion->setFormValue($val);
             }
         }
+
+        // Check field name 'cooperativa_id' before field var 'x_cooperativa_id'
+        $val = $this->getFormValue("cooperativa_id", null) ?? $this->getFormValue("x_cooperativa_id", null);
+        if (!$this->cooperativa_id->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->cooperativa_id->Visible = false; // Disable update for API request
+            } else {
+                $this->cooperativa_id->setFormValue($val, true, $validate);
+            }
+        }
     }
 
     // Restore form values
@@ -733,6 +744,7 @@ class ProveedoresEdit extends Proveedores
         $this->telefono->CurrentValue = $this->telefono->FormValue;
         $this->email->CurrentValue = $this->email->FormValue;
         $this->direccion->CurrentValue = $this->direccion->FormValue;
+        $this->cooperativa_id->CurrentValue = $this->cooperativa_id->FormValue;
     }
 
     /**
@@ -778,6 +790,7 @@ class ProveedoresEdit extends Proveedores
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
         $this->direccion->setDbValue($row['direccion']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -790,6 +803,7 @@ class ProveedoresEdit extends Proveedores
         $row['telefono'] = $this->telefono->DefaultValue;
         $row['email'] = $this->email->DefaultValue;
         $row['direccion'] = $this->direccion->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -842,6 +856,9 @@ class ProveedoresEdit extends Proveedores
         // direccion
         $this->direccion->RowCssClass = "row";
 
+        // cooperativa_id
+        $this->cooperativa_id->RowCssClass = "row";
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -862,6 +879,10 @@ class ProveedoresEdit extends Proveedores
             // direccion
             $this->direccion->ViewValue = $this->direccion->CurrentValue;
 
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
+
             // id
             $this->id->HrefValue = "";
 
@@ -879,6 +900,9 @@ class ProveedoresEdit extends Proveedores
 
             // direccion
             $this->direccion->HrefValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
         } elseif ($this->RowType == RowType::EDIT) {
             // id
             $this->id->setupEditAttributes();
@@ -909,6 +933,14 @@ class ProveedoresEdit extends Proveedores
             $this->direccion->EditValue = !$this->direccion->Raw ? HtmlDecode($this->direccion->CurrentValue) : $this->direccion->CurrentValue;
             $this->direccion->PlaceHolder = RemoveHtml($this->direccion->caption());
 
+            // cooperativa_id
+            $this->cooperativa_id->setupEditAttributes();
+            $this->cooperativa_id->EditValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->PlaceHolder = RemoveHtml($this->cooperativa_id->caption());
+            if (strval($this->cooperativa_id->EditValue) != "" && is_numeric($this->cooperativa_id->EditValue)) {
+                $this->cooperativa_id->EditValue = FormatNumber($this->cooperativa_id->EditValue, null);
+            }
+
             // Edit refer script
 
             // id
@@ -928,6 +960,9 @@ class ProveedoresEdit extends Proveedores
 
             // direccion
             $this->direccion->HrefValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
         }
         if ($this->RowType == RowType::ADD || $this->RowType == RowType::EDIT || $this->RowType == RowType::SEARCH) { // Add/Edit/Search row
             $this->setupFieldTitles();
@@ -976,6 +1011,14 @@ class ProveedoresEdit extends Proveedores
                 if (!$this->direccion->IsDetailKey && IsEmpty($this->direccion->FormValue)) {
                     $this->direccion->addErrorMessage(str_replace("%s", $this->direccion->caption(), $this->direccion->RequiredErrorMessage));
                 }
+            }
+            if ($this->cooperativa_id->Visible && $this->cooperativa_id->Required) {
+                if (!$this->cooperativa_id->IsDetailKey && IsEmpty($this->cooperativa_id->FormValue)) {
+                    $this->cooperativa_id->addErrorMessage(str_replace("%s", $this->cooperativa_id->caption(), $this->cooperativa_id->RequiredErrorMessage));
+                }
+            }
+            if (!CheckInteger($this->cooperativa_id->FormValue)) {
+                $this->cooperativa_id->addErrorMessage($this->cooperativa_id->getErrorMessage(false));
             }
 
         // Return validate result
@@ -1078,6 +1121,9 @@ class ProveedoresEdit extends Proveedores
 
         // direccion
         $this->direccion->setDbValueDef($newRow, $this->direccion->CurrentValue, $this->direccion->ReadOnly);
+
+        // cooperativa_id
+        $this->cooperativa_id->setDbValueDef($newRow, $this->cooperativa_id->CurrentValue, $this->cooperativa_id->ReadOnly);
         return $newRow;
     }
 
@@ -1101,6 +1147,9 @@ class ProveedoresEdit extends Proveedores
         }
         if (isset($row['direccion'])) { // direccion
             $this->direccion->CurrentValue = $row['direccion'];
+        }
+        if (isset($row['cooperativa_id'])) { // cooperativa_id
+            $this->cooperativa_id->CurrentValue = $row['cooperativa_id'];
         }
     }
 

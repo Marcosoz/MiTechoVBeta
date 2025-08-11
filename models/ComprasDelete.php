@@ -140,6 +140,7 @@ class ComprasDelete extends Compras
         $this->monto->setVisibility();
         $this->saldo_pendiente->setVisibility();
         $this->created_at->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -571,6 +572,7 @@ class ComprasDelete extends Compras
         $this->monto->setDbValue($row['monto']);
         $this->saldo_pendiente->setDbValue($row['saldo_pendiente']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -584,6 +586,7 @@ class ComprasDelete extends Compras
         $row['monto'] = $this->monto->DefaultValue;
         $row['saldo_pendiente'] = $this->saldo_pendiente->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -613,6 +616,8 @@ class ComprasDelete extends Compras
 
         // created_at
 
+        // cooperativa_id
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -641,6 +646,10 @@ class ComprasDelete extends Compras
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
 
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
+
             // id
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
@@ -668,6 +677,10 @@ class ComprasDelete extends Compras
             // created_at
             $this->created_at->HrefValue = "";
             $this->created_at->TooltipValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
+            $this->cooperativa_id->TooltipValue = "";
         }
 
         // Call Row Rendered event

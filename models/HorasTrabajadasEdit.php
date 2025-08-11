@@ -140,6 +140,7 @@ class HorasTrabajadasEdit extends HorasTrabajadas
         $this->horas->setVisibility();
         $this->tarea->setVisibility();
         $this->created_at->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -724,6 +725,16 @@ class HorasTrabajadasEdit extends HorasTrabajadas
             }
             $this->created_at->CurrentValue = UnformatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern());
         }
+
+        // Check field name 'cooperativa_id' before field var 'x_cooperativa_id'
+        $val = $this->getFormValue("cooperativa_id", null) ?? $this->getFormValue("x_cooperativa_id", null);
+        if (!$this->cooperativa_id->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->cooperativa_id->Visible = false; // Disable update for API request
+            } else {
+                $this->cooperativa_id->setFormValue($val, true, $validate);
+            }
+        }
     }
 
     // Restore form values
@@ -737,6 +748,7 @@ class HorasTrabajadasEdit extends HorasTrabajadas
         $this->tarea->CurrentValue = $this->tarea->FormValue;
         $this->created_at->CurrentValue = $this->created_at->FormValue;
         $this->created_at->CurrentValue = UnformatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern());
+        $this->cooperativa_id->CurrentValue = $this->cooperativa_id->FormValue;
     }
 
     /**
@@ -782,6 +794,7 @@ class HorasTrabajadasEdit extends HorasTrabajadas
         $this->horas->setDbValue($row['horas']);
         $this->tarea->setDbValue($row['tarea']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -794,6 +807,7 @@ class HorasTrabajadasEdit extends HorasTrabajadas
         $row['horas'] = $this->horas->DefaultValue;
         $row['tarea'] = $this->tarea->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -846,6 +860,9 @@ class HorasTrabajadasEdit extends HorasTrabajadas
         // created_at
         $this->created_at->RowCssClass = "row";
 
+        // cooperativa_id
+        $this->cooperativa_id->RowCssClass = "row";
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -870,6 +887,10 @@ class HorasTrabajadasEdit extends HorasTrabajadas
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
 
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
+
             // id
             $this->id->HrefValue = "";
 
@@ -887,6 +908,9 @@ class HorasTrabajadasEdit extends HorasTrabajadas
 
             // created_at
             $this->created_at->HrefValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
         } elseif ($this->RowType == RowType::EDIT) {
             // id
             $this->id->setupEditAttributes();
@@ -923,6 +947,14 @@ class HorasTrabajadasEdit extends HorasTrabajadas
             $this->created_at->EditValue = FormatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern());
             $this->created_at->PlaceHolder = RemoveHtml($this->created_at->caption());
 
+            // cooperativa_id
+            $this->cooperativa_id->setupEditAttributes();
+            $this->cooperativa_id->EditValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->PlaceHolder = RemoveHtml($this->cooperativa_id->caption());
+            if (strval($this->cooperativa_id->EditValue) != "" && is_numeric($this->cooperativa_id->EditValue)) {
+                $this->cooperativa_id->EditValue = FormatNumber($this->cooperativa_id->EditValue, null);
+            }
+
             // Edit refer script
 
             // id
@@ -942,6 +974,9 @@ class HorasTrabajadasEdit extends HorasTrabajadas
 
             // created_at
             $this->created_at->HrefValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
         }
         if ($this->RowType == RowType::ADD || $this->RowType == RowType::EDIT || $this->RowType == RowType::SEARCH) { // Add/Edit/Search row
             $this->setupFieldTitles();
@@ -1002,6 +1037,14 @@ class HorasTrabajadasEdit extends HorasTrabajadas
             }
             if (!CheckDate($this->created_at->FormValue, $this->created_at->formatPattern())) {
                 $this->created_at->addErrorMessage($this->created_at->getErrorMessage(false));
+            }
+            if ($this->cooperativa_id->Visible && $this->cooperativa_id->Required) {
+                if (!$this->cooperativa_id->IsDetailKey && IsEmpty($this->cooperativa_id->FormValue)) {
+                    $this->cooperativa_id->addErrorMessage(str_replace("%s", $this->cooperativa_id->caption(), $this->cooperativa_id->RequiredErrorMessage));
+                }
+            }
+            if (!CheckInteger($this->cooperativa_id->FormValue)) {
+                $this->cooperativa_id->addErrorMessage($this->cooperativa_id->getErrorMessage(false));
             }
 
         // Return validate result
@@ -1104,6 +1147,9 @@ class HorasTrabajadasEdit extends HorasTrabajadas
 
         // created_at
         $this->created_at->setDbValueDef($newRow, UnFormatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern()), $this->created_at->ReadOnly);
+
+        // cooperativa_id
+        $this->cooperativa_id->setDbValueDef($newRow, $this->cooperativa_id->CurrentValue, $this->cooperativa_id->ReadOnly);
         return $newRow;
     }
 
@@ -1127,6 +1173,9 @@ class HorasTrabajadasEdit extends HorasTrabajadas
         }
         if (isset($row['created_at'])) { // created_at
             $this->created_at->CurrentValue = $row['created_at'];
+        }
+        if (isset($row['cooperativa_id'])) { // cooperativa_id
+            $this->cooperativa_id->CurrentValue = $row['cooperativa_id'];
         }
     }
 

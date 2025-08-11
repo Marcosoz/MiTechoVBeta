@@ -70,6 +70,7 @@ class Compras extends DbTable implements LookupTableInterface
     public DbField $monto;
     public DbField $saldo_pendiente;
     public DbField $created_at;
+    public DbField $cooperativa_id;
 
     // Page ID
     public string $PageID = ""; // To be set by subclass
@@ -285,6 +286,30 @@ class Compras extends DbTable implements LookupTableInterface
         $this->created_at->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $this->language->phrase("IncorrectDate"));
         $this->created_at->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN", "IS NULL", "IS NOT NULL"];
         $this->Fields['created_at'] = &$this->created_at;
+
+        // cooperativa_id
+        $this->cooperativa_id = new DbField(
+            $this, // Table
+            'x_cooperativa_id', // Variable name
+            'cooperativa_id', // Name
+            '`cooperativa_id`', // Expression
+            '`cooperativa_id`', // Basic search expression
+            3, // Type
+            11, // Size
+            -1, // Date/Time format
+            false, // Is upload field
+            '`cooperativa_id`', // Virtual expression
+            false, // Is virtual
+            false, // Force selection
+            false, // Is Virtual search
+            'FORMATTED TEXT', // View Tag
+            'TEXT' // Edit Tag
+        );
+        $this->cooperativa_id->InputTextType = "text";
+        $this->cooperativa_id->Raw = true;
+        $this->cooperativa_id->DefaultErrorMessage = $this->language->phrase("IncorrectInteger");
+        $this->cooperativa_id->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN", "IS NULL", "IS NOT NULL"];
+        $this->Fields['cooperativa_id'] = &$this->cooperativa_id;
 
         // Cache profile
         $this->cacheProfile = new QueryCacheProfile(0, $this->TableVar, Container("result.cache"));
@@ -836,6 +861,7 @@ class Compras extends DbTable implements LookupTableInterface
         $this->monto->DbValue = $row['monto'];
         $this->saldo_pendiente->DbValue = $row['saldo_pendiente'];
         $this->created_at->DbValue = $row['created_at'];
+        $this->cooperativa_id->DbValue = $row['cooperativa_id'];
     }
 
     // Delete uploaded files
@@ -1198,6 +1224,7 @@ class Compras extends DbTable implements LookupTableInterface
         $this->monto->setDbValue($row['monto']);
         $this->saldo_pendiente->setDbValue($row['saldo_pendiente']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Render list content
@@ -1243,6 +1270,8 @@ class Compras extends DbTable implements LookupTableInterface
 
         // created_at
 
+        // cooperativa_id
+
         // id
         $this->id->ViewValue = $this->id->CurrentValue;
 
@@ -1268,6 +1297,10 @@ class Compras extends DbTable implements LookupTableInterface
         // created_at
         $this->created_at->ViewValue = $this->created_at->CurrentValue;
         $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
+
+        // cooperativa_id
+        $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+        $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
         // id
         $this->id->HrefValue = "";
@@ -1296,6 +1329,10 @@ class Compras extends DbTable implements LookupTableInterface
         // created_at
         $this->created_at->HrefValue = "";
         $this->created_at->TooltipValue = "";
+
+        // cooperativa_id
+        $this->cooperativa_id->HrefValue = "";
+        $this->cooperativa_id->TooltipValue = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -1335,6 +1372,7 @@ class Compras extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->monto);
                     $doc->exportCaption($this->saldo_pendiente);
                     $doc->exportCaption($this->created_at);
+                    $doc->exportCaption($this->cooperativa_id);
                 } else {
                     $doc->exportCaption($this->id);
                     $doc->exportCaption($this->proveedor_id);
@@ -1343,6 +1381,7 @@ class Compras extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->monto);
                     $doc->exportCaption($this->saldo_pendiente);
                     $doc->exportCaption($this->created_at);
+                    $doc->exportCaption($this->cooperativa_id);
                 }
                 $doc->endExportRow();
             }
@@ -1376,6 +1415,7 @@ class Compras extends DbTable implements LookupTableInterface
                         $doc->exportField($this->monto);
                         $doc->exportField($this->saldo_pendiente);
                         $doc->exportField($this->created_at);
+                        $doc->exportField($this->cooperativa_id);
                     } else {
                         $doc->exportField($this->id);
                         $doc->exportField($this->proveedor_id);
@@ -1384,6 +1424,7 @@ class Compras extends DbTable implements LookupTableInterface
                         $doc->exportField($this->monto);
                         $doc->exportField($this->saldo_pendiente);
                         $doc->exportField($this->created_at);
+                        $doc->exportField($this->cooperativa_id);
                     }
                     $doc->endExportRow($rowCnt);
                 }

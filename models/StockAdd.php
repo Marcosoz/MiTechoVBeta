@@ -139,6 +139,7 @@ class StockAdd extends Stock
         $this->unidad->setVisibility();
         $this->cantidad->setVisibility();
         $this->descripcion->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -680,6 +681,16 @@ class StockAdd extends Stock
             }
         }
 
+        // Check field name 'cooperativa_id' before field var 'x_cooperativa_id'
+        $val = $this->getFormValue("cooperativa_id", null) ?? $this->getFormValue("x_cooperativa_id", null);
+        if (!$this->cooperativa_id->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->cooperativa_id->Visible = false; // Disable update for API request
+            } else {
+                $this->cooperativa_id->setFormValue($val, true, $validate);
+            }
+        }
+
         // Check field name 'id' first before field var 'x_id'
         $val = $this->hasFormValue("id") ? $this->getFormValue("id") : $this->getFormValue("x_id");
     }
@@ -691,6 +702,7 @@ class StockAdd extends Stock
         $this->unidad->CurrentValue = $this->unidad->FormValue;
         $this->cantidad->CurrentValue = $this->cantidad->FormValue;
         $this->descripcion->CurrentValue = $this->descripcion->FormValue;
+        $this->cooperativa_id->CurrentValue = $this->cooperativa_id->FormValue;
     }
 
     /**
@@ -735,6 +747,7 @@ class StockAdd extends Stock
         $this->unidad->setDbValue($row['unidad']);
         $this->cantidad->setDbValue($row['cantidad']);
         $this->descripcion->setDbValue($row['descripcion']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -746,6 +759,7 @@ class StockAdd extends Stock
         $row['unidad'] = $this->unidad->DefaultValue;
         $row['cantidad'] = $this->cantidad->DefaultValue;
         $row['descripcion'] = $this->descripcion->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -795,6 +809,9 @@ class StockAdd extends Stock
         // descripcion
         $this->descripcion->RowCssClass = "row";
 
+        // cooperativa_id
+        $this->cooperativa_id->RowCssClass = "row";
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -813,6 +830,10 @@ class StockAdd extends Stock
             // descripcion
             $this->descripcion->ViewValue = $this->descripcion->CurrentValue;
 
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
+
             // nombre_material
             $this->nombre_material->HrefValue = "";
 
@@ -824,6 +845,9 @@ class StockAdd extends Stock
 
             // descripcion
             $this->descripcion->HrefValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
         } elseif ($this->RowType == RowType::ADD) {
             // nombre_material
             $this->nombre_material->setupEditAttributes();
@@ -848,6 +872,14 @@ class StockAdd extends Stock
             $this->descripcion->EditValue = !$this->descripcion->Raw ? HtmlDecode($this->descripcion->CurrentValue) : $this->descripcion->CurrentValue;
             $this->descripcion->PlaceHolder = RemoveHtml($this->descripcion->caption());
 
+            // cooperativa_id
+            $this->cooperativa_id->setupEditAttributes();
+            $this->cooperativa_id->EditValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->PlaceHolder = RemoveHtml($this->cooperativa_id->caption());
+            if (strval($this->cooperativa_id->EditValue) != "" && is_numeric($this->cooperativa_id->EditValue)) {
+                $this->cooperativa_id->EditValue = FormatNumber($this->cooperativa_id->EditValue, null);
+            }
+
             // Add refer script
 
             // nombre_material
@@ -861,6 +893,9 @@ class StockAdd extends Stock
 
             // descripcion
             $this->descripcion->HrefValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
         }
         if ($this->RowType == RowType::ADD || $this->RowType == RowType::EDIT || $this->RowType == RowType::SEARCH) { // Add/Edit/Search row
             $this->setupFieldTitles();
@@ -902,6 +937,14 @@ class StockAdd extends Stock
                 if (!$this->descripcion->IsDetailKey && IsEmpty($this->descripcion->FormValue)) {
                     $this->descripcion->addErrorMessage(str_replace("%s", $this->descripcion->caption(), $this->descripcion->RequiredErrorMessage));
                 }
+            }
+            if ($this->cooperativa_id->Visible && $this->cooperativa_id->Required) {
+                if (!$this->cooperativa_id->IsDetailKey && IsEmpty($this->cooperativa_id->FormValue)) {
+                    $this->cooperativa_id->addErrorMessage(str_replace("%s", $this->cooperativa_id->caption(), $this->cooperativa_id->RequiredErrorMessage));
+                }
+            }
+            if (!CheckInteger($this->cooperativa_id->FormValue)) {
+                $this->cooperativa_id->addErrorMessage($this->cooperativa_id->getErrorMessage(false));
             }
 
         // Return validate result
@@ -982,6 +1025,9 @@ class StockAdd extends Stock
 
         // descripcion
         $this->descripcion->setDbValueDef($newRow, $this->descripcion->CurrentValue, false);
+
+        // cooperativa_id
+        $this->cooperativa_id->setDbValueDef($newRow, $this->cooperativa_id->CurrentValue, false);
         return $newRow;
     }
 

@@ -18,4 +18,6 @@ $sideMenu->addMenuItem(7, "mi_horas_trabajadas", $Language->menuPhrase("7", "Men
 $sideMenu->addMenuItem(8, "mi_cooperativas", $Language->menuPhrase("8", "MenuText"), "CooperativasList", -1, "", true, false, false, "", "", false, true);
 $sideMenu->addMenuItem(9, "mi_compras", $Language->menuPhrase("9", "MenuText"), "ComprasList", -1, "", true, false, false, "", "", false, true);
 $sideMenu->addMenuItem(10, "mi_ingresos", $Language->menuPhrase("10", "MenuText"), "IngresosList", -1, "", true, false, false, "", "", false, true);
+$sideMenu->addMenuItem(11, "mi_actividad_log", $Language->menuPhrase("11", "MenuText"), "ActividadLogList", -1, "", true, false, false, "", "", false, true);
+$sideMenu->addMenuItem(12, "mi_usuarios", $Language->menuPhrase("12", "MenuText"), "UsuariosList", -1, "", true, false, false, "", "", false, true);
 echo $sideMenu->toScript();

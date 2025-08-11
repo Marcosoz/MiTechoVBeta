@@ -117,6 +117,17 @@ loadjs.ready("head", function () {
 </td>
     </tr>
 <?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+    <tr id="r_cooperativa_id"<?= $Page->cooperativa_id->rowAttributes() ?>>
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_proveedores_cooperativa_id"><?= $Page->cooperativa_id->caption() ?></span></td>
+        <td data-name="cooperativa_id"<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="el_proveedores_cooperativa_id">
+<span<?= $Page->cooperativa_id->viewAttributes() ?>>
+<?= $Page->cooperativa_id->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
 </table>
 </form>
 </main>

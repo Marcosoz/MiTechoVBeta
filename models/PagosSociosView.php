@@ -157,6 +157,7 @@ class PagosSociosView extends PagosSocios
         $this->concepto->setVisibility();
         $this->fecha->setVisibility();
         $this->created_at->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -712,6 +713,7 @@ class PagosSociosView extends PagosSocios
         $this->concepto->setDbValue($row['concepto']);
         $this->fecha->setDbValue($row['fecha']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -724,6 +726,7 @@ class PagosSociosView extends PagosSocios
         $row['concepto'] = $this->concepto->DefaultValue;
         $row['fecha'] = $this->fecha->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -757,6 +760,8 @@ class PagosSociosView extends PagosSocios
 
         // created_at
 
+        // cooperativa_id
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -781,6 +786,10 @@ class PagosSociosView extends PagosSocios
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
 
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
+
             // id
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
@@ -804,6 +813,10 @@ class PagosSociosView extends PagosSocios
             // created_at
             $this->created_at->HrefValue = "";
             $this->created_at->TooltipValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
+            $this->cooperativa_id->TooltipValue = "";
         }
 
         // Call Row Rendered event

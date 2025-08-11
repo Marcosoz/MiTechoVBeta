@@ -69,6 +69,7 @@ class Proveedores extends DbTable implements LookupTableInterface
     public DbField $telefono;
     public DbField $email;
     public DbField $direccion;
+    public DbField $cooperativa_id;
 
     // Page ID
     public string $PageID = ""; // To be set by subclass
@@ -247,6 +248,30 @@ class Proveedores extends DbTable implements LookupTableInterface
         $this->direccion->InputTextType = "text";
         $this->direccion->SearchOperators = ["=", "<>", "IN", "NOT IN", "STARTS WITH", "NOT STARTS WITH", "LIKE", "NOT LIKE", "ENDS WITH", "NOT ENDS WITH", "IS EMPTY", "IS NOT EMPTY", "IS NULL", "IS NOT NULL"];
         $this->Fields['direccion'] = &$this->direccion;
+
+        // cooperativa_id
+        $this->cooperativa_id = new DbField(
+            $this, // Table
+            'x_cooperativa_id', // Variable name
+            'cooperativa_id', // Name
+            '`cooperativa_id`', // Expression
+            '`cooperativa_id`', // Basic search expression
+            3, // Type
+            11, // Size
+            -1, // Date/Time format
+            false, // Is upload field
+            '`cooperativa_id`', // Virtual expression
+            false, // Is virtual
+            false, // Force selection
+            false, // Is Virtual search
+            'FORMATTED TEXT', // View Tag
+            'TEXT' // Edit Tag
+        );
+        $this->cooperativa_id->InputTextType = "text";
+        $this->cooperativa_id->Raw = true;
+        $this->cooperativa_id->DefaultErrorMessage = $this->language->phrase("IncorrectInteger");
+        $this->cooperativa_id->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN", "IS NULL", "IS NOT NULL"];
+        $this->Fields['cooperativa_id'] = &$this->cooperativa_id;
 
         // Cache profile
         $this->cacheProfile = new QueryCacheProfile(0, $this->TableVar, Container("result.cache"));
@@ -797,6 +822,7 @@ class Proveedores extends DbTable implements LookupTableInterface
         $this->telefono->DbValue = $row['telefono'];
         $this->email->DbValue = $row['email'];
         $this->direccion->DbValue = $row['direccion'];
+        $this->cooperativa_id->DbValue = $row['cooperativa_id'];
     }
 
     // Delete uploaded files
@@ -1158,6 +1184,7 @@ class Proveedores extends DbTable implements LookupTableInterface
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
         $this->direccion->setDbValue($row['direccion']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Render list content
@@ -1201,6 +1228,8 @@ class Proveedores extends DbTable implements LookupTableInterface
 
         // direccion
 
+        // cooperativa_id
+
         // id
         $this->id->ViewValue = $this->id->CurrentValue;
 
@@ -1218,6 +1247,10 @@ class Proveedores extends DbTable implements LookupTableInterface
 
         // direccion
         $this->direccion->ViewValue = $this->direccion->CurrentValue;
+
+        // cooperativa_id
+        $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+        $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
         // id
         $this->id->HrefValue = "";
@@ -1242,6 +1275,10 @@ class Proveedores extends DbTable implements LookupTableInterface
         // direccion
         $this->direccion->HrefValue = "";
         $this->direccion->TooltipValue = "";
+
+        // cooperativa_id
+        $this->cooperativa_id->HrefValue = "";
+        $this->cooperativa_id->TooltipValue = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -1280,6 +1317,7 @@ class Proveedores extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->telefono);
                     $doc->exportCaption($this->email);
                     $doc->exportCaption($this->direccion);
+                    $doc->exportCaption($this->cooperativa_id);
                 } else {
                     $doc->exportCaption($this->id);
                     $doc->exportCaption($this->nombre);
@@ -1287,6 +1325,7 @@ class Proveedores extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->telefono);
                     $doc->exportCaption($this->email);
                     $doc->exportCaption($this->direccion);
+                    $doc->exportCaption($this->cooperativa_id);
                 }
                 $doc->endExportRow();
             }
@@ -1319,6 +1358,7 @@ class Proveedores extends DbTable implements LookupTableInterface
                         $doc->exportField($this->telefono);
                         $doc->exportField($this->email);
                         $doc->exportField($this->direccion);
+                        $doc->exportField($this->cooperativa_id);
                     } else {
                         $doc->exportField($this->id);
                         $doc->exportField($this->nombre);
@@ -1326,6 +1366,7 @@ class Proveedores extends DbTable implements LookupTableInterface
                         $doc->exportField($this->telefono);
                         $doc->exportField($this->email);
                         $doc->exportField($this->direccion);
+                        $doc->exportField($this->cooperativa_id);
                     }
                     $doc->endExportRow($rowCnt);
                 }

@@ -162,6 +162,7 @@ class IngresosList extends Ingresos
         $this->monto->setVisibility();
         $this->fecha->setVisibility();
         $this->created_at->setVisibility();
+        $this->cooperativa_id->setVisibility();
     }
 
     // Constructor
@@ -1005,6 +1006,7 @@ class IngresosList extends Ingresos
         $filterList = Concat($filterList, $this->monto->AdvancedSearch->toJson(), ","); // Field monto
         $filterList = Concat($filterList, $this->fecha->AdvancedSearch->toJson(), ","); // Field fecha
         $filterList = Concat($filterList, $this->created_at->AdvancedSearch->toJson(), ","); // Field created_at
+        $filterList = Concat($filterList, $this->cooperativa_id->AdvancedSearch->toJson(), ","); // Field cooperativa_id
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
             $filterList = Concat($filterList, $wrk, ",");
@@ -1099,6 +1101,14 @@ class IngresosList extends Ingresos
         $this->created_at->AdvancedSearch->SearchValue2 = $filter["y_created_at"] ?? "";
         $this->created_at->AdvancedSearch->SearchOperator2 = $filter["w_created_at"] ?? "";
         $this->created_at->AdvancedSearch->save();
+
+        // Field cooperativa_id
+        $this->cooperativa_id->AdvancedSearch->SearchValue = $filter["x_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchOperator = $filter["z_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchCondition = $filter["v_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchValue2 = $filter["y_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->SearchOperator2 = $filter["w_cooperativa_id"] ?? "";
+        $this->cooperativa_id->AdvancedSearch->save();
         $this->BasicSearch->setKeyword($filter[Config("TABLE_BASIC_SEARCH")] ?? "");
         $this->BasicSearch->setType($filter[Config("TABLE_BASIC_SEARCH_TYPE")] ?? "");
     }
@@ -1215,6 +1225,7 @@ class IngresosList extends Ingresos
             $this->updateSort($this->monto); // monto
             $this->updateSort($this->fecha); // fecha
             $this->updateSort($this->created_at); // created_at
+            $this->updateSort($this->cooperativa_id); // cooperativa_id
             $this->setStartRecordNumber(1); // Reset start position
         }
 
@@ -1246,6 +1257,7 @@ class IngresosList extends Ingresos
                 $this->monto->setSort("");
                 $this->fecha->setSort("");
                 $this->created_at->setSort("");
+                $this->cooperativa_id->setSort("");
             }
 
             // Reset start position
@@ -1470,6 +1482,7 @@ class IngresosList extends Ingresos
             $this->createColumnOption($option, "monto");
             $this->createColumnOption($option, "fecha");
             $this->createColumnOption($option, "created_at");
+            $this->createColumnOption($option, "cooperativa_id");
         }
 
         // Set up custom actions
@@ -1908,6 +1921,7 @@ class IngresosList extends Ingresos
         $this->monto->setDbValue($row['monto']);
         $this->fecha->setDbValue($row['fecha']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->cooperativa_id->setDbValue($row['cooperativa_id']);
     }
 
     // Return a row with default values
@@ -1921,6 +1935,7 @@ class IngresosList extends Ingresos
         $row['monto'] = $this->monto->DefaultValue;
         $row['fecha'] = $this->fecha->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         return $row;
     }
 
@@ -1975,6 +1990,8 @@ class IngresosList extends Ingresos
 
         // created_at
 
+        // cooperativa_id
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -2006,6 +2023,10 @@ class IngresosList extends Ingresos
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
 
+            // cooperativa_id
+            $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
+
             // id
             $this->id->HrefValue = "";
             $this->id->TooltipValue = "";
@@ -2033,6 +2054,10 @@ class IngresosList extends Ingresos
             // created_at
             $this->created_at->HrefValue = "";
             $this->created_at->TooltipValue = "";
+
+            // cooperativa_id
+            $this->cooperativa_id->HrefValue = "";
+            $this->cooperativa_id->TooltipValue = "";
         }
 
         // Call Row Rendered event

@@ -26,7 +26,8 @@ loadjs.ready(["wrapper", "head"], function () {
             ["contacto", [fields.contacto.visible && fields.contacto.required ? ew.Validators.required(fields.contacto.caption) : null], fields.contacto.isInvalid],
             ["telefono", [fields.telefono.visible && fields.telefono.required ? ew.Validators.required(fields.telefono.caption) : null], fields.telefono.isInvalid],
             ["email", [fields.email.visible && fields.email.required ? ew.Validators.required(fields.email.caption) : null], fields.email.isInvalid],
-            ["direccion", [fields.direccion.visible && fields.direccion.required ? ew.Validators.required(fields.direccion.caption) : null], fields.direccion.isInvalid]
+            ["direccion", [fields.direccion.visible && fields.direccion.required ? ew.Validators.required(fields.direccion.caption) : null], fields.direccion.isInvalid],
+            ["cooperativa_id", [fields.cooperativa_id.visible && fields.cooperativa_id.required ? ew.Validators.required(fields.cooperativa_id.caption) : null, ew.Validators.integer], fields.cooperativa_id.isInvalid]
         ])
 
         // Form_CustomValidate
@@ -127,6 +128,18 @@ $Page->showMessage();
 <input type="<?= $Page->direccion->getInputTextType() ?>" name="x_direccion" id="x_direccion" data-table="proveedores" data-field="x_direccion" value="<?= $Page->direccion->getEditValue() ?>" size="30" maxlength="65535" placeholder="<?= HtmlEncode($Page->direccion->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->direccion->formatPattern()) ?>"<?= $Page->direccion->editAttributes() ?> aria-describedby="x_direccion_help">
 <?= $Page->direccion->getCustomMessage() ?>
 <div class="invalid-feedback"><?= $Page->direccion->getErrorMessage() ?></div>
+</span>
+</div></div>
+    </div>
+<?php } ?>
+<?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
+    <div id="r_cooperativa_id"<?= $Page->cooperativa_id->rowAttributes() ?>>
+        <label id="elh_proveedores_cooperativa_id" for="x_cooperativa_id" class="<?= $Page->LeftColumnClass ?>"><?= $Page->cooperativa_id->caption() ?><?= $Page->cooperativa_id->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->cooperativa_id->cellAttributes() ?>>
+<span id="el_proveedores_cooperativa_id">
+<input type="<?= $Page->cooperativa_id->getInputTextType() ?>" name="x_cooperativa_id" id="x_cooperativa_id" data-table="proveedores" data-field="x_cooperativa_id" value="<?= $Page->cooperativa_id->getEditValue() ?>" size="30" placeholder="<?= HtmlEncode($Page->cooperativa_id->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->cooperativa_id->formatPattern()) ?>"<?= $Page->cooperativa_id->editAttributes() ?> aria-describedby="x_cooperativa_id_help">
+<?= $Page->cooperativa_id->getCustomMessage() ?>
+<div class="invalid-feedback"><?= $Page->cooperativa_id->getErrorMessage() ?></div>
 </span>
 </div></div>
     </div>
