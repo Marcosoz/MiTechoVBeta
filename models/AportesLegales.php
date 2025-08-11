@@ -67,6 +67,7 @@ class AportesLegales extends DbTable implements LookupTableInterface
     public DbField $cooperativa_id;
     public DbField $concepto;
     public DbField $monto;
+    public DbField $archivo;
     public DbField $fecha;
     public DbField $created_at;
 
@@ -207,6 +208,32 @@ class AportesLegales extends DbTable implements LookupTableInterface
         $this->monto->DefaultErrorMessage = $this->language->phrase("IncorrectFloat");
         $this->monto->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN", "IS NULL", "IS NOT NULL"];
         $this->Fields['monto'] = &$this->monto;
+
+        // archivo
+        $this->archivo = new DbField(
+            $this, // Table
+            'x_archivo', // Variable name
+            'archivo', // Name
+            '`archivo`', // Expression
+            '`archivo`', // Basic search expression
+            204, // Type
+            65535, // Size
+            -1, // Date/Time format
+            true, // Is upload field
+            '`archivo`', // Virtual expression
+            false, // Is virtual
+            false, // Force selection
+            false, // Is Virtual search
+            'FORMATTED TEXT', // View Tag
+            'FILE' // Edit Tag
+        );
+        $this->archivo->InputTextType = "text";
+        $this->archivo->Raw = true;
+        $this->archivo->Nullable = false; // NOT NULL field
+        $this->archivo->Required = true; // Required field
+        $this->archivo->Sortable = false; // Allow sort
+        $this->archivo->SearchOperators = ["=", "<>"];
+        $this->Fields['archivo'] = &$this->archivo;
 
         // fecha
         $this->fecha = new DbField(
@@ -805,6 +832,7 @@ class AportesLegales extends DbTable implements LookupTableInterface
         $this->cooperativa_id->DbValue = $row['cooperativa_id'];
         $this->concepto->DbValue = $row['concepto'];
         $this->monto->DbValue = $row['monto'];
+        $this->archivo->Upload->DbValue = $row['archivo'];
         $this->fecha->DbValue = $row['fecha'];
         $this->created_at->DbValue = $row['created_at'];
     }
@@ -1166,6 +1194,7 @@ class AportesLegales extends DbTable implements LookupTableInterface
         $this->cooperativa_id->setDbValue($row['cooperativa_id']);
         $this->concepto->setDbValue($row['concepto']);
         $this->monto->setDbValue($row['monto']);
+        $this->archivo->Upload->DbValue = $row['archivo'];
         $this->fecha->setDbValue($row['fecha']);
         $this->created_at->setDbValue($row['created_at']);
     }
@@ -1207,6 +1236,8 @@ class AportesLegales extends DbTable implements LookupTableInterface
 
         // monto
 
+        // archivo
+
         // fecha
 
         // created_at
@@ -1224,6 +1255,14 @@ class AportesLegales extends DbTable implements LookupTableInterface
         // monto
         $this->monto->ViewValue = $this->monto->CurrentValue;
         $this->monto->ViewValue = FormatNumber($this->monto->ViewValue, $this->monto->formatPattern());
+
+        // archivo
+        if (!IsEmpty($this->archivo->Upload->DbValue)) {
+            $this->archivo->ViewValue = $this->id->CurrentValue;
+            $this->archivo->IsBlobImage = IsImageFile(ContentExtension($this->archivo->Upload->DbValue));
+        } else {
+            $this->archivo->ViewValue = "";
+        }
 
         // fecha
         $this->fecha->ViewValue = $this->fecha->CurrentValue;
@@ -1248,6 +1287,22 @@ class AportesLegales extends DbTable implements LookupTableInterface
         // monto
         $this->monto->HrefValue = "";
         $this->monto->TooltipValue = "";
+
+        // archivo
+        if (!empty($this->archivo->Upload->DbValue)) {
+            $this->archivo->HrefValue = GetFileUploadUrl($this->archivo, $this->id->CurrentValue);
+            $this->archivo->LinkAttrs["target"] = "";
+            if ($this->archivo->IsBlobImage && empty($this->archivo->LinkAttrs["target"])) {
+                $this->archivo->LinkAttrs["target"] = "_blank";
+            }
+            if ($this->isExport()) {
+                $this->archivo->HrefValue = FullUrl($this->archivo->HrefValue, "href");
+            }
+        } else {
+            $this->archivo->HrefValue = "";
+        }
+        $this->archivo->ExportHrefValue = GetFileUploadUrl($this->archivo, $this->id->CurrentValue);
+        $this->archivo->TooltipValue = "";
 
         // fecha
         $this->fecha->HrefValue = "";
@@ -1292,6 +1347,7 @@ class AportesLegales extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->cooperativa_id);
                     $doc->exportCaption($this->concepto);
                     $doc->exportCaption($this->monto);
+                    $doc->exportCaption($this->archivo);
                     $doc->exportCaption($this->fecha);
                     $doc->exportCaption($this->created_at);
                 } else {
@@ -1331,6 +1387,7 @@ class AportesLegales extends DbTable implements LookupTableInterface
                         $doc->exportField($this->cooperativa_id);
                         $doc->exportField($this->concepto);
                         $doc->exportField($this->monto);
+                        $doc->exportField($this->archivo);
                         $doc->exportField($this->fecha);
                         $doc->exportField($this->created_at);
                     } else {
@@ -1373,8 +1430,122 @@ class AportesLegales extends DbTable implements LookupTableInterface
     public function getFileData(string $fldparm, string $key, bool $resize, int $width = 0, int $height = 0, array $plugins = []): Response
     {
         global $DownloadFileName;
+        $width = ($width > 0) ? $width : Config("THUMBNAIL_DEFAULT_WIDTH");
+        $height = ($height > 0) ? $height : Config("THUMBNAIL_DEFAULT_HEIGHT");
 
-        // No binary fields
+        // Set up field name / file name field / file type field
+        $fldName = "";
+        $fileNameFld = "";
+        $fileTypeFld = "";
+        if ($fldparm == 'archivo') {
+            $fldName = "archivo";
+        } else {
+            throw new InvalidArgumentException("Incorrect field '" . $fldparm . "'"); // Incorrect field
+        }
+
+        // Set up key values
+        $ar = explode(Config("COMPOSITE_KEY_SEPARATOR"), $key);
+        if (count($ar) == 1) {
+            $this->id->CurrentValue = $ar[0];
+        } else {
+            throw new InvalidArgumentException("Incorrect key '" . $key . "'"); // Incorrect key
+        }
+
+        // Set up filter (WHERE Clause)
+        $filter = $this->getRecordFilter();
+        $this->CurrentFilter = $filter;
+        $sql = $this->getCurrentSql();
+        $conn = $this->getConnection();
+        $dbtype = GetConnectionType($this->Dbid);
+        $response = ResponseFactory()->createResponse();
+        if ($row = $conn->fetchAssociative($sql)) {
+            $val = $row[$fldName];
+            if (!IsEmpty($val)) {
+                $fld = $this->Fields[$fldName];
+
+                // Binary data
+                if ($fld->DataType == DataType::BLOB) {
+                    if ($dbtype != "MYSQL") {
+                        if (is_resource($val) && get_resource_type($val) == "stream") { // Byte array
+                            $val = stream_get_contents($val);
+                        }
+                    }
+                    if ($resize) {
+                        ResizeBinary($val, $width, $height, plugins: $plugins);
+                    }
+
+                    // Write file type
+                    if ($fileTypeFld != "" && !IsEmpty($row[$fileTypeFld])) {
+                        $response = $response->withHeader("Content-type", $row[$fileTypeFld]);
+                    } else {
+                        $response = $response->withHeader("Content-type", ContentType($val));
+                    }
+
+                    // Write file name
+                    $downloadPdf = !Config("EMBED_PDF") && Config("DOWNLOAD_PDF_FILE");
+                    if ($fileNameFld != "" && !IsEmpty($row[$fileNameFld])) {
+                        $fileName = $row[$fileNameFld];
+                        $pathinfo = pathinfo($fileName);
+                        $ext = strtolower($pathinfo["extension"] ?? "");
+                        $isPdf = SameText($ext, "pdf");
+                        if ($downloadPdf || !$isPdf) { // Skip header if not download PDF
+                            $response = $response->withHeader("Content-Disposition", "attachment; filename=\"" . $fileName . "\"");
+                        }
+                    } else {
+                        $ext = ContentExtension($val);
+                        $isPdf = SameText($ext, ".pdf");
+                        if ($isPdf && $downloadPdf) { // Add header if download PDF
+                            $response = $response->withHeader("Content-Disposition", "attachment" . ($DownloadFileName ? "; filename=\"" . $DownloadFileName . "\"" : ""));
+                        }
+                    }
+
+                    // Write file data
+                    if (
+                        StartsString("PK", $val)
+                        && ContainsString($val, "[Content_Types].xml")
+                        && ContainsString($val, "_rels")
+                        && ContainsString($val, "docProps")
+                    ) { // Fix Office 2007 documents
+                        if (!EndsString("\0\0\0", $val)) { // Not ends with 3 or 4 \0
+                            $val .= "\0\0\0\0";
+                        }
+                    }
+
+                    // Clear any debug message
+                    if (ob_get_length()) {
+                        ob_end_clean();
+                    }
+
+                    // Write binary data
+                    $response = $response->write($val);
+
+                // Upload to folder
+                } else {
+                    if ($fld->UploadMultiple) {
+                        $files = explode(Config("MULTIPLE_UPLOAD_SEPARATOR"), $val);
+                    } else {
+                        $files = [$val];
+                    }
+                    $data = [];
+                    $ar = [];
+                    if ($fld->hasMethod("getUploadPath")) { // Check field level upload path
+                        $fld->UploadPath = $fld->getUploadPath();
+                    }
+                    foreach ($files as $file) {
+                        if (!IsEmpty($file)) {
+                            if (Config("ENCRYPT_FILE_PATH")) {
+                                $ar[$file] = FullUrl(GetApiUrl(Config("API_FILE_ACTION") .
+                                    "/" . $this->TableVar . "/" . Encrypt($fld->uploadPath() . $file)));
+                            } else {
+                                $ar[$file] = FullUrl($fld->hrefPath() . $file);
+                            }
+                        }
+                    }
+                    $data[$fld->Param] = $ar;
+                    $response = $response->withJson($data);
+                }
+            }
+        }
         return $response;
     }
 

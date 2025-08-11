@@ -136,6 +136,8 @@ class CooperativasEdit extends Cooperativas
     {
         $this->id->setVisibility();
         $this->nombre->setVisibility();
+        $this->departamento->setVisibility();
+        $this->ciudad->setVisibility();
         $this->direccion->setVisibility();
         $this->telefono->setVisibility();
         $this->email->setVisibility();
@@ -683,6 +685,26 @@ class CooperativasEdit extends Cooperativas
             }
         }
 
+        // Check field name 'departamento' before field var 'x_departamento'
+        $val = $this->getFormValue("departamento", null) ?? $this->getFormValue("x_departamento", null);
+        if (!$this->departamento->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->departamento->Visible = false; // Disable update for API request
+            } else {
+                $this->departamento->setFormValue($val);
+            }
+        }
+
+        // Check field name 'ciudad' before field var 'x_ciudad'
+        $val = $this->getFormValue("ciudad", null) ?? $this->getFormValue("x_ciudad", null);
+        if (!$this->ciudad->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->ciudad->Visible = false; // Disable update for API request
+            } else {
+                $this->ciudad->setFormValue($val);
+            }
+        }
+
         // Check field name 'direccion' before field var 'x_direccion'
         $val = $this->getFormValue("direccion", null) ?? $this->getFormValue("x_direccion", null);
         if (!$this->direccion->IsDetailKey) {
@@ -730,6 +752,8 @@ class CooperativasEdit extends Cooperativas
     {
         $this->id->CurrentValue = $this->id->FormValue;
         $this->nombre->CurrentValue = $this->nombre->FormValue;
+        $this->departamento->CurrentValue = $this->departamento->FormValue;
+        $this->ciudad->CurrentValue = $this->ciudad->FormValue;
         $this->direccion->CurrentValue = $this->direccion->FormValue;
         $this->telefono->CurrentValue = $this->telefono->FormValue;
         $this->email->CurrentValue = $this->email->FormValue;
@@ -776,6 +800,8 @@ class CooperativasEdit extends Cooperativas
         $this->rowSelected($row);
         $this->id->setDbValue($row['id']);
         $this->nombre->setDbValue($row['nombre']);
+        $this->departamento->setDbValue($row['departamento']);
+        $this->ciudad->setDbValue($row['ciudad']);
         $this->direccion->setDbValue($row['direccion']);
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
@@ -788,6 +814,8 @@ class CooperativasEdit extends Cooperativas
         $row = [];
         $row['id'] = $this->id->DefaultValue;
         $row['nombre'] = $this->nombre->DefaultValue;
+        $row['departamento'] = $this->departamento->DefaultValue;
+        $row['ciudad'] = $this->ciudad->DefaultValue;
         $row['direccion'] = $this->direccion->DefaultValue;
         $row['telefono'] = $this->telefono->DefaultValue;
         $row['email'] = $this->email->DefaultValue;
@@ -832,6 +860,12 @@ class CooperativasEdit extends Cooperativas
         // nombre
         $this->nombre->RowCssClass = "row";
 
+        // departamento
+        $this->departamento->RowCssClass = "row";
+
+        // ciudad
+        $this->ciudad->RowCssClass = "row";
+
         // direccion
         $this->direccion->RowCssClass = "row";
 
@@ -852,6 +886,12 @@ class CooperativasEdit extends Cooperativas
             // nombre
             $this->nombre->ViewValue = $this->nombre->CurrentValue;
 
+            // departamento
+            $this->departamento->ViewValue = $this->departamento->CurrentValue;
+
+            // ciudad
+            $this->ciudad->ViewValue = $this->ciudad->CurrentValue;
+
             // direccion
             $this->direccion->ViewValue = $this->direccion->CurrentValue;
 
@@ -870,6 +910,12 @@ class CooperativasEdit extends Cooperativas
 
             // nombre
             $this->nombre->HrefValue = "";
+
+            // departamento
+            $this->departamento->HrefValue = "";
+
+            // ciudad
+            $this->ciudad->HrefValue = "";
 
             // direccion
             $this->direccion->HrefValue = "";
@@ -891,6 +937,16 @@ class CooperativasEdit extends Cooperativas
             $this->nombre->setupEditAttributes();
             $this->nombre->EditValue = !$this->nombre->Raw ? HtmlDecode($this->nombre->CurrentValue) : $this->nombre->CurrentValue;
             $this->nombre->PlaceHolder = RemoveHtml($this->nombre->caption());
+
+            // departamento
+            $this->departamento->setupEditAttributes();
+            $this->departamento->EditValue = !$this->departamento->Raw ? HtmlDecode($this->departamento->CurrentValue) : $this->departamento->CurrentValue;
+            $this->departamento->PlaceHolder = RemoveHtml($this->departamento->caption());
+
+            // ciudad
+            $this->ciudad->setupEditAttributes();
+            $this->ciudad->EditValue = !$this->ciudad->Raw ? HtmlDecode($this->ciudad->CurrentValue) : $this->ciudad->CurrentValue;
+            $this->ciudad->PlaceHolder = RemoveHtml($this->ciudad->caption());
 
             // direccion
             $this->direccion->setupEditAttributes();
@@ -919,6 +975,12 @@ class CooperativasEdit extends Cooperativas
 
             // nombre
             $this->nombre->HrefValue = "";
+
+            // departamento
+            $this->departamento->HrefValue = "";
+
+            // ciudad
+            $this->ciudad->HrefValue = "";
 
             // direccion
             $this->direccion->HrefValue = "";
@@ -958,6 +1020,16 @@ class CooperativasEdit extends Cooperativas
             if ($this->nombre->Visible && $this->nombre->Required) {
                 if (!$this->nombre->IsDetailKey && IsEmpty($this->nombre->FormValue)) {
                     $this->nombre->addErrorMessage(str_replace("%s", $this->nombre->caption(), $this->nombre->RequiredErrorMessage));
+                }
+            }
+            if ($this->departamento->Visible && $this->departamento->Required) {
+                if (!$this->departamento->IsDetailKey && IsEmpty($this->departamento->FormValue)) {
+                    $this->departamento->addErrorMessage(str_replace("%s", $this->departamento->caption(), $this->departamento->RequiredErrorMessage));
+                }
+            }
+            if ($this->ciudad->Visible && $this->ciudad->Required) {
+                if (!$this->ciudad->IsDetailKey && IsEmpty($this->ciudad->FormValue)) {
+                    $this->ciudad->addErrorMessage(str_replace("%s", $this->ciudad->caption(), $this->ciudad->RequiredErrorMessage));
                 }
             }
             if ($this->direccion->Visible && $this->direccion->Required) {
@@ -1073,6 +1145,12 @@ class CooperativasEdit extends Cooperativas
         // nombre
         $this->nombre->setDbValueDef($newRow, $this->nombre->CurrentValue, $this->nombre->ReadOnly);
 
+        // departamento
+        $this->departamento->setDbValueDef($newRow, $this->departamento->CurrentValue, $this->departamento->ReadOnly);
+
+        // ciudad
+        $this->ciudad->setDbValueDef($newRow, $this->ciudad->CurrentValue, $this->ciudad->ReadOnly);
+
         // direccion
         $this->direccion->setDbValueDef($newRow, $this->direccion->CurrentValue, $this->direccion->ReadOnly);
 
@@ -1095,6 +1173,12 @@ class CooperativasEdit extends Cooperativas
     {
         if (isset($row['nombre'])) { // nombre
             $this->nombre->CurrentValue = $row['nombre'];
+        }
+        if (isset($row['departamento'])) { // departamento
+            $this->departamento->CurrentValue = $row['departamento'];
+        }
+        if (isset($row['ciudad'])) { // ciudad
+            $this->ciudad->CurrentValue = $row['ciudad'];
         }
         if (isset($row['direccion'])) { // direccion
             $this->direccion->CurrentValue = $row['direccion'];

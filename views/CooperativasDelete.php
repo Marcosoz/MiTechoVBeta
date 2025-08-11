@@ -56,6 +56,12 @@ $Page->showMessage();
 <?php if ($Page->nombre->Visible) { // nombre ?>
         <th class="<?= $Page->nombre->headerCellClass() ?>"><span id="elh_cooperativas_nombre" class="cooperativas_nombre"><?= $Page->nombre->caption() ?></span></th>
 <?php } ?>
+<?php if ($Page->departamento->Visible) { // departamento ?>
+        <th class="<?= $Page->departamento->headerCellClass() ?>"><span id="elh_cooperativas_departamento" class="cooperativas_departamento"><?= $Page->departamento->caption() ?></span></th>
+<?php } ?>
+<?php if ($Page->ciudad->Visible) { // ciudad ?>
+        <th class="<?= $Page->ciudad->headerCellClass() ?>"><span id="elh_cooperativas_ciudad" class="cooperativas_ciudad"><?= $Page->ciudad->caption() ?></span></th>
+<?php } ?>
 <?php if ($Page->direccion->Visible) { // direccion ?>
         <th class="<?= $Page->direccion->headerCellClass() ?>"><span id="elh_cooperativas_direccion" class="cooperativas_direccion"><?= $Page->direccion->caption() ?></span></th>
 <?php } ?>
@@ -102,6 +108,22 @@ while ($Page->fetch()) {
 <span id="">
 <span<?= $Page->nombre->viewAttributes() ?>>
 <?= $Page->nombre->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
+<?php if ($Page->departamento->Visible) { // departamento ?>
+        <td<?= $Page->departamento->cellAttributes() ?>>
+<span id="">
+<span<?= $Page->departamento->viewAttributes() ?>>
+<?= $Page->departamento->getViewValue() ?></span>
+</span>
+</td>
+<?php } ?>
+<?php if ($Page->ciudad->Visible) { // ciudad ?>
+        <td<?= $Page->ciudad->cellAttributes() ?>>
+<span id="">
+<span<?= $Page->ciudad->viewAttributes() ?>>
+<?= $Page->ciudad->getViewValue() ?></span>
 </span>
 </td>
 <?php } ?>

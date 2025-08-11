@@ -73,6 +73,28 @@ loadjs.ready("head", function () {
 </td>
     </tr>
 <?php } ?>
+<?php if ($Page->departamento->Visible) { // departamento ?>
+    <tr id="r_departamento"<?= $Page->departamento->rowAttributes() ?>>
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_cooperativas_departamento"><?= $Page->departamento->caption() ?></span></td>
+        <td data-name="departamento"<?= $Page->departamento->cellAttributes() ?>>
+<span id="el_cooperativas_departamento">
+<span<?= $Page->departamento->viewAttributes() ?>>
+<?= $Page->departamento->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
+<?php if ($Page->ciudad->Visible) { // ciudad ?>
+    <tr id="r_ciudad"<?= $Page->ciudad->rowAttributes() ?>>
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_cooperativas_ciudad"><?= $Page->ciudad->caption() ?></span></td>
+        <td data-name="ciudad"<?= $Page->ciudad->cellAttributes() ?>>
+<span id="el_cooperativas_ciudad">
+<span<?= $Page->ciudad->viewAttributes() ?>>
+<?= $Page->ciudad->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
 <?php if ($Page->direccion->Visible) { // direccion ?>
     <tr id="r_direccion"<?= $Page->direccion->rowAttributes() ?>>
         <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_cooperativas_direccion"><?= $Page->direccion->caption() ?></span></td>

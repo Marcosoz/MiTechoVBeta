@@ -151,6 +151,12 @@ $Page->ListOptions->render("header", "left");
 <?php if ($Page->nombre->Visible) { // nombre ?>
         <th data-name="nombre" class="<?= $Page->nombre->headerCellClass() ?>"><div id="elh_cooperativas_nombre" class="cooperativas_nombre"><?= $Page->renderFieldHeader($Page->nombre) ?></div></th>
 <?php } ?>
+<?php if ($Page->departamento->Visible) { // departamento ?>
+        <th data-name="departamento" class="<?= $Page->departamento->headerCellClass() ?>"><div id="elh_cooperativas_departamento" class="cooperativas_departamento"><?= $Page->renderFieldHeader($Page->departamento) ?></div></th>
+<?php } ?>
+<?php if ($Page->ciudad->Visible) { // ciudad ?>
+        <th data-name="ciudad" class="<?= $Page->ciudad->headerCellClass() ?>"><div id="elh_cooperativas_ciudad" class="cooperativas_ciudad"><?= $Page->renderFieldHeader($Page->ciudad) ?></div></th>
+<?php } ?>
 <?php if ($Page->direccion->Visible) { // direccion ?>
         <th data-name="direccion" class="<?= $Page->direccion->headerCellClass() ?>"><div id="elh_cooperativas_direccion" class="cooperativas_direccion"><?= $Page->renderFieldHeader($Page->direccion) ?></div></th>
 <?php } ?>
@@ -204,6 +210,22 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_cooperativas_nombre" class="el_cooperativas_nombre">
 <span<?= $Page->nombre->viewAttributes() ?>>
 <?= $Page->nombre->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->departamento->Visible) { // departamento ?>
+        <td data-name="departamento"<?= $Page->departamento->cellAttributes() ?>>
+<span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_cooperativas_departamento" class="el_cooperativas_departamento">
+<span<?= $Page->departamento->viewAttributes() ?>>
+<?= $Page->departamento->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->ciudad->Visible) { // ciudad ?>
+        <td data-name="ciudad"<?= $Page->ciudad->cellAttributes() ?>>
+<span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_cooperativas_ciudad" class="el_cooperativas_ciudad">
+<span<?= $Page->ciudad->viewAttributes() ?>>
+<?= $Page->ciudad->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

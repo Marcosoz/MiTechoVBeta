@@ -95,6 +95,18 @@ loadjs.ready("head", function () {
 </td>
     </tr>
 <?php } ?>
+<?php if ($Page->archivo->Visible) { // archivo ?>
+    <tr id="r_archivo"<?= $Page->archivo->rowAttributes() ?>>
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_aportes_legales_archivo"><?= $Page->archivo->caption() ?></span></td>
+        <td data-name="archivo"<?= $Page->archivo->cellAttributes() ?>>
+<span id="el_aportes_legales_archivo">
+<span<?= $Page->archivo->viewAttributes() ?>>
+<?= GetFileViewTag($Page->archivo, $Page->archivo->getViewValue(), false) ?>
+</span>
+</span>
+</td>
+    </tr>
+<?php } ?>
 <?php if ($Page->fecha->Visible) { // fecha ?>
     <tr id="r_fecha"<?= $Page->fecha->rowAttributes() ?>>
         <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_aportes_legales_fecha"><?= $Page->fecha->caption() ?></span></td>

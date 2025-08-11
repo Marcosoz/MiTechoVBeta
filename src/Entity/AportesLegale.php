@@ -46,6 +46,9 @@ class AportesLegale extends AbstractEntity
     #[Column(name: "monto", type: "decimal", nullable: true)]
     private ?string $Monto;
 
+    #[Column(name: "archivo", type: "blob")]
+    private mixed $Archivo;
+
     #[Column(name: "fecha", type: "date")]
     private DateTime $Fecha;
 
@@ -93,6 +96,17 @@ class AportesLegale extends AbstractEntity
     public function setMonto(?string $value): static
     {
         $this->Monto = $value;
+        return $this;
+    }
+
+    public function getArchivo(): mixed
+    {
+        return $this->Archivo;
+    }
+
+    public function setArchivo(mixed $value): static
+    {
+        $this->Archivo = $value;
         return $this;
     }
 

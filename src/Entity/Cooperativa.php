@@ -40,6 +40,12 @@ class Cooperativa extends AbstractEntity
     #[Column(name: "nombre", type: "string")]
     private string $Nombre;
 
+    #[Column(name: "departamento", type: "string")]
+    private string $Departamento;
+
+    #[Column(name: "ciudad", type: "string")]
+    private string $Ciudad;
+
     #[Column(name: "direccion", type: "string", nullable: true)]
     private ?string $Direccion;
 
@@ -71,6 +77,28 @@ class Cooperativa extends AbstractEntity
     public function setNombre(string $value): static
     {
         $this->Nombre = RemoveXss($value);
+        return $this;
+    }
+
+    public function getDepartamento(): string
+    {
+        return HtmlDecode($this->Departamento);
+    }
+
+    public function setDepartamento(string $value): static
+    {
+        $this->Departamento = RemoveXss($value);
+        return $this;
+    }
+
+    public function getCiudad(): string
+    {
+        return HtmlDecode($this->Ciudad);
+    }
+
+    public function setCiudad(string $value): static
+    {
+        $this->Ciudad = RemoveXss($value);
         return $this;
     }
 

@@ -65,6 +65,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
     // Fields
     public DbField $id;
     public DbField $nombre;
+    public DbField $departamento;
+    public DbField $ciudad;
     public DbField $direccion;
     public DbField $telefono;
     public DbField $email;
@@ -159,6 +161,54 @@ class Cooperativas extends DbTable implements LookupTableInterface
         $this->nombre->Required = true; // Required field
         $this->nombre->SearchOperators = ["=", "<>", "IN", "NOT IN", "STARTS WITH", "NOT STARTS WITH", "LIKE", "NOT LIKE", "ENDS WITH", "NOT ENDS WITH", "IS EMPTY", "IS NOT EMPTY"];
         $this->Fields['nombre'] = &$this->nombre;
+
+        // departamento
+        $this->departamento = new DbField(
+            $this, // Table
+            'x_departamento', // Variable name
+            'departamento', // Name
+            '`departamento`', // Expression
+            '`departamento`', // Basic search expression
+            200, // Type
+            100, // Size
+            -1, // Date/Time format
+            false, // Is upload field
+            '`departamento`', // Virtual expression
+            false, // Is virtual
+            false, // Force selection
+            false, // Is Virtual search
+            'FORMATTED TEXT', // View Tag
+            'TEXT' // Edit Tag
+        );
+        $this->departamento->InputTextType = "text";
+        $this->departamento->Nullable = false; // NOT NULL field
+        $this->departamento->Required = true; // Required field
+        $this->departamento->SearchOperators = ["=", "<>", "IN", "NOT IN", "STARTS WITH", "NOT STARTS WITH", "LIKE", "NOT LIKE", "ENDS WITH", "NOT ENDS WITH", "IS EMPTY", "IS NOT EMPTY"];
+        $this->Fields['departamento'] = &$this->departamento;
+
+        // ciudad
+        $this->ciudad = new DbField(
+            $this, // Table
+            'x_ciudad', // Variable name
+            'ciudad', // Name
+            '`ciudad`', // Expression
+            '`ciudad`', // Basic search expression
+            200, // Type
+            100, // Size
+            -1, // Date/Time format
+            false, // Is upload field
+            '`ciudad`', // Virtual expression
+            false, // Is virtual
+            false, // Force selection
+            false, // Is Virtual search
+            'FORMATTED TEXT', // View Tag
+            'TEXT' // Edit Tag
+        );
+        $this->ciudad->InputTextType = "text";
+        $this->ciudad->Nullable = false; // NOT NULL field
+        $this->ciudad->Required = true; // Required field
+        $this->ciudad->SearchOperators = ["=", "<>", "IN", "NOT IN", "STARTS WITH", "NOT STARTS WITH", "LIKE", "NOT LIKE", "ENDS WITH", "NOT ENDS WITH", "IS EMPTY", "IS NOT EMPTY"];
+        $this->Fields['ciudad'] = &$this->ciudad;
 
         // direccion
         $this->direccion = new DbField(
@@ -795,6 +845,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
         }
         $this->id->DbValue = $row['id'];
         $this->nombre->DbValue = $row['nombre'];
+        $this->departamento->DbValue = $row['departamento'];
+        $this->ciudad->DbValue = $row['ciudad'];
         $this->direccion->DbValue = $row['direccion'];
         $this->telefono->DbValue = $row['telefono'];
         $this->email->DbValue = $row['email'];
@@ -1156,6 +1208,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
     {
         $this->id->setDbValue($row['id']);
         $this->nombre->setDbValue($row['nombre']);
+        $this->departamento->setDbValue($row['departamento']);
+        $this->ciudad->setDbValue($row['ciudad']);
         $this->direccion->setDbValue($row['direccion']);
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
@@ -1195,6 +1249,10 @@ class Cooperativas extends DbTable implements LookupTableInterface
 
         // nombre
 
+        // departamento
+
+        // ciudad
+
         // direccion
 
         // telefono
@@ -1208,6 +1266,12 @@ class Cooperativas extends DbTable implements LookupTableInterface
 
         // nombre
         $this->nombre->ViewValue = $this->nombre->CurrentValue;
+
+        // departamento
+        $this->departamento->ViewValue = $this->departamento->CurrentValue;
+
+        // ciudad
+        $this->ciudad->ViewValue = $this->ciudad->CurrentValue;
 
         // direccion
         $this->direccion->ViewValue = $this->direccion->CurrentValue;
@@ -1229,6 +1293,14 @@ class Cooperativas extends DbTable implements LookupTableInterface
         // nombre
         $this->nombre->HrefValue = "";
         $this->nombre->TooltipValue = "";
+
+        // departamento
+        $this->departamento->HrefValue = "";
+        $this->departamento->TooltipValue = "";
+
+        // ciudad
+        $this->ciudad->HrefValue = "";
+        $this->ciudad->TooltipValue = "";
 
         // direccion
         $this->direccion->HrefValue = "";
@@ -1279,6 +1351,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
                 if ($exportPageType == "view") {
                     $doc->exportCaption($this->id);
                     $doc->exportCaption($this->nombre);
+                    $doc->exportCaption($this->departamento);
+                    $doc->exportCaption($this->ciudad);
                     $doc->exportCaption($this->direccion);
                     $doc->exportCaption($this->telefono);
                     $doc->exportCaption($this->email);
@@ -1286,6 +1360,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
                 } else {
                     $doc->exportCaption($this->id);
                     $doc->exportCaption($this->nombre);
+                    $doc->exportCaption($this->departamento);
+                    $doc->exportCaption($this->ciudad);
                     $doc->exportCaption($this->direccion);
                     $doc->exportCaption($this->telefono);
                     $doc->exportCaption($this->email);
@@ -1318,6 +1394,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
                     if ($exportPageType == "view") {
                         $doc->exportField($this->id);
                         $doc->exportField($this->nombre);
+                        $doc->exportField($this->departamento);
+                        $doc->exportField($this->ciudad);
                         $doc->exportField($this->direccion);
                         $doc->exportField($this->telefono);
                         $doc->exportField($this->email);
@@ -1325,6 +1403,8 @@ class Cooperativas extends DbTable implements LookupTableInterface
                     } else {
                         $doc->exportField($this->id);
                         $doc->exportField($this->nombre);
+                        $doc->exportField($this->departamento);
+                        $doc->exportField($this->ciudad);
                         $doc->exportField($this->direccion);
                         $doc->exportField($this->telefono);
                         $doc->exportField($this->email);

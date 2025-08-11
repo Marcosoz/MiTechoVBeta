@@ -159,6 +159,7 @@ class AportesLegalesList extends AportesLegales
         $this->cooperativa_id->setVisibility();
         $this->concepto->setVisibility();
         $this->monto->setVisibility();
+        $this->archivo->Visible = false;
         $this->fecha->setVisibility();
         $this->created_at->setVisibility();
     }
@@ -1889,6 +1890,10 @@ class AportesLegalesList extends AportesLegales
         $this->cooperativa_id->setDbValue($row['cooperativa_id']);
         $this->concepto->setDbValue($row['concepto']);
         $this->monto->setDbValue($row['monto']);
+        $this->archivo->Upload->DbValue = $row['archivo'];
+        if (is_resource($this->archivo->Upload->DbValue) && get_resource_type($this->archivo->Upload->DbValue) == "stream") { // Byte array
+            $this->archivo->Upload->DbValue = stream_get_contents($this->archivo->Upload->DbValue);
+        }
         $this->fecha->setDbValue($row['fecha']);
         $this->created_at->setDbValue($row['created_at']);
     }
@@ -1901,6 +1906,7 @@ class AportesLegalesList extends AportesLegales
         $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         $row['concepto'] = $this->concepto->DefaultValue;
         $row['monto'] = $this->monto->DefaultValue;
+        $row['archivo'] = $this->archivo->DefaultValue;
         $row['fecha'] = $this->fecha->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
         return $row;
@@ -1950,6 +1956,8 @@ class AportesLegalesList extends AportesLegales
         // concepto
 
         // monto
+
+        // archivo
 
         // fecha
 

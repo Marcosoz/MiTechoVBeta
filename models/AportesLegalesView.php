@@ -155,6 +155,7 @@ class AportesLegalesView extends AportesLegales
         $this->cooperativa_id->setVisibility();
         $this->concepto->setVisibility();
         $this->monto->setVisibility();
+        $this->archivo->setVisibility();
         $this->fecha->setVisibility();
         $this->created_at->setVisibility();
     }
@@ -710,6 +711,10 @@ class AportesLegalesView extends AportesLegales
         $this->cooperativa_id->setDbValue($row['cooperativa_id']);
         $this->concepto->setDbValue($row['concepto']);
         $this->monto->setDbValue($row['monto']);
+        $this->archivo->Upload->DbValue = $row['archivo'];
+        if (is_resource($this->archivo->Upload->DbValue) && get_resource_type($this->archivo->Upload->DbValue) == "stream") { // Byte array
+            $this->archivo->Upload->DbValue = stream_get_contents($this->archivo->Upload->DbValue);
+        }
         $this->fecha->setDbValue($row['fecha']);
         $this->created_at->setDbValue($row['created_at']);
     }
@@ -722,6 +727,7 @@ class AportesLegalesView extends AportesLegales
         $row['cooperativa_id'] = $this->cooperativa_id->DefaultValue;
         $row['concepto'] = $this->concepto->DefaultValue;
         $row['monto'] = $this->monto->DefaultValue;
+        $row['archivo'] = $this->archivo->DefaultValue;
         $row['fecha'] = $this->fecha->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
         return $row;
@@ -753,6 +759,8 @@ class AportesLegalesView extends AportesLegales
 
         // monto
 
+        // archivo
+
         // fecha
 
         // created_at
@@ -772,6 +780,14 @@ class AportesLegalesView extends AportesLegales
             // monto
             $this->monto->ViewValue = $this->monto->CurrentValue;
             $this->monto->ViewValue = FormatNumber($this->monto->ViewValue, $this->monto->formatPattern());
+
+            // archivo
+            if (!IsEmpty($this->archivo->Upload->DbValue)) {
+                $this->archivo->ViewValue = $this->id->CurrentValue;
+                $this->archivo->IsBlobImage = IsImageFile(ContentExtension($this->archivo->Upload->DbValue));
+            } else {
+                $this->archivo->ViewValue = "";
+            }
 
             // fecha
             $this->fecha->ViewValue = $this->fecha->CurrentValue;
@@ -796,6 +812,22 @@ class AportesLegalesView extends AportesLegales
             // monto
             $this->monto->HrefValue = "";
             $this->monto->TooltipValue = "";
+
+            // archivo
+            if (!empty($this->archivo->Upload->DbValue)) {
+                $this->archivo->HrefValue = GetFileUploadUrl($this->archivo, $this->id->CurrentValue);
+                $this->archivo->LinkAttrs["target"] = "";
+                if ($this->archivo->IsBlobImage && empty($this->archivo->LinkAttrs["target"])) {
+                    $this->archivo->LinkAttrs["target"] = "_blank";
+                }
+                if ($this->isExport()) {
+                    $this->archivo->HrefValue = FullUrl($this->archivo->HrefValue, "href");
+                }
+            } else {
+                $this->archivo->HrefValue = "";
+            }
+            $this->archivo->ExportHrefValue = GetFileUploadUrl($this->archivo, $this->id->CurrentValue);
+            $this->archivo->TooltipValue = "";
 
             // fecha
             $this->fecha->HrefValue = "";

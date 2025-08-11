@@ -153,6 +153,8 @@ class CooperativasView extends Cooperativas
     {
         $this->id->setVisibility();
         $this->nombre->setVisibility();
+        $this->departamento->setVisibility();
+        $this->ciudad->setVisibility();
         $this->direccion->setVisibility();
         $this->telefono->setVisibility();
         $this->email->setVisibility();
@@ -708,6 +710,8 @@ class CooperativasView extends Cooperativas
         $this->rowSelected($row);
         $this->id->setDbValue($row['id']);
         $this->nombre->setDbValue($row['nombre']);
+        $this->departamento->setDbValue($row['departamento']);
+        $this->ciudad->setDbValue($row['ciudad']);
         $this->direccion->setDbValue($row['direccion']);
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
@@ -720,6 +724,8 @@ class CooperativasView extends Cooperativas
         $row = [];
         $row['id'] = $this->id->DefaultValue;
         $row['nombre'] = $this->nombre->DefaultValue;
+        $row['departamento'] = $this->departamento->DefaultValue;
+        $row['ciudad'] = $this->ciudad->DefaultValue;
         $row['direccion'] = $this->direccion->DefaultValue;
         $row['telefono'] = $this->telefono->DefaultValue;
         $row['email'] = $this->email->DefaultValue;
@@ -749,6 +755,10 @@ class CooperativasView extends Cooperativas
 
         // nombre
 
+        // departamento
+
+        // ciudad
+
         // direccion
 
         // telefono
@@ -764,6 +774,12 @@ class CooperativasView extends Cooperativas
 
             // nombre
             $this->nombre->ViewValue = $this->nombre->CurrentValue;
+
+            // departamento
+            $this->departamento->ViewValue = $this->departamento->CurrentValue;
+
+            // ciudad
+            $this->ciudad->ViewValue = $this->ciudad->CurrentValue;
 
             // direccion
             $this->direccion->ViewValue = $this->direccion->CurrentValue;
@@ -785,6 +801,14 @@ class CooperativasView extends Cooperativas
             // nombre
             $this->nombre->HrefValue = "";
             $this->nombre->TooltipValue = "";
+
+            // departamento
+            $this->departamento->HrefValue = "";
+            $this->departamento->TooltipValue = "";
+
+            // ciudad
+            $this->ciudad->HrefValue = "";
+            $this->ciudad->TooltipValue = "";
 
             // direccion
             $this->direccion->HrefValue = "";

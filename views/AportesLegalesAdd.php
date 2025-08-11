@@ -25,6 +25,7 @@ loadjs.ready(["wrapper", "head"], function () {
             ["cooperativa_id", [fields.cooperativa_id.visible && fields.cooperativa_id.required ? ew.Validators.required(fields.cooperativa_id.caption) : null, ew.Validators.integer], fields.cooperativa_id.isInvalid],
             ["concepto", [fields.concepto.visible && fields.concepto.required ? ew.Validators.required(fields.concepto.caption) : null], fields.concepto.isInvalid],
             ["monto", [fields.monto.visible && fields.monto.required ? ew.Validators.required(fields.monto.caption) : null, ew.Validators.float], fields.monto.isInvalid],
+            ["archivo", [fields.archivo.visible && fields.archivo.required ? ew.Validators.fileRequired(fields.archivo.caption) : null], fields.archivo.isInvalid],
             ["fecha", [fields.fecha.visible && fields.fecha.required ? ew.Validators.required(fields.fecha.caption) : null, ew.Validators.datetime(fields.fecha.clientFormatPattern)], fields.fecha.isInvalid],
             ["created_at", [fields.created_at.visible && fields.created_at.required ? ew.Validators.required(fields.created_at.caption) : null, ew.Validators.datetime(fields.created_at.clientFormatPattern)], fields.created_at.isInvalid]
         ])
@@ -103,6 +104,41 @@ $Page->showMessage();
 <input type="<?= $Page->monto->getInputTextType() ?>" name="x_monto" id="x_monto" data-table="aportes_legales" data-field="x_monto" value="<?= $Page->monto->getEditValue() ?>" size="30" placeholder="<?= HtmlEncode($Page->monto->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->monto->formatPattern()) ?>"<?= $Page->monto->editAttributes() ?> aria-describedby="x_monto_help">
 <?= $Page->monto->getCustomMessage() ?>
 <div class="invalid-feedback"><?= $Page->monto->getErrorMessage() ?></div>
+</span>
+</div></div>
+    </div>
+<?php } ?>
+<?php if ($Page->archivo->Visible) { // archivo ?>
+    <div id="r_archivo"<?= $Page->archivo->rowAttributes() ?>>
+        <label id="elh_aportes_legales_archivo" class="<?= $Page->LeftColumnClass ?>"><?= $Page->archivo->caption() ?><?= $Page->archivo->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->archivo->cellAttributes() ?>>
+<span id="el_aportes_legales_archivo">
+<div id="fd_x_archivo" class="fileinput-button ew-file-drop-zone">
+    <input
+        type="file"
+        id="x_archivo"
+        name="x_archivo"
+        class="form-control ew-file-input"
+        title="<?= $Page->archivo->title() ?>"
+        lang="<?= CurrentLanguageID() ?>"
+        data-table="aportes_legales"
+        data-field="x_archivo"
+        data-size="65535"
+        data-accept-file-types="<?= $Page->archivo->acceptFileTypes() ?>"
+        data-max-file-size="<?= $Page->archivo->UploadMaxFileSize ?>"
+        data-max-number-of-files="null"
+        data-disable-image-crop="<?= $Page->archivo->ImageCropper ? 0 : 1 ?>"
+        aria-describedby="x_archivo_help"
+        <?= ($Page->archivo->ReadOnly || $Page->archivo->Disabled) ? " disabled" : "" ?>
+        <?= $Page->archivo->editAttributes() ?>
+    >
+    <div class="text-body-secondary ew-file-text"><?= $Language->phrase("ChooseFile") ?></div>
+    <?= $Page->archivo->getCustomMessage() ?>
+    <div class="invalid-feedback"><?= $Page->archivo->getErrorMessage() ?></div>
+</div>
+<input type="hidden" name="fn_x_archivo" id= "fn_x_archivo" value="<?= $Page->archivo->Upload->FileName ?>">
+<input type="hidden" name="fa_x_archivo" id= "fa_x_archivo" value="0">
+<table id="ft_x_archivo" class="table table-sm float-start ew-upload-table"><tbody class="files"></tbody></table>
 </span>
 </div></div>
     </div>

@@ -1,4 +1,4 @@
-<ew-language date="2025/8/10" id="en-US" author="e.World Technology Limited">
+<ew-language date="2025/8/11" id="en-US" author="e.World Technology Limited">
   <project>
     <phrase id="footertext" value="FloridabIT. All rights reserved." />
     <menu id="1">
@@ -45,6 +45,9 @@
       <field id="monto">
         <phrase id="fldcaption" value="monto" />
       </field>
+      <field id="archivo">
+        <phrase id="fldcaption" value="archivo" />
+      </field>
       <field id="fecha">
         <phrase id="fldcaption" value="fecha" />
       </field>
@@ -83,6 +86,12 @@
       </field>
       <field id="nombre">
         <phrase id="fldcaption" value="nombre" />
+      </field>
+      <field id="departamento">
+        <phrase id="fldcaption" value="departamento" />
+      </field>
+      <field id="ciudad">
+        <phrase id="fldcaption" value="ciudad" />
       </field>
       <field id="direccion">
         <phrase id="fldcaption" value="direccion" />

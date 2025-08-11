@@ -30,6 +30,8 @@ loadjs.ready(["wrapper", "head"], function () {
         .setFields([
             ["id", [fields.id.visible && fields.id.required ? ew.Validators.required(fields.id.caption) : null], fields.id.isInvalid],
             ["nombre", [fields.nombre.visible && fields.nombre.required ? ew.Validators.required(fields.nombre.caption) : null], fields.nombre.isInvalid],
+            ["departamento", [fields.departamento.visible && fields.departamento.required ? ew.Validators.required(fields.departamento.caption) : null], fields.departamento.isInvalid],
+            ["ciudad", [fields.ciudad.visible && fields.ciudad.required ? ew.Validators.required(fields.ciudad.caption) : null], fields.ciudad.isInvalid],
             ["direccion", [fields.direccion.visible && fields.direccion.required ? ew.Validators.required(fields.direccion.caption) : null], fields.direccion.isInvalid],
             ["telefono", [fields.telefono.visible && fields.telefono.required ? ew.Validators.required(fields.telefono.caption) : null], fields.telefono.isInvalid],
             ["email", [fields.email.visible && fields.email.required ? ew.Validators.required(fields.email.caption) : null], fields.email.isInvalid],
@@ -93,6 +95,30 @@ loadjs.ready("head", function () {
 <input type="<?= $Page->nombre->getInputTextType() ?>" name="x_nombre" id="x_nombre" data-table="cooperativas" data-field="x_nombre" value="<?= $Page->nombre->getEditValue() ?>" size="30" maxlength="100" placeholder="<?= HtmlEncode($Page->nombre->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->nombre->formatPattern()) ?>"<?= $Page->nombre->editAttributes() ?> aria-describedby="x_nombre_help">
 <?= $Page->nombre->getCustomMessage() ?>
 <div class="invalid-feedback"><?= $Page->nombre->getErrorMessage() ?></div>
+</span>
+</div></div>
+    </div>
+<?php } ?>
+<?php if ($Page->departamento->Visible) { // departamento ?>
+    <div id="r_departamento"<?= $Page->departamento->rowAttributes() ?>>
+        <label id="elh_cooperativas_departamento" for="x_departamento" class="<?= $Page->LeftColumnClass ?>"><?= $Page->departamento->caption() ?><?= $Page->departamento->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->departamento->cellAttributes() ?>>
+<span id="el_cooperativas_departamento">
+<input type="<?= $Page->departamento->getInputTextType() ?>" name="x_departamento" id="x_departamento" data-table="cooperativas" data-field="x_departamento" value="<?= $Page->departamento->getEditValue() ?>" size="30" maxlength="100" placeholder="<?= HtmlEncode($Page->departamento->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->departamento->formatPattern()) ?>"<?= $Page->departamento->editAttributes() ?> aria-describedby="x_departamento_help">
+<?= $Page->departamento->getCustomMessage() ?>
+<div class="invalid-feedback"><?= $Page->departamento->getErrorMessage() ?></div>
+</span>
+</div></div>
+    </div>
+<?php } ?>
+<?php if ($Page->ciudad->Visible) { // ciudad ?>
+    <div id="r_ciudad"<?= $Page->ciudad->rowAttributes() ?>>
+        <label id="elh_cooperativas_ciudad" for="x_ciudad" class="<?= $Page->LeftColumnClass ?>"><?= $Page->ciudad->caption() ?><?= $Page->ciudad->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->ciudad->cellAttributes() ?>>
+<span id="el_cooperativas_ciudad">
+<input type="<?= $Page->ciudad->getInputTextType() ?>" name="x_ciudad" id="x_ciudad" data-table="cooperativas" data-field="x_ciudad" value="<?= $Page->ciudad->getEditValue() ?>" size="30" maxlength="100" placeholder="<?= HtmlEncode($Page->ciudad->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->ciudad->formatPattern()) ?>"<?= $Page->ciudad->editAttributes() ?> aria-describedby="x_ciudad_help">
+<?= $Page->ciudad->getCustomMessage() ?>
+<div class="invalid-feedback"><?= $Page->ciudad->getErrorMessage() ?></div>
 </span>
 </div></div>
     </div>

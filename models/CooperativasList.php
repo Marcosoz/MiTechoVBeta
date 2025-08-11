@@ -157,6 +157,8 @@ class CooperativasList extends Cooperativas
     {
         $this->id->setVisibility();
         $this->nombre->setVisibility();
+        $this->departamento->setVisibility();
+        $this->ciudad->setVisibility();
         $this->direccion->setVisibility();
         $this->telefono->setVisibility();
         $this->email->setVisibility();
@@ -996,6 +998,8 @@ class CooperativasList extends Cooperativas
         $savedFilterList = "";
         $filterList = Concat($filterList, $this->id->AdvancedSearch->toJson(), ","); // Field id
         $filterList = Concat($filterList, $this->nombre->AdvancedSearch->toJson(), ","); // Field nombre
+        $filterList = Concat($filterList, $this->departamento->AdvancedSearch->toJson(), ","); // Field departamento
+        $filterList = Concat($filterList, $this->ciudad->AdvancedSearch->toJson(), ","); // Field ciudad
         $filterList = Concat($filterList, $this->direccion->AdvancedSearch->toJson(), ","); // Field direccion
         $filterList = Concat($filterList, $this->telefono->AdvancedSearch->toJson(), ","); // Field telefono
         $filterList = Concat($filterList, $this->email->AdvancedSearch->toJson(), ","); // Field email
@@ -1054,6 +1058,22 @@ class CooperativasList extends Cooperativas
         $this->nombre->AdvancedSearch->SearchValue2 = $filter["y_nombre"] ?? "";
         $this->nombre->AdvancedSearch->SearchOperator2 = $filter["w_nombre"] ?? "";
         $this->nombre->AdvancedSearch->save();
+
+        // Field departamento
+        $this->departamento->AdvancedSearch->SearchValue = $filter["x_departamento"] ?? "";
+        $this->departamento->AdvancedSearch->SearchOperator = $filter["z_departamento"] ?? "";
+        $this->departamento->AdvancedSearch->SearchCondition = $filter["v_departamento"] ?? "";
+        $this->departamento->AdvancedSearch->SearchValue2 = $filter["y_departamento"] ?? "";
+        $this->departamento->AdvancedSearch->SearchOperator2 = $filter["w_departamento"] ?? "";
+        $this->departamento->AdvancedSearch->save();
+
+        // Field ciudad
+        $this->ciudad->AdvancedSearch->SearchValue = $filter["x_ciudad"] ?? "";
+        $this->ciudad->AdvancedSearch->SearchOperator = $filter["z_ciudad"] ?? "";
+        $this->ciudad->AdvancedSearch->SearchCondition = $filter["v_ciudad"] ?? "";
+        $this->ciudad->AdvancedSearch->SearchValue2 = $filter["y_ciudad"] ?? "";
+        $this->ciudad->AdvancedSearch->SearchOperator2 = $filter["w_ciudad"] ?? "";
+        $this->ciudad->AdvancedSearch->save();
 
         // Field direccion
         $this->direccion->AdvancedSearch->SearchValue = $filter["x_direccion"] ?? "";
@@ -1120,6 +1140,8 @@ class CooperativasList extends Cooperativas
         // Fields to search
         $searchFlds = [];
         $searchFlds[] = &$this->nombre;
+        $searchFlds[] = &$this->departamento;
+        $searchFlds[] = &$this->ciudad;
         $searchFlds[] = &$this->direccion;
         $searchFlds[] = &$this->telefono;
         $searchFlds[] = &$this->email;
@@ -1200,6 +1222,8 @@ class CooperativasList extends Cooperativas
             $this->CurrentOrderType = Get("ordertype", "");
             $this->updateSort($this->id); // id
             $this->updateSort($this->nombre); // nombre
+            $this->updateSort($this->departamento); // departamento
+            $this->updateSort($this->ciudad); // ciudad
             $this->updateSort($this->direccion); // direccion
             $this->updateSort($this->telefono); // telefono
             $this->updateSort($this->email); // email
@@ -1230,6 +1254,8 @@ class CooperativasList extends Cooperativas
                 $this->setSessionOrderBy($orderBy);
                 $this->id->setSort("");
                 $this->nombre->setSort("");
+                $this->departamento->setSort("");
+                $this->ciudad->setSort("");
                 $this->direccion->setSort("");
                 $this->telefono->setSort("");
                 $this->email->setSort("");
@@ -1453,6 +1479,8 @@ class CooperativasList extends Cooperativas
             $item->Visible = $this->UseColumnVisibility;
             $this->createColumnOption($option, "id");
             $this->createColumnOption($option, "nombre");
+            $this->createColumnOption($option, "departamento");
+            $this->createColumnOption($option, "ciudad");
             $this->createColumnOption($option, "direccion");
             $this->createColumnOption($option, "telefono");
             $this->createColumnOption($option, "email");
@@ -1890,6 +1918,8 @@ class CooperativasList extends Cooperativas
         $this->rowSelected($row);
         $this->id->setDbValue($row['id']);
         $this->nombre->setDbValue($row['nombre']);
+        $this->departamento->setDbValue($row['departamento']);
+        $this->ciudad->setDbValue($row['ciudad']);
         $this->direccion->setDbValue($row['direccion']);
         $this->telefono->setDbValue($row['telefono']);
         $this->email->setDbValue($row['email']);
@@ -1902,6 +1932,8 @@ class CooperativasList extends Cooperativas
         $row = [];
         $row['id'] = $this->id->DefaultValue;
         $row['nombre'] = $this->nombre->DefaultValue;
+        $row['departamento'] = $this->departamento->DefaultValue;
+        $row['ciudad'] = $this->ciudad->DefaultValue;
         $row['direccion'] = $this->direccion->DefaultValue;
         $row['telefono'] = $this->telefono->DefaultValue;
         $row['email'] = $this->email->DefaultValue;
@@ -1950,6 +1982,10 @@ class CooperativasList extends Cooperativas
 
         // nombre
 
+        // departamento
+
+        // ciudad
+
         // direccion
 
         // telefono
@@ -1965,6 +2001,12 @@ class CooperativasList extends Cooperativas
 
             // nombre
             $this->nombre->ViewValue = $this->nombre->CurrentValue;
+
+            // departamento
+            $this->departamento->ViewValue = $this->departamento->CurrentValue;
+
+            // ciudad
+            $this->ciudad->ViewValue = $this->ciudad->CurrentValue;
 
             // direccion
             $this->direccion->ViewValue = $this->direccion->CurrentValue;
@@ -1986,6 +2028,14 @@ class CooperativasList extends Cooperativas
             // nombre
             $this->nombre->HrefValue = "";
             $this->nombre->TooltipValue = "";
+
+            // departamento
+            $this->departamento->HrefValue = "";
+            $this->departamento->TooltipValue = "";
+
+            // ciudad
+            $this->ciudad->HrefValue = "";
+            $this->ciudad->TooltipValue = "";
 
             // direccion
             $this->direccion->HrefValue = "";
