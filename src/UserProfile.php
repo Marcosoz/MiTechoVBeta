@@ -321,6 +321,20 @@ class UserProfile implements AdvancedUserInterface, Stringable, JsonSerializable
     // Get user
     public function getUser(): ?UserInterface
     {
+        if ($this->hasUserName()) {
+            $userName = $this->getUserName();
+            if (!$this->user || $this->user->getUserIdentifier() != $userName) {
+                foreach (SecurityContainer("security.user_providers")->getProviders() as $provider) {
+                    try {
+                        if ($provider instanceof EntityUserProvider || $provider instanceof InMemoryUserProvider) {
+                            $this->user = $provider->loadUserByIdentifier($userName);
+                        }
+                    } catch (UserNotFoundException) {
+                        // Try next one
+                    }
+                }
+            }
+        }
         return $this->user;
     }
 

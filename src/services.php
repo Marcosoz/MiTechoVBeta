@@ -123,6 +123,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->arg('$localFactory', service('app.rate_limiter_factory.local'));
     $services->set('router', UrlGenerator::class);
     $services->alias(UrlGeneratorInterface::class, 'router');
+    $services->set(EntityUserProvider::class)
+        ->args([
+            Entity\Socio::class,
+        ]);
     $services->set(AuthenticationEventSubscriber::class)
         ->arg('$profile', service('user.profile'))
         ->arg('$language', service('app.language'))

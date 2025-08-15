@@ -1,7 +1,9 @@
 <?php
 
 namespace PHPMaker2025\project1;
-interface AdvancedUserInterface
+
+use Symfony\Component\Security\Core\User\UserInterface;
+interface AdvancedUserInterface extends UserInterface
 {
     /**
      * Get user name

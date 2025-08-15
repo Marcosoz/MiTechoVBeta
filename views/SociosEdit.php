@@ -28,7 +28,7 @@ loadjs.ready(["wrapper", "head"], function () {
 
         // Add fields
         .setFields([
-            ["id", [fields.id.visible && fields.id.required ? ew.Validators.required(fields.id.caption) : null], fields.id.isInvalid],
+            ["id", [fields.id.visible && fields.id.required ? ew.Validators.required(fields.id.caption) : null, ew.Validators.integer], fields.id.isInvalid],
             ["cooperativa_id", [fields.cooperativa_id.visible && fields.cooperativa_id.required ? ew.Validators.required(fields.cooperativa_id.caption) : null, ew.Validators.integer], fields.cooperativa_id.isInvalid],
             ["nombre_completo", [fields.nombre_completo.visible && fields.nombre_completo.required ? ew.Validators.required(fields.nombre_completo.caption) : null], fields.nombre_completo.isInvalid],
             ["cedula", [fields.cedula.visible && fields.cedula.required ? ew.Validators.required(fields.cedula.caption) : null], fields.cedula.isInvalid],
@@ -36,7 +36,8 @@ loadjs.ready(["wrapper", "head"], function () {
             ["email", [fields.email.visible && fields.email.required ? ew.Validators.required(fields.email.caption) : null], fields.email.isInvalid],
             ["fecha_ingreso", [fields.fecha_ingreso.visible && fields.fecha_ingreso.required ? ew.Validators.required(fields.fecha_ingreso.caption) : null, ew.Validators.datetime(fields.fecha_ingreso.clientFormatPattern)], fields.fecha_ingreso.isInvalid],
             ["activo", [fields.activo.visible && fields.activo.required ? ew.Validators.required(fields.activo.caption) : null], fields.activo.isInvalid],
-            ["created_at", [fields.created_at.visible && fields.created_at.required ? ew.Validators.required(fields.created_at.caption) : null, ew.Validators.datetime(fields.created_at.clientFormatPattern)], fields.created_at.isInvalid]
+            ["created_at", [fields.created_at.visible && fields.created_at.required ? ew.Validators.required(fields.created_at.caption) : null, ew.Validators.datetime(fields.created_at.clientFormatPattern)], fields.created_at.isInvalid],
+            ["contrasena", [fields.contrasena.visible && fields.contrasena.required ? ew.Validators.required(fields.contrasena.caption) : null], fields.contrasena.isInvalid]
         ])
 
         // Form_CustomValidate
@@ -52,6 +53,8 @@ loadjs.ready(["wrapper", "head"], function () {
 
         // Dynamic selection lists
         .setLists({
+            "cooperativa_id": <?= $Page->cooperativa_id->toClientList($Page) ?>,
+            "cedula": <?= $Page->cedula->toClientList($Page) ?>,
             "activo": <?= $Page->activo->toClientList($Page) ?>,
         })
         .build();
@@ -79,7 +82,7 @@ loadjs.ready("head", function () {
 <div class="ew-edit-div"><!-- page* -->
 <?php if ($Page->id->Visible) { // id ?>
     <div id="r_id"<?= $Page->id->rowAttributes() ?>>
-        <label id="elh_socios_id" class="<?= $Page->LeftColumnClass ?>"><?= $Page->id->caption() ?><?= $Page->id->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <label id="elh_socios_id" for="x_id" class="<?= $Page->LeftColumnClass ?>"><?= $Page->id->caption() ?><?= $Page->id->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
         <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->id->cellAttributes() ?>>
 <span id="el_socios_id">
 <span<?= $Page->id->viewAttributes() ?>>
@@ -91,12 +94,25 @@ loadjs.ready("head", function () {
 <?php } ?>
 <?php if ($Page->cooperativa_id->Visible) { // cooperativa_id ?>
     <div id="r_cooperativa_id"<?= $Page->cooperativa_id->rowAttributes() ?>>
-        <label id="elh_socios_cooperativa_id" for="x_cooperativa_id" class="<?= $Page->LeftColumnClass ?>"><?= $Page->cooperativa_id->caption() ?><?= $Page->cooperativa_id->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <label id="elh_socios_cooperativa_id" class="<?= $Page->LeftColumnClass ?>"><?= $Page->cooperativa_id->caption() ?><?= $Page->cooperativa_id->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
         <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->cooperativa_id->cellAttributes() ?>>
 <span id="el_socios_cooperativa_id">
-<input type="<?= $Page->cooperativa_id->getInputTextType() ?>" name="x_cooperativa_id" id="x_cooperativa_id" data-table="socios" data-field="x_cooperativa_id" value="<?= $Page->cooperativa_id->getEditValue() ?>" size="30" placeholder="<?= HtmlEncode($Page->cooperativa_id->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->cooperativa_id->formatPattern()) ?>"<?= $Page->cooperativa_id->editAttributes() ?> aria-describedby="x_cooperativa_id_help">
+<?php
+if (IsRTL()) {
+    $Page->cooperativa_id->EditAttrs["dir"] = "rtl";
+}
+?>
+<span id="as_x_cooperativa_id" class="ew-auto-suggest">
+    <input type="<?= $Page->cooperativa_id->getInputTextType() ?>" class="form-control" name="sv_x_cooperativa_id" id="sv_x_cooperativa_id" value="<?= $Page->cooperativa_id->getEditValue() ?>" autocomplete="off" size="30" placeholder="<?= HtmlEncode($Page->cooperativa_id->getPlaceHolder()) ?>" data-placeholder="<?= HtmlEncode($Page->cooperativa_id->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->cooperativa_id->formatPattern()) ?>"<?= $Page->cooperativa_id->editAttributes() ?> aria-describedby="x_cooperativa_id_help">
+</span>
+<selection-list hidden class="form-control" data-table="socios" data-field="x_cooperativa_id" data-input="sv_x_cooperativa_id" data-value-separator="<?= $Page->cooperativa_id->displayValueSeparatorAttribute() ?>" name="x_cooperativa_id" id="x_cooperativa_id" value="<?= HtmlEncode($Page->cooperativa_id->CurrentValue) ?>"></selection-list>
 <?= $Page->cooperativa_id->getCustomMessage() ?>
 <div class="invalid-feedback"><?= $Page->cooperativa_id->getErrorMessage() ?></div>
+<script<?= Nonce() ?>>
+loadjs.ready("fsociosedit", function() {
+    fsociosedit.createAutoSuggest(Object.assign({"id":"x_cooperativa_id","forceSelect":false}, { lookupAllDisplayFields: <?= $Page->cooperativa_id->Lookup->LookupAllDisplayFields ? "true" : "false" ?> }, ew.vars.tables.socios.fields.cooperativa_id.autoSuggestOptions));
+});
+</script>
 </span>
 </div></div>
     </div>
@@ -117,11 +133,50 @@ loadjs.ready("head", function () {
     <div id="r_cedula"<?= $Page->cedula->rowAttributes() ?>>
         <label id="elh_socios_cedula" for="x_cedula" class="<?= $Page->LeftColumnClass ?>"><?= $Page->cedula->caption() ?><?= $Page->cedula->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
         <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->cedula->cellAttributes() ?>>
+<?php if (!$Security->canAccess() && $Security->isLoggedIn()) { // No access permission ?>
 <span id="el_socios_cedula">
-<input type="<?= $Page->cedula->getInputTextType() ?>" name="x_cedula" id="x_cedula" data-table="socios" data-field="x_cedula" value="<?= $Page->cedula->getEditValue() ?>" size="30" maxlength="20" placeholder="<?= HtmlEncode($Page->cedula->getPlaceHolder()) ?>" data-format-pattern="<?= HtmlEncode($Page->cedula->formatPattern()) ?>"<?= $Page->cedula->editAttributes() ?> aria-describedby="x_cedula_help">
-<?= $Page->cedula->getCustomMessage() ?>
-<div class="invalid-feedback"><?= $Page->cedula->getErrorMessage() ?></div>
+<span class="form-control-plaintext"><?= $Page->cedula->getDisplayValue($Page->cedula->getEditValue()) ?></span>
 </span>
+<?php } else { ?>
+<span id="el_socios_cedula">
+    <select
+        id="x_cedula"
+        name="x_cedula"
+        class="form-select ew-select<?= $Page->cedula->isInvalidClass() ?>"
+        <?php if (!$Page->cedula->IsNativeSelect) { ?>
+        data-select2-id="fsociosedit_x_cedula"
+        <?php } ?>
+        data-table="socios"
+        data-field="x_cedula"
+        data-value-separator="<?= $Page->cedula->displayValueSeparatorAttribute() ?>"
+        data-placeholder="<?= HtmlEncode($Page->cedula->getPlaceHolder()) ?>"
+        <?= $Page->cedula->editAttributes() ?>>
+        <?= $Page->cedula->selectOptionListHtml("x_cedula") ?>
+    </select>
+    <?= $Page->cedula->getCustomMessage() ?>
+    <div class="invalid-feedback"><?= $Page->cedula->getErrorMessage() ?></div>
+<?php if (!$Page->cedula->IsNativeSelect) { ?>
+<script<?= Nonce() ?>>
+loadjs.ready("fsociosedit", function() {
+    var options = { name: "x_cedula", selectId: "fsociosedit_x_cedula" },
+        el = document.querySelector("select[data-select2-id='" + options.selectId + "']");
+    if (!el)
+        return;
+    options.closeOnSelect = !options.multiple;
+    options.dropdownParent = el.closest("#ew-modal-dialog, #ew-add-opt-dialog");
+    if (fsociosedit.lists.cedula?.lookupOptions.length) {
+        options.data = { id: "x_cedula", form: "fsociosedit" };
+    } else {
+        options.ajax = { id: "x_cedula", form: "fsociosedit", limit: ew.LOOKUP_PAGE_SIZE };
+    }
+    options.minimumResultsForSearch = Infinity;
+    options = Object.assign({}, ew.selectOptions, options, ew.vars.tables.socios.fields.cedula.selectOptions);
+    ew.createSelect(options);
+});
+</script>
+<?php } ?>
+</span>
+<?php } ?>
 </div></div>
     </div>
 <?php } ?>
@@ -251,6 +306,21 @@ loadjs.ready(["fsociosedit", "datetimepicker"], function () {
 });
 </script>
 <?php } ?>
+</span>
+</div></div>
+    </div>
+<?php } ?>
+<?php if ($Page->contrasena->Visible) { // contraseña ?>
+    <div id="r_contrasena"<?= $Page->contrasena->rowAttributes() ?>>
+        <label id="elh_socios_contrasena" for="x_contrasena" class="<?= $Page->LeftColumnClass ?>"><?= $Page->contrasena->caption() ?><?= $Page->contrasena->Required ? $Language->phrase("FieldRequiredIndicator") : "" ?></label>
+        <div class="<?= $Page->RightColumnClass ?>"><div<?= $Page->contrasena->cellAttributes() ?>>
+<span id="el_socios_contrasena">
+<div class="input-group">
+    <input type="password" name="x_contrasena" id="x_contrasena" autocomplete="new-password" data-field="x_contrasena" value="<?= $Page->contrasena->getEditValue() ?>" size="30" maxlength="100" placeholder="<?= HtmlEncode($Page->contrasena->getPlaceHolder()) ?>"<?= $Page->contrasena->editAttributes() ?> aria-describedby="x_contrasena_help">
+    <button type="button" class="btn btn-default ew-toggle-password rounded-end" data-ew-action="password"><i class="fa-solid fa-eye"></i></button>
+</div>
+<?= $Page->contrasena->getCustomMessage() ?>
+<div class="invalid-feedback"><?= $Page->contrasena->getErrorMessage() ?></div>
 </span>
 </div></div>
     </div>

@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Http\RememberMe\RememberMeHandlerInterface;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Dflydev\FigCookies\SetCookie;
 use Dflydev\FigCookies\FigResponseCookies;
 use Exception;
@@ -17,6 +18,7 @@ use Throwable;
  */
 class AdvancedSecurity
 {
+    use TargetPathTrait;
     protected bool $hierarchyLoaded = false;
 
     // User level contants
@@ -50,7 +52,6 @@ class AdvancedSecurity
     ) {
         global $Security;
         $Security = $this;
-        $this->CurrentUserLevel = Allow::ADMIN->value;
 
         // Init User Level
         $this->CurrentUserLevelID = $this->isLoggedIn()
@@ -341,7 +342,7 @@ class AdvancedSecurity
     // Can access (View all records)
     public function canAccess(): bool
     {
-        return true;
+        return ($this->CurrentUserLevel & Allow::ACCESS->value) == Allow::ACCESS->value;
     }
 
     // Set can access
@@ -611,6 +612,32 @@ class AdvancedSecurity
             return false;
         }
 
+        // Check database users
+        if (!$valid) {
+            if (IsEntityUser($user)) {
+                $valid = true;
+                $this->isLoggedIn = true;
+                $this->isSysAdmin = false;
+                $this->session->set(SESSION_STATUS, "login");
+                $this->session->set(SESSION_SYS_ADMIN, 0); // Non system administrator
+                $this->loginUser($user);
+
+                // Call User Validated event
+                $this->userValidated($user);
+            }
+        }
+
+        // Super admin
+        if (IsSysAdminUser($user)) {
+            $profile->setUserName($user->getUserIdentifier())
+                ->setUserID(AdvancedSecurity::ADMIN_USER_ID)
+                ->setUserLevel(AdvancedSecurity::ADMIN_USER_LEVEL_ID);
+            $this->loginUser($profile);
+
+            // Call User Validated event
+            $this->userValidated($user);
+        }
+
         // Use User_Validated to set privileges to profile if user not found
         if (!$valid && $customValid && !IsLoggedIn()) {
             $this->loginUser($profile);
@@ -654,6 +681,13 @@ class AdvancedSecurity
     // Get User Level settings from storage
     public function setupUserLevel(): void
     {
+        $this->loadFromStorage(); // Load all user levels
+
+        // User Level loaded event
+        $this->userLevelLoaded();
+
+        // Save the User Level to session variable
+        $this->saveUserLevel();
     }
 
     // Get all User Level settings from database
@@ -819,7 +853,11 @@ class AdvancedSecurity
     protected function currentUserLevelPriv(string $tableName): int
     {
         if ($this->isLoggedIn()) {
-            return Allow::ADMIN->value;
+            $priv = 0;
+            foreach ($this->UserLevelIDs as $userLevelID) {
+                $priv |= $this->getUserLevelPrivEx($tableName, $userLevelID);
+            }
+            return $priv;
         } else { // Anonymous
             return $this->getUserLevelPrivEx($tableName, self::ANONYMOUS_USER_LEVEL_ID);
         }
@@ -1175,6 +1213,10 @@ class AdvancedSecurity
     public function isAdmin(): bool
     {
         $isAdmin = $this->isSysAdmin();
+        if (!$isAdmin) {
+            $isAdmin = in_array((string)self::ADMIN_USER_LEVEL_ID, explode(Config("MULTIPLE_OPTION_SEPARATOR"), strval($this->CurrentUserLevelID)))
+                || $this->hasUserLevelID(self::ADMIN_USER_LEVEL_ID) || $this->canAdmin();
+        }
         return $isAdmin;
     }
 
@@ -1195,6 +1237,12 @@ class AdvancedSecurity
             $this->UserLevels = $this->session->get(SESSION_USER_LEVELS) ?? [];
             $this->UserLevelPrivs = $this->session->get(SESSION_USER_LEVEL_PRIVS) ?? [];
         }
+    }
+
+    // Get user email
+    public function currentUserEmail(): ?string
+    {
+        return Config("USER_EMAIL_FIELD_NAME") ? $this->currentUserInfo(Config("USER_EMAIL_FIELD_NAME")) : null;
     }
 
     // Get current user info

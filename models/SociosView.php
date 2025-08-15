@@ -160,6 +160,7 @@ class SociosView extends Socios
         $this->fecha_ingreso->setVisibility();
         $this->activo->setVisibility();
         $this->created_at->setVisibility();
+        $this->contrasena->setVisibility();
     }
 
     // Constructor
@@ -518,6 +519,8 @@ class SociosView extends Socios
         }
 
         // Set up lookup cache
+        $this->setupLookupOptions($this->cooperativa_id);
+        $this->setupLookupOptions($this->cedula);
         $this->setupLookupOptions($this->activo);
 
         // Check modal
@@ -593,6 +596,9 @@ class SociosView extends Socios
 
         // Set LoginStatus / Page_Rendering / Page_Render
         if (!IsApi() && !$this->isTerminated()) {
+            // Setup login status
+            SetupLoginStatus();
+
             // Pass login status to client side
             SetClientVar("login", LoginStatus());
 
@@ -634,7 +640,7 @@ class SociosView extends Socios
         } else {
             $item->Body = "<a class=\"ew-action ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode(GetUrl($this->AddUrl)) . "\">" . $this->language->phrase("ViewPageAddLink") . "</a>";
         }
-        $item->Visible = $this->AddUrl != "";
+        $item->Visible = $this->AddUrl != "" && $this->security->canAdd();
 
         // Edit
         $item = &$option->add("edit");
@@ -644,7 +650,7 @@ class SociosView extends Socios
         } else {
             $item->Body = "<a class=\"ew-action ew-edit\" title=\"" . $editcaption . "\" data-caption=\"" . $editcaption . "\" href=\"" . HtmlEncode(GetUrl($this->EditUrl)) . "\">" . $this->language->phrase("ViewPageEditLink") . "</a>";
         }
-        $item->Visible = $this->EditUrl != "";
+        $item->Visible = $this->EditUrl != "" && $this->security->canEdit();
 
         // Copy
         $item = &$option->add("copy");
@@ -654,7 +660,7 @@ class SociosView extends Socios
         } else {
             $item->Body = "<a class=\"ew-action ew-copy\" title=\"" . $copycaption . "\" data-caption=\"" . $copycaption . "\" href=\"" . HtmlEncode(GetUrl($this->CopyUrl)) . "\">" . $this->language->phrase("ViewPageCopyLink") . "</a>";
         }
-        $item->Visible = $this->CopyUrl != "";
+        $item->Visible = $this->CopyUrl != "" && $this->security->canAdd();
 
         // Delete
         $item = &$option->add("delete");
@@ -663,7 +669,7 @@ class SociosView extends Socios
             ($this->InlineDelete || $this->IsModal ? " data-ew-action=\"inline-delete\"" : "") .
             " title=\"" . HtmlTitle($this->language->phrase("ViewPageDeleteLink")) . "\" data-caption=\"" . HtmlTitle($this->language->phrase("ViewPageDeleteLink")) .
             "\" href=\"" . HtmlEncode($url) . "\">" . $this->language->phrase("ViewPageDeleteLink") . "</a>";
-        $item->Visible = $this->DeleteUrl != "";
+        $item->Visible = $this->DeleteUrl != "" && $this->security->canDelete();
 
         // Set up action default
         $option = $options["action"];
@@ -721,6 +727,7 @@ class SociosView extends Socios
         $this->fecha_ingreso->setDbValue($row['fecha_ingreso']);
         $this->activo->setDbValue($row['activo']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->contrasena->setDbValue($row['contraseña']);
     }
 
     // Return a row with default values
@@ -736,6 +743,7 @@ class SociosView extends Socios
         $row['fecha_ingreso'] = $this->fecha_ingreso->DefaultValue;
         $row['activo'] = $this->activo->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['contraseña'] = $this->contrasena->DefaultValue;
         return $row;
     }
 
@@ -775,6 +783,8 @@ class SociosView extends Socios
 
         // created_at
 
+        // contraseña
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -782,13 +792,20 @@ class SociosView extends Socios
 
             // cooperativa_id
             $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
-            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
             // nombre_completo
             $this->nombre_completo->ViewValue = $this->nombre_completo->CurrentValue;
 
             // cedula
-            $this->cedula->ViewValue = $this->cedula->CurrentValue;
+            if ($this->security->canAdmin()) { // System admin
+                if (strval($this->cedula->CurrentValue) != "") {
+                    $this->cedula->ViewValue = $this->cedula->optionCaption($this->cedula->CurrentValue);
+                } else {
+                    $this->cedula->ViewValue = null;
+                }
+            } else {
+                $this->cedula->ViewValue = $this->language->phrase("PasswordMask");
+            }
 
             // telefono
             $this->telefono->ViewValue = $this->telefono->CurrentValue;
@@ -810,6 +827,9 @@ class SociosView extends Socios
             // created_at
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
+
+            // contraseña
+            $this->contrasena->ViewValue = $this->language->phrase("PasswordMask");
 
             // id
             $this->id->HrefValue = "";
@@ -846,6 +866,10 @@ class SociosView extends Socios
             // created_at
             $this->created_at->HrefValue = "";
             $this->created_at->TooltipValue = "";
+
+            // contraseña
+            $this->contrasena->HrefValue = "";
+            $this->contrasena->TooltipValue = "";
         }
 
         // Call Row Rendered event
@@ -877,6 +901,10 @@ class SociosView extends Socios
 
             // Set up lookup SQL and connection
             switch ($fld->FieldVar) {
+                case "x_cooperativa_id":
+                    break;
+                case "x_cedula":
+                    break;
                 case "x_activo":
                     break;
                 default:

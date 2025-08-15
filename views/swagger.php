@@ -388,3 +388,12 @@ paths:
       responses:
         '200':
           description: Success
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      description: '*Note: Login to get your the JWT token first, then enter "Bearer &lt;JWT Token&gt;" below, e.g.<br><em>Bearer 123456abcdef</em>'
+      name: Authorization  # PHP
+      in: header
+security:
+  - Bearer: []

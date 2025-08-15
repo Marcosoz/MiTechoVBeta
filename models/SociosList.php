@@ -164,6 +164,7 @@ class SociosList extends Socios
         $this->fecha_ingreso->setVisibility();
         $this->activo->setVisibility();
         $this->created_at->setVisibility();
+        $this->contrasena->setVisibility();
     }
 
     // Constructor
@@ -671,6 +672,8 @@ class SociosList extends Socios
         $this->setupOtherOptions();
 
         // Set up lookup cache
+        $this->setupLookupOptions($this->cooperativa_id);
+        $this->setupLookupOptions($this->cedula);
         $this->setupLookupOptions($this->activo);
 
         // Update form name to avoid conflict
@@ -805,6 +808,9 @@ class SociosList extends Socios
         }
 
         // Build filter
+        if (!$this->security->canList()) {
+            $this->Filter = "(0=1)"; // Filter all records
+        }
         AddFilter($this->Filter, $this->DbDetailFilter);
         AddFilter($this->Filter, $this->SearchWhere);
 
@@ -853,6 +859,9 @@ class SociosList extends Socios
 
             // Set no record found message
             if ((IsEmpty($this->CurrentAction) || $this->isSearch()) && $this->TotalRecords == 0) {
+                if (!$this->security->canList()) {
+                    $this->setWarningMessage(DeniedMessage());
+                }
                 if ($this->SearchWhere == "0=101") {
                     $this->setWarningMessage($this->language->phrase("EnterSearchCriteria"));
                 } else {
@@ -919,6 +928,9 @@ class SociosList extends Socios
 
         // Set LoginStatus / Page_Rendering / Page_Render
         if (!IsApi() && !$this->isTerminated()) {
+            // Setup login status
+            SetupLoginStatus();
+
             // Pass login status to client side
             SetClientVar("login", LoginStatus());
 
@@ -1009,6 +1021,7 @@ class SociosList extends Socios
         $filterList = Concat($filterList, $this->fecha_ingreso->AdvancedSearch->toJson(), ","); // Field fecha_ingreso
         $filterList = Concat($filterList, $this->activo->AdvancedSearch->toJson(), ","); // Field activo
         $filterList = Concat($filterList, $this->created_at->AdvancedSearch->toJson(), ","); // Field created_at
+        $filterList = Concat($filterList, $this->contrasena->AdvancedSearch->toJson(), ","); // Field contraseña
         if ($this->BasicSearch->Keyword != "") {
             $wrk = "\"" . Config("TABLE_BASIC_SEARCH") . "\":\"" . JsEncode($this->BasicSearch->Keyword) . "\",\"" . Config("TABLE_BASIC_SEARCH_TYPE") . "\":\"" . JsEncode($this->BasicSearch->Type) . "\"";
             $filterList = Concat($filterList, $wrk, ",");
@@ -1119,6 +1132,14 @@ class SociosList extends Socios
         $this->created_at->AdvancedSearch->SearchValue2 = $filter["y_created_at"] ?? "";
         $this->created_at->AdvancedSearch->SearchOperator2 = $filter["w_created_at"] ?? "";
         $this->created_at->AdvancedSearch->save();
+
+        // Field contraseña
+        $this->contrasena->AdvancedSearch->SearchValue = $filter["x_contrasena"] ?? "";
+        $this->contrasena->AdvancedSearch->SearchOperator = $filter["z_contrasena"] ?? "";
+        $this->contrasena->AdvancedSearch->SearchCondition = $filter["v_contrasena"] ?? "";
+        $this->contrasena->AdvancedSearch->SearchValue2 = $filter["y_contrasena"] ?? "";
+        $this->contrasena->AdvancedSearch->SearchOperator2 = $filter["w_contrasena"] ?? "";
+        $this->contrasena->AdvancedSearch->save();
         $this->BasicSearch->setKeyword($filter[Config("TABLE_BASIC_SEARCH")] ?? "");
         $this->BasicSearch->setType($filter[Config("TABLE_BASIC_SEARCH_TYPE")] ?? "");
     }
@@ -1149,6 +1170,9 @@ class SociosList extends Socios
     public function basicSearchWhere(bool $default = false): string
     {
         $searchStr = "";
+        if (!$this->security->canSearch()) {
+            return "";
+        }
 
         // Fields to search
         $searchFlds = [];
@@ -1156,6 +1180,7 @@ class SociosList extends Socios
         $searchFlds[] = &$this->cedula;
         $searchFlds[] = &$this->telefono;
         $searchFlds[] = &$this->email;
+        $searchFlds[] = &$this->contrasena;
         $searchKeyword = $default ? $this->BasicSearch->KeywordDefault : $this->BasicSearch->Keyword;
         $searchType = $default ? $this->BasicSearch->TypeDefault : $this->BasicSearch->Type;
 
@@ -1240,6 +1265,7 @@ class SociosList extends Socios
             $this->updateSort($this->fecha_ingreso); // fecha_ingreso
             $this->updateSort($this->activo); // activo
             $this->updateSort($this->created_at); // created_at
+            $this->updateSort($this->contrasena); // contraseña
             $this->setStartRecordNumber(1); // Reset start position
         }
 
@@ -1273,6 +1299,7 @@ class SociosList extends Socios
                 $this->fecha_ingreso->setSort("");
                 $this->activo->setSort("");
                 $this->created_at->setSort("");
+                $this->contrasena->setSort("");
             }
 
             // Reset start position
@@ -1293,25 +1320,25 @@ class SociosList extends Socios
         // "view"
         $item = &$this->ListOptions->add("view");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canView();
         $item->OnLeft = false;
 
         // "edit"
         $item = &$this->ListOptions->add("edit");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canEdit();
         $item->OnLeft = false;
 
         // "copy"
         $item = &$this->ListOptions->add("copy");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canAdd();
         $item->OnLeft = false;
 
         // "delete"
         $item = &$this->ListOptions->add("delete");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canDelete();
         $item->OnLeft = false;
 
         // List actions
@@ -1369,7 +1396,7 @@ class SociosList extends Socios
             // "view"
             $opt = $this->ListOptions["view"];
             $viewcaption = HtmlTitle($this->language->phrase("ViewLink"));
-            if (true) {
+            if ($this->security->canView()) {
                 if ($this->ModalView && !IsMobile()) {
                     $opt->Body = "<a class=\"ew-row-link ew-view\" title=\"" . $viewcaption . "\" data-table=\"socios\" data-caption=\"" . $viewcaption . "\" data-ew-action=\"modal\" data-action=\"view\" data-ajax=\"" . ($this->UseAjaxActions ? "true" : "false") . "\" data-url=\"" . HtmlEncode(GetUrl($this->ViewUrl)) . "\" data-btn=\"null\">" . $this->language->phrase("ViewLink") . "</a>";
                 } else {
@@ -1382,7 +1409,7 @@ class SociosList extends Socios
             // "edit"
             $opt = $this->ListOptions["edit"];
             $editcaption = HtmlTitle($this->language->phrase("EditLink"));
-            if (true) {
+            if ($this->security->canEdit()) {
                 if ($this->ModalEdit && !IsMobile()) {
                     $opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . $editcaption . "\" data-table=\"socios\" data-caption=\"" . $editcaption . "\" data-ew-action=\"modal\" data-action=\"edit\" data-ajax=\"" . ($this->UseAjaxActions ? "true" : "false") . "\" data-url=\"" . HtmlEncode(GetUrl($this->EditUrl)) . "\" data-btn=\"SaveBtn\">" . $this->language->phrase("EditLink") . "</a>";
                 } else {
@@ -1395,7 +1422,7 @@ class SociosList extends Socios
             // "copy"
             $opt = $this->ListOptions["copy"];
             $copycaption = HtmlTitle($this->language->phrase("CopyLink"));
-            if (true) {
+            if ($this->security->canAdd()) {
                 if ($this->ModalAdd && !IsMobile()) {
                     $opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copycaption . "\" data-table=\"socios\" data-caption=\"" . $copycaption . "\" data-ew-action=\"modal\" data-action=\"add\" data-ajax=\"" . ($this->UseAjaxActions ? "true" : "false") . "\" data-url=\"" . HtmlEncode(GetUrl($this->CopyUrl)) . "\" data-btn=\"AddBtn\">" . $this->language->phrase("CopyLink") . "</a>";
                 } else {
@@ -1407,7 +1434,7 @@ class SociosList extends Socios
 
             // "delete"
             $opt = $this->ListOptions["delete"];
-            if (true) {
+            if ($this->security->canDelete()) {
                 $deleteCaption = $this->language->phrase("DeleteLink");
                 $deleteTitle = HtmlTitle($deleteCaption);
                 if ($this->UseAjaxActions) {
@@ -1481,7 +1508,7 @@ class SociosList extends Socios
         } else {
             $item->Body = "<a class=\"ew-add-edit ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode(GetUrl($this->AddUrl)) . "\">" . $this->language->phrase("AddLink") . "</a>";
         }
-        $item->Visible = $this->AddUrl != "";
+        $item->Visible = $this->AddUrl != "" && $this->security->canAdd();
         $option = $options["action"];
 
         // Show column list for column visibility
@@ -1499,6 +1526,7 @@ class SociosList extends Socios
             $this->createColumnOption($option, "fecha_ingreso");
             $this->createColumnOption($option, "activo");
             $this->createColumnOption($option, "created_at");
+            $this->createColumnOption($option, "contraseña");
         }
 
         // Set up custom actions
@@ -1662,7 +1690,8 @@ class SociosList extends Socios
                         }
                     }
                     if (!$this->peekSuccessMessage() && !IsEmpty($listAction?->SuccessMessage)) {
-                        $this->setSuccessMessage($listAction->SuccessMessage);
+                        $userlist = implode(",", array_column($rows, Config("LOGIN_USERNAME_FIELD_NAME")));
+                        $this->setSuccessMessage(sprintf($listAction->SuccessMessage, $userlist));
                     }
                     if (!$this->peekSuccessMessage()) {
                         $this->setSuccessMessage(sprintf($this->language->phrase("CustomActionCompleted"), $caption)); // Set up success message
@@ -1674,7 +1703,8 @@ class SociosList extends Socios
                         }
                     }
                     if (!$this->peekFailureMessage()) {
-                        $this->setFailureMessage($listAction->FailureMessage);
+                        $user = $row[Config("LOGIN_USERNAME_FIELD_NAME")];
+                        $this->setFailureMessage(sprintf($listAction->FailureMessage, $user));
                     }
 
                     // Set up error message
@@ -1939,6 +1969,7 @@ class SociosList extends Socios
         $this->fecha_ingreso->setDbValue($row['fecha_ingreso']);
         $this->activo->setDbValue($row['activo']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->contrasena->setDbValue($row['contraseña']);
     }
 
     // Return a row with default values
@@ -1954,6 +1985,7 @@ class SociosList extends Socios
         $row['fecha_ingreso'] = $this->fecha_ingreso->DefaultValue;
         $row['activo'] = $this->activo->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['contraseña'] = $this->contrasena->DefaultValue;
         return $row;
     }
 
@@ -2012,6 +2044,8 @@ class SociosList extends Socios
 
         // created_at
 
+        // contraseña
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -2019,13 +2053,20 @@ class SociosList extends Socios
 
             // cooperativa_id
             $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
-            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
             // nombre_completo
             $this->nombre_completo->ViewValue = $this->nombre_completo->CurrentValue;
 
             // cedula
-            $this->cedula->ViewValue = $this->cedula->CurrentValue;
+            if ($this->security->canAdmin()) { // System admin
+                if (strval($this->cedula->CurrentValue) != "") {
+                    $this->cedula->ViewValue = $this->cedula->optionCaption($this->cedula->CurrentValue);
+                } else {
+                    $this->cedula->ViewValue = null;
+                }
+            } else {
+                $this->cedula->ViewValue = $this->language->phrase("PasswordMask");
+            }
 
             // telefono
             $this->telefono->ViewValue = $this->telefono->CurrentValue;
@@ -2047,6 +2088,9 @@ class SociosList extends Socios
             // created_at
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
+
+            // contraseña
+            $this->contrasena->ViewValue = $this->language->phrase("PasswordMask");
 
             // id
             $this->id->HrefValue = "";
@@ -2083,6 +2127,10 @@ class SociosList extends Socios
             // created_at
             $this->created_at->HrefValue = "";
             $this->created_at->TooltipValue = "";
+
+            // contraseña
+            $this->contrasena->HrefValue = "";
+            $this->contrasena->TooltipValue = "";
         }
 
         // Call Row Rendered event
@@ -2126,6 +2174,10 @@ class SociosList extends Socios
         if ($this->isExport() || $this->CurrentAction && $this->CurrentAction != "search") {
             $this->SearchOptions->hideAllOptions();
         }
+        if (!$this->security->canSearch()) {
+            $this->SearchOptions->hideAllOptions();
+            $this->FilterOptions->hideAllOptions();
+        }
     }
 
     // Check if any search fields
@@ -2164,6 +2216,10 @@ class SociosList extends Socios
 
             // Set up lookup SQL and connection
             switch ($fld->FieldVar) {
+                case "x_cooperativa_id":
+                    break;
+                case "x_cedula":
+                    break;
                 case "x_activo":
                     break;
                 default:

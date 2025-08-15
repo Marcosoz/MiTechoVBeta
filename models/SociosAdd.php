@@ -143,6 +143,7 @@ class SociosAdd extends Socios
         $this->fecha_ingreso->setVisibility();
         $this->activo->setVisibility();
         $this->created_at->setVisibility();
+        $this->contrasena->setVisibility();
     }
 
     // Constructor
@@ -491,6 +492,8 @@ class SociosAdd extends Socios
         }
 
         // Set up lookup cache
+        $this->setupLookupOptions($this->cooperativa_id);
+        $this->setupLookupOptions($this->cedula);
         $this->setupLookupOptions($this->activo);
 
         // Load default values for add
@@ -612,6 +615,9 @@ class SociosAdd extends Socios
 
         // Set LoginStatus / Page_Rendering / Page_Render
         if (!IsApi() && !$this->isTerminated()) {
+            // Setup login status
+            SetupLoginStatus();
+
             // Pass login status to client side
             SetClientVar("login", LoginStatus());
 
@@ -729,6 +735,16 @@ class SociosAdd extends Socios
             $this->created_at->CurrentValue = UnformatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern());
         }
 
+        // Check field name 'contraseña' before field var 'x_contrasena'
+        $val = $this->getFormValue("contraseña", null) ?? $this->getFormValue("x_contrasena", null);
+        if (!$this->contrasena->IsDetailKey) {
+            if (IsApi() && $val === null) {
+                $this->contrasena->Visible = false; // Disable update for API request
+            } else {
+                $this->contrasena->setFormValue($val);
+            }
+        }
+
         // Check field name 'id' first before field var 'x_id'
         $val = $this->hasFormValue("id") ? $this->getFormValue("id") : $this->getFormValue("x_id");
     }
@@ -746,6 +762,7 @@ class SociosAdd extends Socios
         $this->activo->CurrentValue = $this->activo->FormValue;
         $this->created_at->CurrentValue = $this->created_at->FormValue;
         $this->created_at->CurrentValue = UnformatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern());
+        $this->contrasena->CurrentValue = $this->contrasena->FormValue;
     }
 
     /**
@@ -794,6 +811,7 @@ class SociosAdd extends Socios
         $this->fecha_ingreso->setDbValue($row['fecha_ingreso']);
         $this->activo->setDbValue($row['activo']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->contrasena->setDbValue($row['contraseña']);
     }
 
     // Return a row with default values
@@ -809,6 +827,7 @@ class SociosAdd extends Socios
         $row['fecha_ingreso'] = $this->fecha_ingreso->DefaultValue;
         $row['activo'] = $this->activo->DefaultValue;
         $row['created_at'] = $this->created_at->DefaultValue;
+        $row['contraseña'] = $this->contrasena->DefaultValue;
         return $row;
     }
 
@@ -870,6 +889,9 @@ class SociosAdd extends Socios
         // created_at
         $this->created_at->RowCssClass = "row";
 
+        // contraseña
+        $this->contrasena->RowCssClass = "row";
+
         // View row
         if ($this->RowType == RowType::VIEW) {
             // id
@@ -877,13 +899,20 @@ class SociosAdd extends Socios
 
             // cooperativa_id
             $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
-            $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
             // nombre_completo
             $this->nombre_completo->ViewValue = $this->nombre_completo->CurrentValue;
 
             // cedula
-            $this->cedula->ViewValue = $this->cedula->CurrentValue;
+            if ($this->security->canAdmin()) { // System admin
+                if (strval($this->cedula->CurrentValue) != "") {
+                    $this->cedula->ViewValue = $this->cedula->optionCaption($this->cedula->CurrentValue);
+                } else {
+                    $this->cedula->ViewValue = null;
+                }
+            } else {
+                $this->cedula->ViewValue = $this->language->phrase("PasswordMask");
+            }
 
             // telefono
             $this->telefono->ViewValue = $this->telefono->CurrentValue;
@@ -905,6 +934,9 @@ class SociosAdd extends Socios
             // created_at
             $this->created_at->ViewValue = $this->created_at->CurrentValue;
             $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
+
+            // contraseña
+            $this->contrasena->ViewValue = $this->language->phrase("PasswordMask");
 
             // cooperativa_id
             $this->cooperativa_id->HrefValue = "";
@@ -929,14 +961,15 @@ class SociosAdd extends Socios
 
             // created_at
             $this->created_at->HrefValue = "";
+
+            // contraseña
+            $this->contrasena->HrefValue = "";
         } elseif ($this->RowType == RowType::ADD) {
             // cooperativa_id
             $this->cooperativa_id->setupEditAttributes();
             $this->cooperativa_id->EditValue = $this->cooperativa_id->CurrentValue;
+            $this->cooperativa_id->EditValue = RemoveHtml($this->cooperativa_id->EditValue);
             $this->cooperativa_id->PlaceHolder = RemoveHtml($this->cooperativa_id->caption());
-            if (strval($this->cooperativa_id->EditValue) != "" && is_numeric($this->cooperativa_id->EditValue)) {
-                $this->cooperativa_id->EditValue = FormatNumber($this->cooperativa_id->EditValue, null);
-            }
 
             // nombre_completo
             $this->nombre_completo->setupEditAttributes();
@@ -945,8 +978,12 @@ class SociosAdd extends Socios
 
             // cedula
             $this->cedula->setupEditAttributes();
-            $this->cedula->EditValue = !$this->cedula->Raw ? HtmlDecode($this->cedula->CurrentValue) : $this->cedula->CurrentValue;
-            $this->cedula->PlaceHolder = RemoveHtml($this->cedula->caption());
+            if (!$this->security->canAdmin()) { // System admin
+                $this->cedula->EditValue = $this->language->phrase("PasswordMask");
+            } else {
+                $this->cedula->EditValue = $this->cedula->options(true);
+                $this->cedula->PlaceHolder = RemoveHtml($this->cedula->caption());
+            }
 
             // telefono
             $this->telefono->setupEditAttributes();
@@ -971,6 +1008,10 @@ class SociosAdd extends Socios
             $this->created_at->setupEditAttributes();
             $this->created_at->EditValue = FormatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern());
             $this->created_at->PlaceHolder = RemoveHtml($this->created_at->caption());
+
+            // contraseña
+            $this->contrasena->setupEditAttributes();
+            $this->contrasena->PlaceHolder = RemoveHtml($this->contrasena->caption());
 
             // Add refer script
 
@@ -997,6 +1038,9 @@ class SociosAdd extends Socios
 
             // created_at
             $this->created_at->HrefValue = "";
+
+            // contraseña
+            $this->contrasena->HrefValue = "";
         }
         if ($this->RowType == RowType::ADD || $this->RowType == RowType::EDIT || $this->RowType == RowType::SEARCH) { // Add/Edit/Search row
             $this->setupFieldTitles();
@@ -1030,7 +1074,7 @@ class SociosAdd extends Socios
                 }
             }
             if ($this->cedula->Visible && $this->cedula->Required) {
-                if (!$this->cedula->IsDetailKey && IsEmpty($this->cedula->FormValue)) {
+                if ($this->security->canAdmin() && !$this->cedula->IsDetailKey && IsEmpty($this->cedula->FormValue)) {
                     $this->cedula->addErrorMessage(str_replace("%s", $this->cedula->caption(), $this->cedula->RequiredErrorMessage));
                 }
             }
@@ -1064,6 +1108,14 @@ class SociosAdd extends Socios
             }
             if (!CheckDate($this->created_at->FormValue, $this->created_at->formatPattern())) {
                 $this->created_at->addErrorMessage($this->created_at->getErrorMessage(false));
+            }
+            if ($this->contrasena->Visible && $this->contrasena->Required) {
+                if (!$this->contrasena->IsDetailKey && IsEmpty($this->contrasena->FormValue)) {
+                    $this->contrasena->addErrorMessage(str_replace("%s", $this->contrasena->caption(), $this->contrasena->RequiredErrorMessage));
+                }
+            }
+            if (!$this->contrasena->Raw && Config("REMOVE_XSS") && CheckPassword($this->contrasena->FormValue)) {
+                $this->contrasena->addErrorMessage($this->language->phrase("InvalidPasswordChars"));
             }
 
         // Return validate result
@@ -1140,7 +1192,9 @@ class SociosAdd extends Socios
         $this->nombre_completo->setDbValueDef($newRow, $this->nombre_completo->CurrentValue, false);
 
         // cedula
-        $this->cedula->setDbValueDef($newRow, $this->cedula->CurrentValue, false);
+        if ($this->security->canAdmin()) { // System admin
+            $this->cedula->setDbValueDef($newRow, $this->cedula->CurrentValue, false);
+        }
 
         // telefono
         $this->telefono->setDbValueDef($newRow, $this->telefono->CurrentValue, false);
@@ -1160,6 +1214,11 @@ class SociosAdd extends Socios
 
         // created_at
         $this->created_at->setDbValueDef($newRow, UnFormatDateTime($this->created_at->CurrentValue, $this->created_at->formatPattern()), false);
+
+        // contraseña
+        if (!IsMaskedPassword($this->contrasena->CurrentValue)) {
+            $this->contrasena->setDbValueDef($newRow, $this->contrasena->CurrentValue, false);
+        }
         return $newRow;
     }
 
@@ -1186,6 +1245,10 @@ class SociosAdd extends Socios
 
             // Set up lookup SQL and connection
             switch ($fld->FieldVar) {
+                case "x_cooperativa_id":
+                    break;
+                case "x_cedula":
+                    break;
                 case "x_activo":
                     break;
                 default:

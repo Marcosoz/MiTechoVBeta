@@ -83,6 +83,7 @@ loadjs.ready(["wrapper", "head"], function () {
 });
 </script>
 <input type="hidden" name="cmd" value="search">
+<?php if ($Security->canSearch()) { ?>
 <?php if (!$Page->isExport() && !($Page->CurrentAction && $Page->CurrentAction != "search") && $Page->hasSearchFields()) { ?>
 <div class="ew-extended-search container-fluid ps-2">
 <div class="row mb-0">
@@ -106,6 +107,7 @@ loadjs.ready(["wrapper", "head"], function () {
     </div>
 </div>
 </div><!-- /.ew-extended-search -->
+<?php } ?>
 <?php } ?>
 </div><!-- /.ew-search-panel -->
 </form>
@@ -171,6 +173,9 @@ $Page->ListOptions->render("header", "left");
 <?php } ?>
 <?php if ($Page->created_at->Visible) { // created_at ?>
         <th data-name="created_at" class="<?= $Page->created_at->headerCellClass() ?>"><div id="elh_socios_created_at" class="socios_created_at"><?= $Page->renderFieldHeader($Page->created_at) ?></div></th>
+<?php } ?>
+<?php if ($Page->contrasena->Visible) { // contraseña ?>
+        <th data-name="contrasena" class="<?= $Page->contrasena->headerCellClass() ?>"><div id="elh_socios_contrasena" class="socios_contrasena"><?= $Page->renderFieldHeader($Page->contrasena) ?></div></th>
 <?php } ?>
 <?php
 // Render list options (header, right)
@@ -270,6 +275,14 @@ $Page->ListOptions->render("body", "left", $Page->RowCount);
 <span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_socios_created_at" class="el_socios_created_at">
 <span<?= $Page->created_at->viewAttributes() ?>>
 <?= $Page->created_at->getViewValue() ?></span>
+</span>
+</td>
+    <?php } ?>
+    <?php if ($Page->contrasena->Visible) { // contraseña ?>
+        <td data-name="contrasena"<?= $Page->contrasena->cellAttributes() ?>>
+<span id="el<?= $Page->RowIndex == '$rowindex$' ? '$rowindex$' : $Page->RowCount ?>_socios_contrasena" class="el_socios_contrasena">
+<span<?= $Page->contrasena->viewAttributes() ?>>
+<?= $Page->contrasena->getViewValue() ?></span>
 </span>
 </td>
     <?php } ?>

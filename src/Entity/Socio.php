@@ -12,6 +12,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\SequenceGenerator;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use PHPMaker2025\project1\AdvancedUserInterface;
 use PHPMaker2025\project1\AbstractEntity;
 use PHPMaker2025\project1\AdvancedSecurity;
@@ -28,9 +31,9 @@ use function PHPMaker2025\project1\Security;
  * Entity class for "socios" table
  */
 
-#[Entity]
+#[Entity(repositoryClass: UserRepository::class)]
 #[Table("socios", options: ["dbId" => "DB"])]
-class Socio extends AbstractEntity
+class Socio extends AbstractEntity implements AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface
 {
     #[Id]
     #[Column(name: "id", type: "integer", unique: true)]
@@ -60,6 +63,9 @@ class Socio extends AbstractEntity
 
     #[Column(name: "created_at", type: "datetime", nullable: true)]
     private ?DateTime $CreatedAt;
+
+    #[Column(name: "`contraseña`", options: ["name" => "contraseña"], type: "string")]
+    private string $Contraseña;
 
     public function __construct()
     {
@@ -101,12 +107,12 @@ class Socio extends AbstractEntity
 
     public function getCedula(): ?string
     {
-        return HtmlDecode($this->Cedula);
+        return $this->Cedula;
     }
 
     public function setCedula(?string $value): static
     {
-        $this->Cedula = RemoveXss($value);
+        $this->Cedula = $value;
         return $this;
     }
 
@@ -163,5 +169,156 @@ class Socio extends AbstractEntity
     {
         $this->CreatedAt = $value;
         return $this;
+    }
+
+    public function getContraseña(): string
+    {
+        return HtmlDecode($this->Contraseña);
+    }
+
+    public function setContraseña(string $value): static
+    {
+        $this->Contraseña = RemoveXss($value);
+        return $this;
+    }
+
+    /**
+     * Get user name
+     *
+     * @return string
+     */
+    public function userName(): string
+    {
+        return $this->get('cedula');
+    }
+
+    /**
+     * Get user ID
+     *
+     * @return mixed
+     */
+    public function userId(): mixed
+    {
+        return null;
+    }
+
+    /**
+     * Get parent user ID
+     *
+     * @return mixed
+     */
+    public function parentUserId(): mixed
+    {
+        return null;
+    }
+
+    /**
+     * Get user level
+     *
+     * @return int|string
+     */
+    public function userLevel(): int|string
+    {
+        return $this->get('cedula') ?? AdvancedSecurity::ANONYMOUS_USER_LEVEL_ID;
+    }
+
+    /**
+     * Roles
+     */
+    protected array $roles = ['ROLE_USER'];
+
+    /**
+     * Get the roles granted to the user, e.g. ['ROLE_USER']
+     *
+     * @return string[]
+     */
+    public function getRoles(): array
+    {
+        $userLevelId = $this->get('cedula');
+        $roles = Security()->getAllRoles($userLevelId);
+        return array_unique([...$this->roles, ...$roles]);
+    }
+
+    /**
+     * Add a role
+     *
+     * @param string $role Role
+     * @return void
+     */
+    public function addRole(string $role): void
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    /**
+     * Remove a role
+     *
+     * @param string $role Role
+     * @return void
+     */
+    public function removeRole(string $role): void
+    {
+        if (in_array($role, $this->roles)) {
+            unset($this->roles[$role]);
+        }
+    }
+
+    /**
+     * Remove sensitive data from the user
+     */
+    public function eraseCredentials(): void
+    {
+        // Don't erase
+    }
+
+    /**
+     * Get the identifier for this user (e.g. username or email address)
+     */
+    public function getUserIdentifier(): string
+    {
+        return $this->Cedula;
+    }
+
+    /**
+     * Get the hashed password for this user
+     */
+    public function getPassword(): ?string
+    {
+        return $this->Contraseña;
+    }
+
+    /**
+     * Upgrade password
+     */
+    public function upgradePassword(string $newHashedPassword): void
+    {
+        $this->Contraseña = $newHashedPassword;
+    }
+
+    /**
+     * Compare users by attributes that are relevant for assessing whether re-authentication is required
+     * See https://symfony.com/doc/current/security.html#understanding-how-users-are-refreshed-from-the-session
+     */
+    public function isEqualTo(UserInterface $user): bool
+    {
+        if (!$user instanceof self) {
+            return false;
+        }
+
+        // if ($this->getPassword() !== $user->getPassword()) {
+        //     return false;
+        // }
+        $currentRoles = array_map("strval", (array) $this->getRoles());
+        $newRoles = array_map("strval", (array) $user->getRoles());
+        $rolesChanged = count($currentRoles) !== count($newRoles) || count($currentRoles) !== count(array_intersect($currentRoles, $newRoles));
+        if ($rolesChanged) {
+            return false;
+        }
+        if ($this->getUserIdentifier() !== $user->getUserIdentifier()) {
+            return false;
+        }
+        return true;
     }
 }

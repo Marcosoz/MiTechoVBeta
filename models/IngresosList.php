@@ -804,6 +804,9 @@ class IngresosList extends Ingresos
         }
 
         // Build filter
+        if (!$this->security->canList()) {
+            $this->Filter = "(0=1)"; // Filter all records
+        }
         AddFilter($this->Filter, $this->DbDetailFilter);
         AddFilter($this->Filter, $this->SearchWhere);
 
@@ -852,6 +855,9 @@ class IngresosList extends Ingresos
 
             // Set no record found message
             if ((IsEmpty($this->CurrentAction) || $this->isSearch()) && $this->TotalRecords == 0) {
+                if (!$this->security->canList()) {
+                    $this->setWarningMessage(DeniedMessage());
+                }
                 if ($this->SearchWhere == "0=101") {
                     $this->setWarningMessage($this->language->phrase("EnterSearchCriteria"));
                 } else {
@@ -918,6 +924,9 @@ class IngresosList extends Ingresos
 
         // Set LoginStatus / Page_Rendering / Page_Render
         if (!IsApi() && !$this->isTerminated()) {
+            // Setup login status
+            SetupLoginStatus();
+
             // Pass login status to client side
             SetClientVar("login", LoginStatus());
 
@@ -1139,6 +1148,9 @@ class IngresosList extends Ingresos
     public function basicSearchWhere(bool $default = false): string
     {
         $searchStr = "";
+        if (!$this->security->canSearch()) {
+            return "";
+        }
 
         // Fields to search
         $searchFlds = [];
@@ -1278,25 +1290,25 @@ class IngresosList extends Ingresos
         // "view"
         $item = &$this->ListOptions->add("view");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canView();
         $item->OnLeft = false;
 
         // "edit"
         $item = &$this->ListOptions->add("edit");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canEdit();
         $item->OnLeft = false;
 
         // "copy"
         $item = &$this->ListOptions->add("copy");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canAdd();
         $item->OnLeft = false;
 
         // "delete"
         $item = &$this->ListOptions->add("delete");
         $item->CssClass = "text-nowrap";
-        $item->Visible = true;
+        $item->Visible = $this->security->canDelete();
         $item->OnLeft = false;
 
         // List actions
@@ -1354,7 +1366,7 @@ class IngresosList extends Ingresos
             // "view"
             $opt = $this->ListOptions["view"];
             $viewcaption = HtmlTitle($this->language->phrase("ViewLink"));
-            if (true) {
+            if ($this->security->canView()) {
                 if ($this->ModalView && !IsMobile()) {
                     $opt->Body = "<a class=\"ew-row-link ew-view\" title=\"" . $viewcaption . "\" data-table=\"ingresos\" data-caption=\"" . $viewcaption . "\" data-ew-action=\"modal\" data-action=\"view\" data-ajax=\"" . ($this->UseAjaxActions ? "true" : "false") . "\" data-url=\"" . HtmlEncode(GetUrl($this->ViewUrl)) . "\" data-btn=\"null\">" . $this->language->phrase("ViewLink") . "</a>";
                 } else {
@@ -1367,7 +1379,7 @@ class IngresosList extends Ingresos
             // "edit"
             $opt = $this->ListOptions["edit"];
             $editcaption = HtmlTitle($this->language->phrase("EditLink"));
-            if (true) {
+            if ($this->security->canEdit()) {
                 if ($this->ModalEdit && !IsMobile()) {
                     $opt->Body = "<a class=\"ew-row-link ew-edit\" title=\"" . $editcaption . "\" data-table=\"ingresos\" data-caption=\"" . $editcaption . "\" data-ew-action=\"modal\" data-action=\"edit\" data-ajax=\"" . ($this->UseAjaxActions ? "true" : "false") . "\" data-url=\"" . HtmlEncode(GetUrl($this->EditUrl)) . "\" data-btn=\"SaveBtn\">" . $this->language->phrase("EditLink") . "</a>";
                 } else {
@@ -1380,7 +1392,7 @@ class IngresosList extends Ingresos
             // "copy"
             $opt = $this->ListOptions["copy"];
             $copycaption = HtmlTitle($this->language->phrase("CopyLink"));
-            if (true) {
+            if ($this->security->canAdd()) {
                 if ($this->ModalAdd && !IsMobile()) {
                     $opt->Body = "<a class=\"ew-row-link ew-copy\" title=\"" . $copycaption . "\" data-table=\"ingresos\" data-caption=\"" . $copycaption . "\" data-ew-action=\"modal\" data-action=\"add\" data-ajax=\"" . ($this->UseAjaxActions ? "true" : "false") . "\" data-url=\"" . HtmlEncode(GetUrl($this->CopyUrl)) . "\" data-btn=\"AddBtn\">" . $this->language->phrase("CopyLink") . "</a>";
                 } else {
@@ -1392,7 +1404,7 @@ class IngresosList extends Ingresos
 
             // "delete"
             $opt = $this->ListOptions["delete"];
-            if (true) {
+            if ($this->security->canDelete()) {
                 $deleteCaption = $this->language->phrase("DeleteLink");
                 $deleteTitle = HtmlTitle($deleteCaption);
                 if ($this->UseAjaxActions) {
@@ -1466,7 +1478,7 @@ class IngresosList extends Ingresos
         } else {
             $item->Body = "<a class=\"ew-add-edit ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode(GetUrl($this->AddUrl)) . "\">" . $this->language->phrase("AddLink") . "</a>";
         }
-        $item->Visible = $this->AddUrl != "";
+        $item->Visible = $this->AddUrl != "" && $this->security->canAdd();
         $option = $options["action"];
 
         // Show column list for column visibility
@@ -2100,6 +2112,10 @@ class IngresosList extends Ingresos
         // Hide search options
         if ($this->isExport() || $this->CurrentAction && $this->CurrentAction != "search") {
             $this->SearchOptions->hideAllOptions();
+        }
+        if (!$this->security->canSearch()) {
+            $this->SearchOptions->hideAllOptions();
+            $this->FilterOptions->hideAllOptions();
         }
     }
 

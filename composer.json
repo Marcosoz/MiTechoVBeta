@@ -61,6 +61,10 @@
         "hkvstore/php-debug-bar": "^4.2.1",
         "hkvstore/didom": "^2.0.2",
         "firehed/dbal-logger": "^2.1.0",
+        "symfony/doctrine-bridge": "^v7.0.0",
+        "symfony/psr-http-message-bridge": "^v7.0.0",
+        "symfony/security-bundle": "^v7.0.0",
+        "symfony/rate-limiter": "^v7.0.0",
         "symfony/polyfill-php83": "^1.31.0",
         "symfony/polyfill-php84": "^1.31.0",
         "hkvstore/dompdf": "~3.1.0"

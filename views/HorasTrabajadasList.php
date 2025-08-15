@@ -83,6 +83,7 @@ loadjs.ready(["wrapper", "head"], function () {
 });
 </script>
 <input type="hidden" name="cmd" value="search">
+<?php if ($Security->canSearch()) { ?>
 <?php if (!$Page->isExport() && !($Page->CurrentAction && $Page->CurrentAction != "search") && $Page->hasSearchFields()) { ?>
 <div class="ew-extended-search container-fluid ps-2">
 <div class="row mb-0">
@@ -106,6 +107,7 @@ loadjs.ready(["wrapper", "head"], function () {
     </div>
 </div>
 </div><!-- /.ew-extended-search -->
+<?php } ?>
 <?php } ?>
 </div><!-- /.ew-search-panel -->
 </form>

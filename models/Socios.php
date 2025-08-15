@@ -72,6 +72,7 @@ class Socios extends DbTable implements LookupTableInterface
     public DbField $fecha_ingreso;
     public DbField $activo;
     public DbField $created_at;
+    public DbField $contrasena;
 
     // Page ID
     public string $PageID = ""; // To be set by subclass
@@ -128,7 +129,7 @@ class Socios extends DbTable implements LookupTableInterface
             false, // Force selection
             false, // Is Virtual search
             'FORMATTED TEXT', // View Tag
-            'NO' // Edit Tag
+            'TEXT' // Edit Tag
         );
         $this->id->InputTextType = "text";
         $this->id->Raw = true;
@@ -161,6 +162,8 @@ class Socios extends DbTable implements LookupTableInterface
         $this->cooperativa_id->Raw = true;
         $this->cooperativa_id->Nullable = false; // NOT NULL field
         $this->cooperativa_id->Required = true; // Required field
+        $this->cooperativa_id->Lookup = new Lookup($this->cooperativa_id, 'socios', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+        $this->cooperativa_id->OptionCount = 1;
         $this->cooperativa_id->DefaultErrorMessage = $this->language->phrase("IncorrectInteger");
         $this->cooperativa_id->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN"];
         $this->Fields['cooperativa_id'] = &$this->cooperativa_id;
@@ -205,10 +208,17 @@ class Socios extends DbTable implements LookupTableInterface
             false, // Force selection
             false, // Is Virtual search
             'FORMATTED TEXT', // View Tag
-            'TEXT' // Edit Tag
+            'SELECT' // Edit Tag
         );
         $this->cedula->InputTextType = "text";
-        $this->cedula->SearchOperators = ["=", "<>", "IN", "NOT IN", "STARTS WITH", "NOT STARTS WITH", "LIKE", "NOT LIKE", "ENDS WITH", "NOT ENDS WITH", "IS EMPTY", "IS NOT EMPTY", "IS NULL", "IS NOT NULL"];
+        $this->cedula->Raw = true;
+        $this->cedula->Required = true; // Required field
+        $this->cedula->setSelectMultiple(false); // Select one
+        $this->cedula->UsePleaseSelect = true; // Use PleaseSelect by default
+        $this->cedula->PleaseSelectText = $this->language->phrase("PleaseSelect"); // "PleaseSelect" text
+        $this->cedula->Lookup = new Lookup($this->cedula, 'socios', false, '', ["","","",""], '', "", [], [], [], [], [], [], false, '', '', "");
+        $this->cedula->OptionCount = 5;
+        $this->cedula->SearchOperators = ["=", "<>", "IS NULL", "IS NOT NULL"];
         $this->Fields['cedula'] = &$this->cedula;
 
         // telefono
@@ -252,6 +262,7 @@ class Socios extends DbTable implements LookupTableInterface
             'TEXT' // Edit Tag
         );
         $this->email->InputTextType = "text";
+        $this->email->Required = true; // Required field
         $this->email->SearchOperators = ["=", "<>", "IN", "NOT IN", "STARTS WITH", "NOT STARTS WITH", "LIKE", "NOT LIKE", "ENDS WITH", "NOT ENDS WITH", "IS EMPTY", "IS NOT EMPTY", "IS NULL", "IS NOT NULL"];
         $this->Fields['email'] = &$this->email;
 
@@ -330,6 +341,30 @@ class Socios extends DbTable implements LookupTableInterface
         $this->created_at->DefaultErrorMessage = str_replace("%s", $GLOBALS["DATE_FORMAT"], $this->language->phrase("IncorrectDate"));
         $this->created_at->SearchOperators = ["=", "<>", "IN", "NOT IN", "<", "<=", ">", ">=", "BETWEEN", "NOT BETWEEN", "IS NULL", "IS NOT NULL"];
         $this->Fields['created_at'] = &$this->created_at;
+
+        // contraseña
+        $this->contrasena = new DbField(
+            $this, // Table
+            'x_contrasena', // Variable name
+            'contraseña', // Name
+            '`contraseña`', // Expression
+            '`contraseña`', // Basic search expression
+            200, // Type
+            100, // Size
+            -1, // Date/Time format
+            false, // Is upload field
+            '`contraseña`', // Virtual expression
+            false, // Is virtual
+            false, // Force selection
+            false, // Is Virtual search
+            'FORMATTED TEXT', // View Tag
+            'PASSWORD' // Edit Tag
+        );
+        $this->contrasena->InputTextType = "text";
+        $this->contrasena->Nullable = false; // NOT NULL field
+        $this->contrasena->Required = true; // Required field
+        $this->contrasena->SearchOperators = ["=", "<>"];
+        $this->Fields['contraseña'] = &$this->contrasena;
 
         // Cache profile
         $this->cacheProfile = new QueryCacheProfile(0, $this->TableVar, Container("result.cache"));
@@ -715,6 +750,9 @@ class Socios extends DbTable implements LookupTableInterface
             if (!isset($this->Fields[$name]) || $this->Fields[$name]->IsCustom) {
                 continue;
             }
+            if (Config("ENCRYPTED_PASSWORD") && $name == Config("LOGIN_PASSWORD_FIELD_NAME")) {
+                $value = HashPassword($value);
+            }
             $field = $this->Fields[$name];
             $parm = $queryBuilder->createPositionalParameter($value, $field->getParameterType());
             $parm = $field->CustomDataType?->convertToDatabaseValueSQL($parm, $platform) ?? $parm; // Convert database SQL
@@ -759,6 +797,12 @@ class Socios extends DbTable implements LookupTableInterface
         foreach ($row as $name => $value) {
             if (!isset($this->Fields[$name]) || $this->Fields[$name]->IsCustom || $this->Fields[$name]->IsAutoIncrement) {
                 continue;
+            }
+            if (Config("ENCRYPTED_PASSWORD") && $name == Config("LOGIN_PASSWORD_FIELD_NAME")) {
+                if ($value == $this->Fields[$name]->OldValue) { // No need to update hashed password if not changed
+                    continue;
+                }
+                $value = HashPassword($value);
             }
             $field = $this->Fields[$name];
             $parm = $queryBuilder->createPositionalParameter($value, $field->getParameterType());
@@ -883,6 +927,7 @@ class Socios extends DbTable implements LookupTableInterface
         $this->fecha_ingreso->DbValue = $row['fecha_ingreso'];
         $this->activo->DbValue = $row['activo'];
         $this->created_at->DbValue = $row['created_at'];
+        $this->contrasena->DbValue = $row['contraseña'];
     }
 
     // Delete uploaded files
@@ -1134,7 +1179,7 @@ class Socios extends DbTable implements LookupTableInterface
         if ($sortUrl) {
             $html .= '<div class="ew-table-header-sort">' . $fld->getSortIcon() . '</div>';
         }
-        if ($this->PageID != "grid" && !$this->isExport() && $fld->UseFilter) {
+        if ($this->PageID != "grid" && !$this->isExport() && $fld->UseFilter && $this->security->canSearch()) {
             $html .= '<div class="ew-filter-dropdown-btn" data-ew-action="filter" data-table="' . $fld->TableVar . '" data-field="' . $fld->FieldVar .
                 '"><div class="ew-table-header-filter" role="button" aria-haspopup="true">' . $this->language->phrase("Filter") .
                 (is_array($fld->EditValue) ? sprintf($this->language->phrase("FilterCount"), count($fld->EditValue)) : '') .
@@ -1247,6 +1292,7 @@ class Socios extends DbTable implements LookupTableInterface
         $this->fecha_ingreso->setDbValue($row['fecha_ingreso']);
         $this->activo->setDbValue($row['activo']);
         $this->created_at->setDbValue($row['created_at']);
+        $this->contrasena->setDbValue($row['contraseña']);
     }
 
     // Render list content
@@ -1296,18 +1342,27 @@ class Socios extends DbTable implements LookupTableInterface
 
         // created_at
 
+        // contraseña
+
         // id
         $this->id->ViewValue = $this->id->CurrentValue;
 
         // cooperativa_id
         $this->cooperativa_id->ViewValue = $this->cooperativa_id->CurrentValue;
-        $this->cooperativa_id->ViewValue = FormatNumber($this->cooperativa_id->ViewValue, $this->cooperativa_id->formatPattern());
 
         // nombre_completo
         $this->nombre_completo->ViewValue = $this->nombre_completo->CurrentValue;
 
         // cedula
-        $this->cedula->ViewValue = $this->cedula->CurrentValue;
+        if ($this->security->canAdmin()) { // System admin
+            if (strval($this->cedula->CurrentValue) != "") {
+                $this->cedula->ViewValue = $this->cedula->optionCaption($this->cedula->CurrentValue);
+            } else {
+                $this->cedula->ViewValue = null;
+            }
+        } else {
+            $this->cedula->ViewValue = $this->language->phrase("PasswordMask");
+        }
 
         // telefono
         $this->telefono->ViewValue = $this->telefono->CurrentValue;
@@ -1329,6 +1384,9 @@ class Socios extends DbTable implements LookupTableInterface
         // created_at
         $this->created_at->ViewValue = $this->created_at->CurrentValue;
         $this->created_at->ViewValue = FormatDateTime($this->created_at->ViewValue, $this->created_at->formatPattern());
+
+        // contraseña
+        $this->contrasena->ViewValue = $this->language->phrase("PasswordMask");
 
         // id
         $this->id->HrefValue = "";
@@ -1365,6 +1423,10 @@ class Socios extends DbTable implements LookupTableInterface
         // created_at
         $this->created_at->HrefValue = "";
         $this->created_at->TooltipValue = "";
+
+        // contraseña
+        $this->contrasena->HrefValue = "";
+        $this->contrasena->TooltipValue = "";
 
         // Call Row Rendered event
         $this->rowRendered();
@@ -1406,6 +1468,7 @@ class Socios extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->fecha_ingreso);
                     $doc->exportCaption($this->activo);
                     $doc->exportCaption($this->created_at);
+                    $doc->exportCaption($this->contrasena);
                 } else {
                     $doc->exportCaption($this->id);
                     $doc->exportCaption($this->cooperativa_id);
@@ -1416,6 +1479,7 @@ class Socios extends DbTable implements LookupTableInterface
                     $doc->exportCaption($this->fecha_ingreso);
                     $doc->exportCaption($this->activo);
                     $doc->exportCaption($this->created_at);
+                    $doc->exportCaption($this->contrasena);
                 }
                 $doc->endExportRow();
             }
@@ -1451,6 +1515,7 @@ class Socios extends DbTable implements LookupTableInterface
                         $doc->exportField($this->fecha_ingreso);
                         $doc->exportField($this->activo);
                         $doc->exportField($this->created_at);
+                        $doc->exportField($this->contrasena);
                     } else {
                         $doc->exportField($this->id);
                         $doc->exportField($this->cooperativa_id);
@@ -1461,6 +1526,7 @@ class Socios extends DbTable implements LookupTableInterface
                         $doc->exportField($this->fecha_ingreso);
                         $doc->exportField($this->activo);
                         $doc->exportField($this->created_at);
+                        $doc->exportField($this->contrasena);
                     }
                     $doc->endExportRow($rowCnt);
                 }
@@ -1488,6 +1554,59 @@ class Socios extends DbTable implements LookupTableInterface
     {
         $this->RowType = RowType::EDIT;
         return $value;
+    }
+
+    // Send register email
+    public function sendRegisterEmail(array $row): bool|string
+    {
+        $userName = $row[Config("LOGIN_USERNAME_FIELD_NAME")];
+        $user = LoadUserByIdentifier($userName);
+        $email = $this->prepareRegisterEmail($user);
+        $args = ["row" => $row];
+        $emailSent = false;
+        if ($this->emailSending($email, $args)) { // Use Email_Sending server event of user table
+            $emailSent = $email->send();
+        }
+        return $emailSent;
+    }
+
+    // Get activate link
+    public function getActivateLink(UserInterface $user): string
+    {
+        $loginLink = CreateLoginLink($user, Config("ACTIVATE_LINK_LIFETIME"));
+        return $loginLink->getUrl() . "&action=activate";
+    }
+
+    // Prepare register email
+    public function prepareRegisterEmail(UserInterface $user, string $langId = ""): Email
+    {
+        $emailAddress = $user->get(Config("USER_EMAIL_FIELD_NAME")) ?: Config("RECIPIENT_EMAIL"); // Send to recipient directly if no email address
+        $fields = [
+            'id' => (object)[ "caption" => $this->id->caption(), "value" => $user->get('id') ],
+            'cooperativa_id' => (object)[ "caption" => $this->cooperativa_id->caption(), "value" => $user->get('cooperativa_id') ],
+            'nombre_completo' => (object)[ "caption" => $this->nombre_completo->caption(), "value" => $user->get('nombre_completo') ],
+            'email' => (object)[ "caption" => $this->email->caption(), "value" => $user->get('email') ],
+        ];
+        $email = new Email();
+        $data = [
+            'From' => Config("SENDER_EMAIL"), // Replace Sender
+            'To' => $emailAddress, // Replace Recipient
+            'Fields' => $fields,
+            'id' => $fields['id'],
+            'cooperativa_id' => $fields['cooperativa_id'],
+            'nombre_completo' => $fields['nombre_completo'],
+            'email' => $fields['email'],
+        ];
+        if (Config("REGISTER_ACTIVATE") && !IsEmpty(Config("USER_ACTIVATED_FIELD_NAME"))) {
+            $data['ActivateLink'] = $this->getActivateLink($user);
+        }
+        $email->load(Config("EMAIL_REGISTER_TEMPLATE"), $langId, $data);
+
+        // Add Bcc
+        if (!SameText($emailAddress, Config("RECIPIENT_EMAIL"))) {
+            $email->addBcc(Config("RECIPIENT_EMAIL"));
+        }
+        return $email;
     }
 
     // Get file data

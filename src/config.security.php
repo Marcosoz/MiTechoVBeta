@@ -33,9 +33,26 @@ return [
             ],
         ],
         'providers' => [
+            'database_users' => [
+                'id' => EntityUserProvider::class,
+            ],
+            'admin_user' => [
+                'memory' => [
+                    'users' => [
+                        'admin' => [
+                            'password' => '$2y$15$Ni8XpdKBliVOj2z5z2R7B.jCd24ab3OzbUyOKqEkFlejAMXPW0JRO',
+                            'roles' => [
+                                'ROLE_SUPER_ADMIN'
+                            ],
+                        ],
+                    ],
+                ],
+            ],
             'all_users' => [
                 'chain' => [
                     'providers' => [
+                        'database_users',
+                        'admin_user',
                     ],
                 ],
             ],
@@ -49,6 +66,18 @@ return [
             'main' => [
                 'provider' => 'all_users',
                 'user_checker' => 'security.user_checker.chain.main',
+
+                // This allows the user to login by submitting a username and password
+                // Reference: https://symfony.com/doc/current/security/form_login_setup.html
+                'form_login' => [
+                    'check_path' => '/login',
+                    'login_path' => '/login',
+                    'default_target_path' => '/',
+                    'username_parameter' => 'username',
+                    'password_parameter' => 'password',
+                    'success_handler' => AuthenticationSuccessHandler::class,
+                    'failure_handler' => AuthenticationFailureHandler::class,
+                ],
                 'entry_point' => AuthenticationEntryPoint::class,
                 'logout' => [
                     'path' => '/logout'
@@ -90,9 +119,15 @@ return [
             'ROLE_SUPER_ADMIN' => 'ROLE_ADMIN',
             'ROLE_ADMIN' => [
                 'ROLE_USER',
-                'ROLE_UNDEFINED'
+                'ROLE_DEFAULT', 'ROLE_ADMINISTRADOR_COOPERATIVA', 'ROLE_SOCIOS'
             ],
-            'ROLE_UNDEFINED' => [
+            'ROLE_DEFAULT' => [
+                'ROLE_USER',
+            ],
+            'ROLE_ADMINISTRADOR_COOPERATIVA' => [
+                'ROLE_USER',
+            ],
+            'ROLE_SOCIOS' => [
                 'ROLE_USER',
             ],
         ],

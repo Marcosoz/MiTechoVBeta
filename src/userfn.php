@@ -40,6 +40,10 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mailer\Event\SentMessageEvent;
 use Symfony\Component\Mailer\Event\FailedMessageEvent;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
+use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
 
 // Filter for 'Last Month' (example)
 function GetLastMonthFilter(string $expression, string $dbid = "DB"): string

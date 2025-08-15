@@ -37,6 +37,7 @@ C:\xampp\htdocs\proyect1\models\AportesLegalesDelete.php
 C:\xampp\htdocs\proyect1\models\AportesLegalesEdit.php
 C:\xampp\htdocs\proyect1\models\AportesLegalesList.php
 C:\xampp\htdocs\proyect1\models\AportesLegalesView.php
+C:\xampp\htdocs\proyect1\models\ChangePassword.php
 C:\xampp\htdocs\proyect1\models\Compras.php
 C:\xampp\htdocs\proyect1\models\ComprasAdd.php
 C:\xampp\htdocs\proyect1\models\ComprasDelete.php
@@ -61,6 +62,7 @@ C:\xampp\htdocs\proyect1\models\IngresosDelete.php
 C:\xampp\htdocs\proyect1\models\IngresosEdit.php
 C:\xampp\htdocs\proyect1\models\IngresosList.php
 C:\xampp\htdocs\proyect1\models\IngresosView.php
+C:\xampp\htdocs\proyect1\models\Login.php
 C:\xampp\htdocs\proyect1\models\MovimientosStock.php
 C:\xampp\htdocs\proyect1\models\MovimientosStockAdd.php
 C:\xampp\htdocs\proyect1\models\MovimientosStockDelete.php
@@ -73,12 +75,15 @@ C:\xampp\htdocs\proyect1\models\PagosSociosDelete.php
 C:\xampp\htdocs\proyect1\models\PagosSociosEdit.php
 C:\xampp\htdocs\proyect1\models\PagosSociosList.php
 C:\xampp\htdocs\proyect1\models\PagosSociosView.php
+C:\xampp\htdocs\proyect1\models\PersonalData.php
 C:\xampp\htdocs\proyect1\models\Proveedores.php
 C:\xampp\htdocs\proyect1\models\ProveedoresAdd.php
 C:\xampp\htdocs\proyect1\models\ProveedoresDelete.php
 C:\xampp\htdocs\proyect1\models\ProveedoresEdit.php
 C:\xampp\htdocs\proyect1\models\ProveedoresList.php
 C:\xampp\htdocs\proyect1\models\ProveedoresView.php
+C:\xampp\htdocs\proyect1\models\Register.php
+C:\xampp\htdocs\proyect1\models\ResetPassword.php
 C:\xampp\htdocs\proyect1\models\Socios.php
 C:\xampp\htdocs\proyect1\models\SociosAdd.php
 C:\xampp\htdocs\proyect1\models\SociosDelete.php
@@ -208,6 +213,7 @@ C:\xampp\htdocs\proyect1\src\ListOptions.php
 C:\xampp\htdocs\proyect1\src\ListOptionsCollection.php
 C:\xampp\htdocs\proyect1\src\LoginRateLimiter.php
 C:\xampp\htdocs\proyect1\src\LoginStatusEvent.php
+C:\xampp\htdocs\proyect1\src\LogoutSubscriber.php
 C:\xampp\htdocs\proyect1\src\Lookup.php
 C:\xampp\htdocs\proyect1\src\LookupTableInterface.php
 C:\xampp\htdocs\proyect1\src\MaintenanceMiddleware.php
@@ -306,6 +312,7 @@ C:\xampp\htdocs\proyect1\views\AportesLegalesDelete.php
 C:\xampp\htdocs\proyect1\views\AportesLegalesEdit.php
 C:\xampp\htdocs\proyect1\views\AportesLegalesList.php
 C:\xampp\htdocs\proyect1\views\AportesLegalesView.php
+C:\xampp\htdocs\proyect1\views\ChangePassword.php
 C:\xampp\htdocs\proyect1\views\ComprasAdd.php
 C:\xampp\htdocs\proyect1\views\ComprasDelete.php
 C:\xampp\htdocs\proyect1\views\ComprasEdit.php
@@ -327,6 +334,7 @@ C:\xampp\htdocs\proyect1\views\IngresosDelete.php
 C:\xampp\htdocs\proyect1\views\IngresosEdit.php
 C:\xampp\htdocs\proyect1\views\IngresosList.php
 C:\xampp\htdocs\proyect1\views\IngresosView.php
+C:\xampp\htdocs\proyect1\views\Login.php
 C:\xampp\htdocs\proyect1\views\MovimientosStockAdd.php
 C:\xampp\htdocs\proyect1\views\MovimientosStockDelete.php
 C:\xampp\htdocs\proyect1\views\MovimientosStockEdit.php
@@ -337,11 +345,14 @@ C:\xampp\htdocs\proyect1\views\PagosSociosDelete.php
 C:\xampp\htdocs\proyect1\views\PagosSociosEdit.php
 C:\xampp\htdocs\proyect1\views\PagosSociosList.php
 C:\xampp\htdocs\proyect1\views\PagosSociosView.php
+C:\xampp\htdocs\proyect1\views\PersonalData.php
 C:\xampp\htdocs\proyect1\views\ProveedoresAdd.php
 C:\xampp\htdocs\proyect1\views\ProveedoresDelete.php
 C:\xampp\htdocs\proyect1\views\ProveedoresEdit.php
 C:\xampp\htdocs\proyect1\views\ProveedoresList.php
 C:\xampp\htdocs\proyect1\views\ProveedoresView.php
+C:\xampp\htdocs\proyect1\views\Register.php
+C:\xampp\htdocs\proyect1\views\ResetPassword.php
 C:\xampp\htdocs\proyect1\views\SociosAdd.php
 C:\xampp\htdocs\proyect1\views\SociosDelete.php
 C:\xampp\htdocs\proyect1\views\SociosEdit.php

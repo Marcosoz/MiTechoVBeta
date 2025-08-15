@@ -242,6 +242,7 @@ return [
     "array.cache" => \DI\get(ArrayAdapter::class),
     CacheItemPoolInterface::class => \DI\get(ArrayAdapter::class),
     ValidatorInterface:: class => \DI\factory([Validation::class, "createValidator"]),
+    "security.container" => \DI\factory([SecurityContainerFactory::class, "create"]),
 
     // Tables
     "aportes_legales" => \DI\autowire(AportesLegales::class),
@@ -256,4 +257,7 @@ return [
     "stock" => \DI\autowire(Stock::class),
     "actividad_log" => \DI\autowire(ActividadLog::class),
     "usuarios" => \DI\autowire(Usuarios::class),
+
+    // User table
+    "usertable" => \DI\get("socios"),
 ] + $definitions;

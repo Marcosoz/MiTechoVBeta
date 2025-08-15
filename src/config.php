@@ -394,7 +394,7 @@ $CONFIG = [
     // Security
     "ENCRYPTION_ENABLED" => false, // Encryption enabled
     "ENCRYPT_USER_NAME_AND_PASSWORD" => false, // Encrypt user name / password
-    "ADMIN_USER_NAME" => "", // Administrator user name
+    "ADMIN_USER_NAME" => "admin", // Administrator user name
     "PASSWORD_HASH" => true, // Use PHP password hashing functions
     "ENCRYPTED_PASSWORD" => false, // Use encrypted password
     "PHPASS_ITERATION_COUNT_LOG2" => [10, 8], // For PasswordHash (deprecated)
@@ -411,21 +411,21 @@ $CONFIG = [
     "DEFAULT_USER_ID_PERMISSION" => Allow::LIST->value | Allow::VIEW->value | Allow::SEARCH->value | Allow::LOOKUP->value,
 
     // User table/field names
-    "USER_TABLE_NAME" => "",
-    "USER_TABLE_ENTITY_CLASS" => "",
-    "LOGIN_USERNAME_FIELD_NAME" => "",
-    "LOGIN_USERNAME_PROPERTY_NAME" => "",
-    "LOGIN_PASSWORD_FIELD_NAME" => "",
+    "USER_TABLE_NAME" => "socios",
+    "USER_TABLE_ENTITY_CLASS" => Entity\Socio::class,
+    "LOGIN_USERNAME_FIELD_NAME" => "cedula",
+    "LOGIN_USERNAME_PROPERTY_NAME" => "Cedula",
+    "LOGIN_PASSWORD_FIELD_NAME" => "contraseña",
     "USER_ID_FIELD_NAME" => "",
     "PARENT_USER_ID_FIELD_NAME" => "",
-    "USER_LEVEL_FIELD_NAME" => "",
+    "USER_LEVEL_FIELD_NAME" => "cedula",
     "USER_PROFILE_FIELD_NAME" => "",
     "REGISTER_ACTIVATE" => false,
     "REGISTER_AUTO_LOGIN" => false,
     "USER_ACTIVATED_FIELD_NAME" => "",
     "USER_ACTIVATED_FIELD_VALUE" => "1",
-    "USER_EMAIL_FIELD_NAME" => "",
-    "USER_EMAIL_PROPERTY_NAME" => "",
+    "USER_EMAIL_FIELD_NAME" => "email",
+    "USER_EMAIL_PROPERTY_NAME" => "Email",
     "USER_PHONE_FIELD_NAME" => "",
     "USER_IMAGE_FIELD_NAME" => "",
     "USER_IMAGE_SIZE" => 40,
@@ -433,13 +433,13 @@ $CONFIG = [
     "LOGIN_LINK_LIFETIME" => 5 * 60,
 
     // User table filters
-    "USER_TABLE_DBID" => "",
-    "USER_TABLE" => "",
+    "USER_TABLE_DBID" => "DB",
+    "USER_TABLE" => "socios",
     "SEARCH_FILTER_OPTION" => "Client",
 
     // Email
-    "SENDER_EMAIL" => "", // Sender email address
-    "RECIPIENT_EMAIL" => "", // Recipient email address
+    "SENDER_EMAIL" => "marcosozaro@vera.com.uy", // Sender email address
+    "RECIPIENT_EMAIL" => "marcosozaro@vera.com.uy", // Recipient email address
     "MAX_EMAIL_RECIPIENT" => 3,
     "MAX_EMAIL_SENT_COUNT" => 3,
     "EXPORT_EMAIL_COUNTER" => SESSION_STATUS . "_EmailCounter",
@@ -1404,7 +1404,7 @@ $CONFIG = [
     // Notifier
     "NOTIFIER" => [
         "channels" => [
-            "email" => \DI\create(EmailChannel::class)->constructor(\DI\get(TransportInterface::class), null, "")
+            "email" => \DI\create(EmailChannel::class)->constructor(\DI\get(TransportInterface::class), null, "marcosozaro@vera.com.uy")
         ]
     ],
 

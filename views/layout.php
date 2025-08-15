@@ -173,6 +173,52 @@ ew.ready("head", [
     </ul>
 </li>
 </script>
+<script type="text/html" class="ew-js-template" data-name="login" data-seq="10" data-data="login" data-method="appendTo" data-target="#ew-navbar-end">
+{{if canSubscribe}}
+<li class="nav-item"><a id="subscribe-notification" class="nav-link disabled">{{:subscribeText}}</a></li>
+{{/if}}
+{{if (isLoggedIn || isAuthenticated)}}
+<li class="nav-item dropdown text-body">
+    <a id="ew-nav-link-user" class="nav-link ew-user" data-bs-toggle="dropdown" href="#">
+        <i class="fa-solid fa-user"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end ew-user-dropdown" aria-labelledby="ew-nav-link-user">
+        <div class="dropdown-header">
+            <i class="fa-solid fa-user me-2"></i>{{:currentUserName}}
+        </div>
+    {{if isLoggedIn}}
+        <div class="dropdown-divider"></div>
+        {{if hasPersonalData}}
+        <a class="dropdown-item" id="personal-data"{{props personalData}} data-{{:key}}="{{>prop}}"{{/props}}>{{:personalDataText}}</a>
+        {{/if}}
+        {{if canChangePassword}}
+        <a class="dropdown-item" id="change-password"{{props changePassword}} data-{{:key}}="{{>prop}}"{{/props}}>{{:changePasswordText}}</a>
+        {{/if}}
+        {{if can2fa}}
+        <a class="dropdown-item" id="config-2fa" data-ew-action="redirect" data-url="{{url:twofaUrl}}">{{:twofaText}}</a>
+        {{/if}}
+        {{if canChat}}
+        <a class="dropdown-item{{if !enableChat}} d-none{{/if}}" id="enable-chat" data-ew-action="toggle-chat" data-value="1">{{:enableChatText}}</a>
+        <a class="dropdown-item{{if !disableChat}} d-none{{/if}}" id="disable-chat" data-ew-action="toggle-chat" data-value="0">{{:disableChatText}}</a>
+        {{/if}}
+    {{/if}}
+        {{if canLogout}}
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-footer text-end py-0">
+            <a class="btn btn-default"{{props logout}} data-{{:key}}="{{>prop}}"{{/props}}>{{:logoutText}}</a>
+        </div>
+        {{/if}}
+    </div>
+</li>
+{{else}}
+    {{if canLogin}}
+<li class="nav-item"><a class="nav-link ew-tooltip" title="{{:loginTitle}}"{{props login}} data-{{:key}}="{{>prop}}"{{/props}}>{{:loginText}}</a></li>
+    {{/if}}
+    {{if canLogout}}
+<li class="nav-item"><a class="nav-link ew-tooltip"{{props logout}} data-{{:key}}="{{>prop}}"{{/props}}>{{:logoutText}}</a></li>
+    {{/if}}
+{{/if}}
+</script>
 <?= DebugBarRenderer()?->renderHead() ?>
 <meta name="generator" content="PHPMaker 2025.12.0">
 </head>

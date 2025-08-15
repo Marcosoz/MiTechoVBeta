@@ -1,4 +1,4 @@
-<ew-language date="2025/8/11" id="en-US" author="e.World Technology Limited">
+<ew-language date="2025/8/14" id="en-US" author="e.World Technology Limited">
   <project>
     <phrase id="footertext" value="FloridabIT. All rights reserved." />
     <menu id="1">
@@ -259,12 +259,24 @@
       </field>
       <field id="cooperativa_id">
         <phrase id="fldcaption" value="cooperativa id" />
+        <phrase id="fldtagvalue1" value="" />
+        <phrase id="fldtagcaption1" value="" />
       </field>
       <field id="nombre_completo">
         <phrase id="fldcaption" value="nombre completo" />
       </field>
       <field id="cedula">
         <phrase id="fldcaption" value="cedula" />
+        <phrase id="fldtagvalue1" value="-2" />
+        <phrase id="fldtagcaption1" value="Anonymous" />
+        <phrase id="fldtagvalue2" value="-1" />
+        <phrase id="fldtagcaption2" value="Administrator" />
+        <phrase id="fldtagvalue3" value="0" />
+        <phrase id="fldtagcaption3" value="Default" />
+        <phrase id="fldtagvalue4" value="1" />
+        <phrase id="fldtagcaption4" value="Administrador Cooperativa" />
+        <phrase id="fldtagvalue5" value="2" />
+        <phrase id="fldtagcaption5" value="Socios" />
       </field>
       <field id="telefono">
         <phrase id="fldcaption" value="telefono" />
@@ -284,6 +296,9 @@
       </field>
       <field id="created_at">
         <phrase id="fldcaption" value="created at" />
+      </field>
+      <field id="contrasena">
+        <phrase id="fldcaption" value="contraseña" />
       </field>
     </table>
     <table id="stock">

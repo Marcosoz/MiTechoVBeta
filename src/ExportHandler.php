@@ -72,6 +72,10 @@ class ExportHandler
             throw new InvalidArgumentException("Missing export log table variable");
         }
         $tbl = $this->container->get($exportLogTable);
+        $this->security->loadTablePermissions($exportLogTable);
+        if (!$this->security->canList()) {
+            throw new HttpForbiddenException($this->request);
+        }
         $filter = $tbl->applyUserIDFilters("");
         // Handle export type
         $fld = $tbl->Fields[Config("EXPORT_LOG_FIELD_NAME_EXPORT_TYPE")];
@@ -212,11 +216,16 @@ class ExportHandler
         if ($row !== false) {
             $fileName ??= $row[Config("EXPORT_LOG_FIELD_NAME_FILENAME")]; // Get file name
             $table = $row[Config("EXPORT_LOG_FIELD_NAME_TABLE")];
-            $info = pathinfo($fileName);
-            $ext = strtolower($info["extension"] ?? "");
-            $file = ExportPath(true) . $guid . "." . $ext;
-            $file = str_replace("\0", "", $file);
-            return [$fileName, $file];
+            $this->security->loadTablePermissions($table);
+            if (!$this->security->canExport()) {
+                throw new HttpForbiddenException($this->request);
+            } else {
+                $info = pathinfo($fileName);
+                $ext = strtolower($info["extension"] ?? "");
+                $file = ExportPath(true) . $guid . "." . $ext;
+                $file = str_replace("\0", "", $file);
+                return [$fileName, $file];
+            }
         }
         return null;
     }
@@ -248,6 +257,12 @@ class ExportHandler
             } else { // View page
                 $recordKey = explode(",", $key);
             }
+        }
+
+        // Check permission
+        $this->security->loadTablePermissions($table);
+        if (!$this->security->canExport()) {
+            throw new HttpForbiddenException($this->request);
         }
 
         // Validate export type

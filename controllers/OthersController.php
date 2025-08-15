@@ -13,6 +13,57 @@ use Slim\Exception\HttpUnauthorizedException;
  */
 class OthersController extends ControllerBase
 {
+    // personaldata
+    #[Route("/personaldata", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => [PermissionMiddleware::class, AuthenticationMiddleware::class]], name: "personaldata")]
+    public function personaldata(Request $request, Response &$response, array $args): Response
+    {
+        return $this->runPage($request, $response, $args, "PersonalData");
+    }
+
+    // login
+    #[Route("/login[/{action}]", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => [PermissionMiddleware::class, AuthenticationMiddleware::class]], name: "login")]
+    public function login(Request $request, Response &$response, array $args): Response
+    {
+        global $Error;
+        $Error = FlashBag()->get("error")[0] ?? "";
+        return $this->runPage($request, $response, $args, "Login");
+    }
+
+    // resetpassword
+    #[Route("/resetpassword", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => [PermissionMiddleware::class, AuthenticationMiddleware::class]], name: "resetpassword")]
+    public function resetpassword(Request $request, Response &$response, array $args): Response
+    {
+        return $this->runPage($request, $response, $args, "ResetPassword");
+    }
+
+    // changepassword
+    #[Route("/changepassword", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => [PermissionMiddleware::class, AuthenticationMiddleware::class]], name: "changepassword")]
+    public function changepassword(Request $request, Response &$response, array $args): Response
+    {
+        return $this->runPage($request, $response, $args, "ChangePassword");
+    }
+
+    // register
+    #[Route("/register", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => [PermissionMiddleware::class, AuthenticationMiddleware::class]], name: "register")]
+    public function register(Request $request, Response &$response, array $args): Response
+    {
+        return $this->runPage($request, $response, $args, "Register");
+    }
+
+    // Login check (for login link)
+    #[Route("/login_check", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => AuthenticationMiddleware::class], name: "login_check")]
+    public function loginCheck(Request $request, Response &$response, array $args): Response
+    {
+        return $response;
+    }
+
+    // Logout)
+    #[Route("/logout", methods: ["GET", "POST", "OPTIONS"], defaults: ["middlewares" => AuthenticationMiddleware::class], name: "logout")]
+    public function logout(Request $request, Response &$response, array $args): Response
+    {
+        return $response;
+    }
+
     // Swagger
     #[Route("/swagger/swagger", methods: "GET", name: "swagger")]
     public function swagger(Request $request, Response &$response, array $args): Response
@@ -36,7 +87,23 @@ class OthersController extends ControllerBase
     #[Route("/[index]", methods: "GET", defaults: ["middlewares" => [PermissionMiddleware::class, AuthenticationMiddleware::class]], name: "index")]
     public function index(Request $request, Response &$response, array $args): Response
     {
-        $url = "AportesLegalesList";
+        global $USER_LEVEL_TABLES;
+        $url = "";
+        foreach ($USER_LEVEL_TABLES as $t) {
+            if ($t[0] == "aportes_legales") { // Check default table
+                if ($this->security->allowList($t[4] . $t[0])) {
+                    $url = $t[5];
+                    break;
+                }
+            } elseif ($url == "") {
+                if ($t[5] && $this->security->allowList($t[4] . $t[0])) {
+                    $url = $t[5];
+                }
+            }
+        }
+        if ($url === "" && !$this->security->isLoggedIn()) {
+            $url = "login";
+        }
         if ($url == "") {
             throw new HttpUnauthorizedException($request, DeniedMessage());
         }

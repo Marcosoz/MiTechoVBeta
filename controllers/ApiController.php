@@ -228,7 +228,12 @@ class ApiController extends AbstractController
                         if ($lookup) {
                             $tbl = $lookup->getTable();
                             if ($tbl) {
-                                $res = array_merge($res, $page->lookup($ar, false));
+                                $this->security->loadTablePermissions($tbl->TableVar);
+                                if ($this->security->canLookup()) {
+                                    $res = array_merge($res, $page->lookup($ar, false));
+                                } else {
+                                    $res = array_merge($res, ["result" => $this->language->phrase("401", true)]);
+                                }
                             }
                         }
                     }

@@ -151,6 +151,17 @@ loadjs.ready("head", function () {
 </td>
     </tr>
 <?php } ?>
+<?php if ($Page->contrasena->Visible) { // contraseña ?>
+    <tr id="r_contrasena"<?= $Page->contrasena->rowAttributes() ?>>
+        <td class="<?= $Page->TableLeftColumnClass ?>"><span id="elh_socios_contrasena"><?= $Page->contrasena->caption() ?></span></td>
+        <td data-name="contrasena"<?= $Page->contrasena->cellAttributes() ?>>
+<span id="el_socios_contrasena">
+<span<?= $Page->contrasena->viewAttributes() ?>>
+<?= $Page->contrasena->getViewValue() ?></span>
+</span>
+</td>
+    </tr>
+<?php } ?>
 </table>
 </form>
 </main>

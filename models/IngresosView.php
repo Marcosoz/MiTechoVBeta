@@ -592,6 +592,9 @@ class IngresosView extends Ingresos
 
         // Set LoginStatus / Page_Rendering / Page_Render
         if (!IsApi() && !$this->isTerminated()) {
+            // Setup login status
+            SetupLoginStatus();
+
             // Pass login status to client side
             SetClientVar("login", LoginStatus());
 
@@ -633,7 +636,7 @@ class IngresosView extends Ingresos
         } else {
             $item->Body = "<a class=\"ew-action ew-add\" title=\"" . $addcaption . "\" data-caption=\"" . $addcaption . "\" href=\"" . HtmlEncode(GetUrl($this->AddUrl)) . "\">" . $this->language->phrase("ViewPageAddLink") . "</a>";
         }
-        $item->Visible = $this->AddUrl != "";
+        $item->Visible = $this->AddUrl != "" && $this->security->canAdd();
 
         // Edit
         $item = &$option->add("edit");
@@ -643,7 +646,7 @@ class IngresosView extends Ingresos
         } else {
             $item->Body = "<a class=\"ew-action ew-edit\" title=\"" . $editcaption . "\" data-caption=\"" . $editcaption . "\" href=\"" . HtmlEncode(GetUrl($this->EditUrl)) . "\">" . $this->language->phrase("ViewPageEditLink") . "</a>";
         }
-        $item->Visible = $this->EditUrl != "";
+        $item->Visible = $this->EditUrl != "" && $this->security->canEdit();
 
         // Copy
         $item = &$option->add("copy");
@@ -653,7 +656,7 @@ class IngresosView extends Ingresos
         } else {
             $item->Body = "<a class=\"ew-action ew-copy\" title=\"" . $copycaption . "\" data-caption=\"" . $copycaption . "\" href=\"" . HtmlEncode(GetUrl($this->CopyUrl)) . "\">" . $this->language->phrase("ViewPageCopyLink") . "</a>";
         }
-        $item->Visible = $this->CopyUrl != "";
+        $item->Visible = $this->CopyUrl != "" && $this->security->canAdd();
 
         // Delete
         $item = &$option->add("delete");
@@ -662,7 +665,7 @@ class IngresosView extends Ingresos
             ($this->InlineDelete || $this->IsModal ? " data-ew-action=\"inline-delete\"" : "") .
             " title=\"" . HtmlTitle($this->language->phrase("ViewPageDeleteLink")) . "\" data-caption=\"" . HtmlTitle($this->language->phrase("ViewPageDeleteLink")) .
             "\" href=\"" . HtmlEncode($url) . "\">" . $this->language->phrase("ViewPageDeleteLink") . "</a>";
-        $item->Visible = $this->DeleteUrl != "";
+        $item->Visible = $this->DeleteUrl != "" && $this->security->canDelete();
 
         // Set up action default
         $option = $options["action"];

@@ -40,6 +40,32 @@ class AuthenticationMiddleware
         $GLOBALS["Request"] = $request;
         $cookies = [];
 
+        // Symfony security
+        $httpFoundationFactory = new HttpFoundationFactory();
+        $symfonyRequest = $httpFoundationFactory->createRequest($request);
+        $symfonyRequest->setSession(Session());
+
+        // Kernel
+        $kernel = SecurityContainer("http_kernel");
+
+        // Handle Symfony request
+        $symfonyResponse = $kernel->handle($symfonyRequest, catch: false); // Don't catch error
+
+        // Copy cookies (e.g. "REMEMBERME") from Symfony response
+        $cookies = $symfonyResponse->headers->getCookies();
+
+        // Copy attributes added by Symfony
+        foreach ($symfonyRequest->attributes->all() as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
+        // Check redirect/JSON response
+        if ($symfonyResponse instanceof RedirectResponse || $symfonyResponse instanceof JsonResponse) {
+            $psr17Factory = Container("psr17.factory");
+            $psrHttpFactory = new PsrHttpFactory($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
+            return $psrHttpFactory->createResponse($symfonyResponse);
+        }
+
         // Handle original request
         $response = $handler->handle($request);
 

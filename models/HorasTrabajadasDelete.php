@@ -454,6 +454,9 @@ class HorasTrabajadasDelete extends HorasTrabajadas
 
         // Set LoginStatus / Page_Rendering / Page_Render
         if (!IsApi() && !$this->isTerminated()) {
+            // Setup login status
+            SetupLoginStatus();
+
             // Pass login status to client side
             SetClientVar("login", LoginStatus());
 
@@ -679,6 +682,10 @@ class HorasTrabajadasDelete extends HorasTrabajadas
     // Delete records based on current filter
     protected function deleteRows(): ?bool
     {
+        if (!$this->security->canDelete()) {
+            $this->setFailureMessage($this->language->phrase("NoDeletePermission")); // No delete permission
+            return false;
+        }
         $sql = $this->getCurrentSql(true);
         $conn = $this->getConnection();
         $rows = $conn->fetchAllAssociative($sql);

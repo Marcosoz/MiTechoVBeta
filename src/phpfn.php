@@ -56,6 +56,20 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
+use Symfony\Component\Security\Http\LoginLink;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkDetails;
+use Symfony\Component\Security\Core\User\InMemoryUser;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\DirectoryListing;
@@ -278,11 +292,72 @@ function Container(mixed ...$args): mixed
 }
 
 /**
- * No Symfony security helper
+ * Security container (service locator)
  *
- * @return null
+ * @return SecurityServiceLocator|object|null
  */
-function SecurityHelper(): mixed
+function SecurityContainer(?string $id = null): ?object
+{
+    $locator = Container("security.container")->get(SecurityServiceLocator::class);
+    if ($id === null) {
+        return $locator;
+    }
+    try {
+        return $locator?->has($id) ? $locator->get($id) : null;
+    } catch (\Exception $e) {
+        if (IsDebug()) {
+            LogError($e->getMessage());
+        }
+        return null;
+    }
+}
+
+/**
+ * Symfony request
+ *
+ * @return Symfony\Component\HttpFoundation\Request
+ */
+function SymfonyRequest(): ?SymfonyRequest
+{
+    return SecurityContainer("request_stack")?->getCurrentRequest();
+}
+
+/**
+ * Symfony security helper
+ *
+ * @return Symfony\Bundle\SecurityBundle\Security
+ */
+function SecurityHelper(): Security
+{
+    return SecurityContainer("security.helper");
+}
+
+/**
+ * Get last authentication error
+ *
+ * @return ?AuthenticationException
+ */
+function GetLastAuthenticationError(bool $clearSession = true): ?AuthenticationException
+{
+    return SecurityContainer("security.authentication_utils")->getLastAuthenticationError($clearSession);
+}
+
+/**
+ * Get last user name
+ *
+ * @return string
+ */
+function GetLastUsername(): string
+{
+    return SecurityContainer("security.authentication_utils")->getLastUsername();
+}
+
+/**
+ * Symfony Ldap
+ *
+ * @return ?Symfony\Component\Ldap\Ldap
+ */
+function Ldap(): ?Ldap
 {
     return null;
 }
@@ -1064,7 +1139,7 @@ function CurrentProjectID(): string
  */
 function UserTable(): ?DbTableBase
 {
-    return null;
+    return Container("usertable");
 }
 
 /**
@@ -1861,7 +1936,26 @@ function UserRepository(): ObjectRepository
  */
 function LoadUserByIdentifier(?string $username): ?UserInterface
 {
-    return null;
+    if (IsEntityUser() && CurrentUserIdentifier() == $username) {
+        return CurrentUser();
+    }
+    try {
+        return !IsEmpty($username) ? UserRepository()->loadUserByIdentifier($username) : null;
+    } catch (UserNotFoundException $e) {
+        return null;
+    }
+}
+
+/**
+ * Create login link
+ *
+ * @param UserInterface $user User
+ * @param int $liftime Lifetime in seconds
+ * @return LoginLinkDetails
+ */
+function CreateLoginLink(UserInterface $user, ?int $lifetime = null): LoginLinkDetails
+{
+    return SecurityContainer(LoginLinkHandlerInterface::class)->createLoginLink($user, null, $liftime ?? Config("LOGIN_LINK_LIFETIME"));
 }
 
 /**
@@ -7198,7 +7292,7 @@ function GlobalClientVars(): array
         "API_JWT_TOKEN" => GetJwtToken(), // API JWT token
         "IMAGE_FOLDER" => "images/", // Image folder
         "SESSION_TIMEOUT" => Config("SESSION_TIMEOUT") > 0 ? SessionTimeoutTime() : 0, // Session timeout time (seconds)
-        "TIMEOUT_URL" => GetUrl("index"), // Timeout URL // PHP
+        "TIMEOUT_URL" => GetUrl("logout"), // Timeout URL // PHP
         "SERVER_SEARCH_FILTER" => Config("SEARCH_FILTER_OPTION") == "Server",
         "CLIENT_SEARCH_FILTER" => Config("SEARCH_FILTER_OPTION") == "Client",
         "COOKIE_SECURE" => Config("COOKIE_SAMESITE") == "None" || IsHttps() && Config("COOKIE_SECURE")
@@ -7304,6 +7398,87 @@ function SetupLoginStatus(): object
     $loginStatus["loginTitle"] = $language->phrase("Login", true);
     $loginStatus["loginText"] = $language->phrase("Login");
     $loginStatus["canLogin"] = $currentPage != $loginPage && $loginUrl && !IsLoggedIn() && !IsLoggingIn2FA();
+
+    // Reset password page
+    $resetPasswordPage = "resetpassword";
+    $resetPasswordUrl = GetUrl($resetPasswordPage);
+    if ($currentPage != $resetPasswordPage) {
+        if (Config("USE_MODAL_RESET_PASSWORD") && !IsMobile()) {
+            $loginStatus["resetPassword"] = [
+                "ew-action" => "modal",
+                "footer" => false,
+                "caption" => $language->phrase("ResetPassword"),
+                "size" => "modal-md",
+                "url" => $resetPasswordUrl
+            ];
+        } else {
+            $loginStatus["resetPassword"] = [
+                "ew-action" => "redirect",
+                "url" => $resetPasswordUrl
+            ];
+        }
+    }
+    $loginStatus["resetPasswordUrl"] = $resetPasswordUrl;
+    $loginStatus["resetPasswordText"] = $language->phrase("ResetPassword");
+    $loginStatus["canResetPassword"] = $resetPasswordUrl && !IsLoggedIn();
+
+    // Register page
+    $registerPage = "register";
+    $registerUrl = GetUrl($registerPage);
+    if ($currentPage != $registerPage) {
+        if (Config("USE_MODAL_REGISTER") && !IsMobile()) {
+            $loginStatus["register"] = [
+                "ew-action" => "modal",
+                "btn" => "Register",
+                "caption" => $language->phrase("Register"),
+                "url" => $registerUrl
+            ];
+        } else {
+            $loginStatus["register"] = [
+                "ew-action" => "redirect",
+                "url" => $registerUrl
+            ];
+        }
+    }
+    $loginStatus["registerUrl"] = $registerUrl;
+    $loginStatus["registerText"] = $language->phrase("Register");
+    $loginStatus["canRegister"] = $registerUrl && !IsLoggedIn();
+
+    // Change password page
+    $changePasswordPage = "changepassword";
+    $changePasswordUrl = GetUrl($changePasswordPage);
+    if ($currentPage != $changePasswordPage) {
+        if (Config("USE_MODAL_CHANGE_PASSWORD") && !IsMobile()) {
+            $loginStatus["changePassword"] = [
+                "ew-action" => "modal",
+                "footer" => false,
+                "caption" => $language->phrase("ChangePassword"),
+                "size" => "modal-md",
+                "url" => $changePasswordUrl
+            ];
+        } else {
+            $loginStatus["changePassword"] = [
+                "ew-action" => "redirect",
+                "url" => $changePasswordUrl
+            ];
+        }
+    }
+    $loginStatus["changePasswordUrl"] = $changePasswordUrl;
+    $loginStatus["changePasswordText"] = $language->phrase("ChangePassword");
+    $loginStatus["canChangePassword"] = $changePasswordUrl && IsLoggedIn() && !IsSysAdmin();
+
+    // Personal data page
+    $personalDataPage = "personaldata";
+    $personalDataUrl = GetUrl($personalDataPage);
+    if ($currentPage != $personalDataPage) {
+        $loginStatus["personalData"] = [
+            "ew-action" => "redirect",
+            "url" => $personalDataUrl
+        ];
+    }
+    $loginStatus["hasPersonalData"] = $personalDataUrl && IsLoggedIn() && !IsSysAdmin();
+    $loginStatus["personalDataUrl"] = $personalDataUrl;
+    $loginStatus["personalDataText"] = $language->phrase("PersonalDataBtn");
 
     // Dispatch login status event and return the event
     return DispatchEvent($loginStatus, LoginStatusEvent::NAME);
